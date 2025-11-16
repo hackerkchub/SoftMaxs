@@ -107,38 +107,38 @@ export default function OfficeLocations() {
     <Wrap>
       <Grid>
 
-        {/* USA Center */}
+        {/* ---------------- USA ---------------- */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/1.webp"
-            alt="USA"
+            alt="SoftMaxs USA Office"
           />
-          <Title>USA Centre</Title>
+          <Title>SoftMaxs USA Office</Title>
           <Text>
-            3524 Silverside Road Suite 35B,<br />
-            Wilmington, DE 19810-4929,<br />
+            2345 Sentry Park West,<br />
+            Suite 120, Blue Bell, PA 19422,<br />
             United States
           </Text>
 
-          <Phone>+1 209 318 4812 (USA)</Phone>
-          <Email>info@ebizondigital.com</Email>
+          <Phone>+1 (213) 652-4471 (USA)</Phone>
+          <Email>contact@softmaxs.com</Email>
         </Card>
 
-        {/* Headquarters */}
+        {/* ---------------- Headquarters (India) ---------------- */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/2.webp"
-            alt="India HQ"
+            alt="SoftMaxs India Headquarters"
           />
-          <Title>EbizON Digital Headquarters</Title>
+          <Title>SoftMaxs Headquarters</Title>
           <Text>
-            Logix Cyber Park, Plot No C-28/29,<br />
-            Tower B, 9th Floor, Sector 62,<br />
-            Noida 201301, India
+            Logix Cyber Park, Tower B, 8th Floor,<br />
+            Sector 62, Noida, Uttar Pradesh 201301<br />
+            India
           </Text>
 
-          <Phone>+91-120-4518893</Phone>
-          <Email>info@ebizondigital.com</Email>
+          <Phone>+91 98715 44221 (IND)</Phone>
+          <Email>contact@softmaxs.com</Email>
 
           <Socials>
             <a href="#"><i className="fa-brands fa-facebook"></i></a>
@@ -148,20 +148,20 @@ export default function OfficeLocations() {
           </Socials>
         </Card>
 
-        {/* Dehradun */}
+        {/* ---------------- Development Center ---------------- */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/4.webp"
-            alt="Dehradun"
+            alt="SoftMaxs R&D Center"
           />
-          <Title>Dehradun Development Center</Title>
+          <Title>SoftMaxs R&D Development Center</Title>
           <Text>
-            IT Park, Plot 21, Ground Floor,<br />
-            SIDCUL, Sahastradhara Road,<br />
-            Dehradun 248001, Uttarakhand
+            IT Park, Sahastradhara Road,<br />
+            Plot 21, Ground Floor,<br />
+            Dehradun, Uttarakhand 248001
           </Text>
 
-          <Email>info@ebizondigital.com</Email>
+          <Email>contact@softmaxs.com</Email>
         </Card>
 
       </Grid>

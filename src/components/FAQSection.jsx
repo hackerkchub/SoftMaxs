@@ -98,48 +98,48 @@ const Answer = styled.p`
 `;
 
 /* ---------------------------
-    FAQ DATA
+    SOFTMAXS FAQ DATA
 ----------------------------*/
 const faqs = [
   {
-    q: "What does EbizON do?",
-    a: "EbizON is a global e-commerce and digital activation agency helping brands and retailers transform their business. From strategy and consulting to development and marketing, we deliver end-to-end solutions."
+    q: "What does SoftMaxs do?",
+    a: "SoftMaxs is a digital solutions and technology innovation company offering custom software development, AI automation, cloud services, e-commerce solutions, and digital transformation consulting."
   },
   {
-    q: "What industries do you serve?",
-    a: "We serve healthcare, fashion, hospitality, e-commerce, tech startups, and large-scale enterprise companies across multiple sectors."
+    q: "Which industries does SoftMaxs work with?",
+    a: "We work with healthcare, finance, e-commerce, education, real-estate, retail, logistics, SaaS platforms, and fast-growing tech startups."
   },
   {
-    q: "Do you work with international clients?",
-    a: "Yes! We work with clients across 30+ countries including the US, UK, Australia, and Europe."
+    q: "Do you serve clients outside India?",
+    a: "Yes. SoftMaxs partners with businesses in the US, UK, Germany, UAE, Australia, and more than 25+ countries worldwide."
   },
   {
-    q: "What makes EbizON different from other digital agencies?",
-    a: "Our deep domain expertise, dedicated teams, and long-term client retention rate make us stand out."
+    q: "What makes SoftMaxs different from other agencies?",
+    a: "We specialize in high-performance engineering, scalable cloud architecture, AI-enabled automation, and long-term support — backed by a highly experienced development team."
   },
   {
-    q: "What technologies and AI frameworks do you work with?",
-    a: "We work with React, Node.js, Shopify, Magento, Python, TensorFlow, OpenAI, LangChain, and more."
+    q: "What technologies does SoftMaxs work on?",
+    a: "React, Next.js, Node.js, Python, Django, Laravel, Magento, Shopify, Flutter, AWS, Google Cloud, OpenAI, LangChain, and enterprise-level AI frameworks."
   },
   {
-    q: "Can you integrate AI into our existing software or ERP system?",
-    a: "Absolutely! We integrate AI automation, chatbots, data processors, and workflow optimization tools into existing systems."
+    q: "Can SoftMaxs integrate AI into our existing system?",
+    a: "Absolutely. We integrate AI chatbots, workflow automation, analytics engines, document processing AI, and ERP automation tailored to your business."
   },
   {
-    q: "Can you help integrate new software with our existing systems?",
-    a: "Yes, we specialize in API development, platform migration, and automation integrations."
+    q: "Do you provide system integration and API development?",
+    a: "Yes, SoftMaxs specializes in API development, third-party system integration, microservices, and modernization of legacy systems."
   },
   {
-    q: "How do you ensure project quality and success?",
-    a: "Our process involves planning, design sprints, QA testing, weekly reviews, and performance monitoring."
+    q: "How does SoftMaxs ensure quality in development?",
+    a: "We follow a structured cycle: requirement mapping, sprint planning, UI/UX design, development, QA automation, weekly updates, and performance monitoring."
   },
   {
-    q: "How long does it take to develop an e-commerce website?",
-    a: "Standard projects take 4–8 weeks depending on complexity and integrations."
+    q: "How long does a custom software project take?",
+    a: "A typical web or mobile application takes 4–10 weeks depending on complexity, integrations, and design scope."
   },
   {
-    q: "Do you offer annual maintenance and support?",
-    a: "Yes! We provide ongoing support, maintenance, monitoring, backups, and security updates."
+    q: "Do you offer ongoing support & maintenance?",
+    a: "Yes. SoftMaxs provides performance monitoring, bug fixes, server management, updates, backups, and scalable maintenance plans."
   }
 ];
 

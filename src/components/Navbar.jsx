@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import logoImg from "../assets/logo.png"; 
+
 
 /* -------------------------------------------
    WRAPPER (Transparent → Solid on Scroll)
@@ -33,24 +35,28 @@ const Inner = styled.div`
 `;
 
 /* -------------------------------------------
-   LOGO
+   LOGO + TEXT
 ------------------------------------------- */
-const Logo = styled.div`
+const LogoWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-weight: 800;
-  font-size: 26px;
-  color: #facc15;
+  gap: 12px;
   cursor: pointer;
+`;
 
-  span {
-    color: #000;
-  }
+const LogoImg = styled.img`
+  height: 46px;
+  width: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4db6ff;
+`;
 
-  svg {
-    height: 34px;
-  }
+const Brand = styled.span`
+  font-size: 26px;
+  font-weight: 800;
+  color: #0077ff;
+  letter-spacing: 0.5px;
 `;
 
 /* -------------------------------------------
@@ -81,7 +87,7 @@ const MenuItem = styled.li`
     content: "";
     width: 0%;
     height: 2px;
-    background: #facc15;
+    background: #0077ff;
     position: absolute;
     bottom: -6px;
     left: 0;
@@ -94,18 +100,18 @@ const MenuItem = styled.li`
    CTA BUTTON
 ------------------------------------------- */
 const CTA = styled.button`
-  background: #facc15;
+  background: #0077ff;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: 40px;
   font-size: 15px;
   font-weight: 700;
   cursor: pointer;
-  color: #111;
+  color: #fff;
   transition: 0.25s;
 
   &:hover {
-    background: #ffdd33;
+    background: #0d8bff;
     transform: translateY(-2px);
   }
 
@@ -154,13 +160,12 @@ const MobileMenu = styled.ul`
 `;
 
 /* -------------------------------------------
-   MAIN NAVBAR COMPONENT
+   NAVBAR COMPONENT
 ------------------------------------------- */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Detect scroll
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
@@ -174,22 +179,21 @@ export default function Navbar() {
     <>
       <Nav scrolled={scrolled}>
         <Inner scrolled={scrolled}>
-          {/* LOGO */}
-          <Logo>
-            <svg width="36" height="36" viewBox="0 0 24 24">
-              <path
-                d="M2 12l6-8 10 8-6 8z"
-                fill="#facc15"
-              />
-            </svg>
-            <span>EbizON</span>
-          </Logo>
+
+          {/* 🔵 LOGO + SoftMaxx TEXT */}
+          <LogoWrap>
+            <LogoImg 
+              src={logoImg}
+              alt="SoftMaxs Logo" 
+            />
+            <Brand>SoftMaxs</Brand>
+          </LogoWrap>
 
           {/* Desktop Menu */}
           <Menu>
             <MenuItem>Offerings</MenuItem>
             <MenuItem>Industries</MenuItem>
-            <MenuItem>Explore EbizON</MenuItem>
+            <MenuItem>Explore SoftMaxs</MenuItem>
             <MenuItem>Resources</MenuItem>
             <MenuItem>Careers</MenuItem>
             <MenuItem>Contact Us</MenuItem>
@@ -198,22 +202,24 @@ export default function Navbar() {
           {/* CTA */}
           <CTA>Get Proposal</CTA>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Button */}
           <MobileMenuBtn onClick={() => setOpen(!open)} scrolled={scrolled}>
             ☰
           </MobileMenuBtn>
         </Inner>
       </Nav>
 
-      {/* MOBILE MENU */}
+      {/* Mobile Dropdown */}
       <MobileMenu show={open}>
         <li>Offerings</li>
         <li>Industries</li>
-        <li>Explore EbizON</li>
+        <li>Explore SoftMaxs</li>
         <li>Resources</li>
         <li>Careers</li>
         <li>Contact Us</li>
-        <CTA style={{ marginTop: "10px", display: "block" }}>Get Proposal</CTA>
+        <CTA style={{ marginTop: "10px", display: "block" }}>
+          Get Proposal
+        </CTA>
       </MobileMenu>
     </>
   );

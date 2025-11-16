@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import Logo from "../assets/Logo.png";
 
 /* ---------------------------------------
    ANIMATIONS
@@ -13,6 +14,12 @@ const pulse = keyframes`
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+`;
+
+const typingDots = keyframes`
+  0% { opacity: .2; }
+  20% { opacity: 1; }
+  100% { opacity: .2; }
 `;
 
 /* ---------------------------------------
@@ -30,13 +37,13 @@ const Wrapper = styled.div`
    Floating Button
 ---------------------------------------- */
 const FloatBtn = styled.button`
-  width: 60px;
-  height: 60px;
+  width: 62px;
+  height: 62px;
   border-radius: 50%;
-  background: #facc15;
+  background: #1e40af;
   border: none;
   cursor: pointer;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.20);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,12 +54,9 @@ const FloatBtn = styled.button`
     transform: translateY(-4px);
   }
 
-  svg {
-    width: 32px;
-    height: 32px;
-    stroke: #000;
-    stroke-width: 2;
-    fill: none;
+  img {
+    width: 34px;
+    height: 34px;
   }
 `;
 
@@ -63,10 +67,10 @@ const ChatBox = styled.div`
   position: absolute;
   bottom: 80px;
   right: 0;
-  width: 340px;
-  height: 440px;
+  width: 350px;
+  height: 470px;
   background: #ffffff;
-  border-radius: 14px;
+  border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
@@ -82,24 +86,21 @@ const ChatHeader = styled.div`
   gap: 12px;
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
+  background: #eef2ff;
 `;
 
-const LogoWrap = styled.div`
+const LogoWrap = styled.img`
   width: 44px;
   height: 44px;
   border-radius: 14px;
-  background: #facc15;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 900;
-  font-size: 22px;
-  color: #000;
+  border: 2px solid #facc15;
+  object-fit: cover;
 `;
 
 const HeaderText = styled.div`
   font-weight: 700;
   font-size: 16px;
+  color: #1e40af;
 `;
 
 const CloseBtn = styled.button`
@@ -119,36 +120,56 @@ const ChatBody = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
+`;
+
+// Bot message container with avatar
+const BotLine = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+`;
+
+const BotAvatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: 2px solid #1e40af;
 `;
 
 const BotMsg = styled.div`
-  background: #f3f4f6;
+  background: #eef2ff;
   padding: 10px 14px;
   border-radius: 10px 10px 10px 4px;
-  max-width: 80%;
   font-size: 14px;
-  color: #111;
-  align-self: flex-start;
-  line-height: 1.45;
+  color: #1e40af;
+  max-width: 80%;
+  font-weight: 600;
 `;
 
 const UserMsg = styled.div`
   background: #facc15;
   padding: 10px 14px;
   border-radius: 10px 10px 4px 10px;
+  font-weight: 700;
   max-width: 80%;
-  font-size: 14px;
-  color: #000;
-  font-weight: 600;
   align-self: flex-end;
-  line-height: 1.4;
+  color: #111;
 `;
 
-const TypingIndicator = styled.div`
-  font-size: 12px;
-  color: #666;
-  padding-left: 4px;
+const Typing = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-left: 38px;
+  span {
+    width: 8px;
+    height: 8px;
+    background: #1e40af;
+    border-radius: 50%;
+    animation: ${typingDots} 1s infinite;
+  }
+  span:nth-child(2) { animation-delay: .2s; }
+  span:nth-child(3) { animation-delay: .4s; }
 `;
 
 /* ---------------------------------------
@@ -159,6 +180,7 @@ const ChatInputWrap = styled.div`
   padding: 10px;
   border-top: 1px solid #eee;
   gap: 10px;
+  background: #fafafa;
 `;
 
 const ChatInput = styled.input`
@@ -166,30 +188,58 @@ const ChatInput = styled.input`
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid #ddd;
-  outline: none;
   font-size: 14px;
 
   &:focus {
-    border-color: #facc15;
+    border-color: #1e40af;
   }
 `;
 
 const SendBtn = styled.button`
-  background: #facc15;
-  border: none;
   width: 44px;
+  background: #1e40af;
   border-radius: 10px;
+  border: none;
   cursor: pointer;
 
   svg {
-    width: 22px;
-    height: 22px;
-    fill: #000;
+    width: 20px;
+    height: 20px;
+    fill: white;
   }
 
   &:hover {
-    background: #ffdb2e;
+    background: #2a4fe0;
   }
+`;
+
+/* ---------------------------------------
+   WHATSAPP & CALL BUTTONS
+---------------------------------------- */
+const QuickBtns = styled.div`
+  display: flex;
+  gap: 10px;
+  margin: 8px 0;
+  padding-left: 6px;
+
+  button {
+    flex: 1;
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+  }
+`;
+
+const WhatsBtn = styled.button`
+  background: #25d366;
+`;
+
+const CallBtn = styled.button`
+  background: #1e40af;
 `;
 
 /* ---------------------------------------
@@ -200,88 +250,123 @@ export default function HelpOperator() {
   const [typing, setTyping] = useState(false);
   const [msg, setMsg] = useState("");
   const [chat, setChat] = useState([
-    { from: "bot", text: "👋 Hi! I'm your virtual assistant. How can I help today?" }
+    { from: "bot", text: "👋 Welcome to SoftMaxs! How can we help you today?" }
   ]);
 
   const bodyRef = useRef(null);
 
-  /* Auto scroll */
+  /* SCROLL DOWN */
   useEffect(() => {
     if (bodyRef.current) {
       bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
     }
   }, [chat, typing]);
 
-  /* Bot Auto Reply (dummy AI) */
-  const botReply = (userText) => {
+  /* Sound Effects */
+  const playSendSound = () => {
+    const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3");
+    audio.volume = 0.4;
+    audio.play();
+  };
+
+  const playOpenSound = () => {
+    const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-soft-pop-2852.mp3");
+    audio.volume = 0.4;
+    audio.play();
+  };
+
+  /* Bot auto reply */
+  const botReply = (text) => {
     setTyping(true);
 
     setTimeout(() => {
-      setChat(prev => [
+      setChat((prev) => [
         ...prev,
-        { from: "bot", text: `You said: "${userText}".  
-I’m a demo chatbot — connect backend to make me smart!` }
+        {
+          from: "bot",
+          text: "Thanks for messaging! A SoftMaxs expert will reach out shortly 😊"
+        }
       ]);
       setTyping(false);
     }, 1200);
   };
 
-  /* Handle Send */
+  /* Send Message */
   const sendMessage = () => {
     if (!msg.trim()) return;
-    setChat(prev => [...prev, { from: "user", text: msg }]);
+
+    playSendSound();
+
+    setChat((prev) => [...prev, { from: "user", text: msg }]);
     botReply(msg);
     setMsg("");
   };
 
-  /* Send on Enter */
-  const handleKey = (e) => {
+  /* On Enter */
+  const handleEnter = (e) => {
     if (e.key === "Enter") sendMessage();
   };
 
   return (
     <Wrapper>
 
-      {/* Floating Button */}
       {!open && (
-        <FloatBtn onClick={() => setOpen(true)}>
-          <svg viewBox="0 0 24 24">
-            <path d="M12 18h.01M9 6h6m-8 4h10m-8 4h6" />
-          </svg>
+        <FloatBtn
+          onClick={() => {
+            setOpen(true);
+            playOpenSound();
+          }}
+        >
+          <img src={Logo} alt="SoftMaxs" />
         </FloatBtn>
       )}
 
-      {/* Chat Window */}
       {open && (
         <ChatBox>
 
-          {/* Header */}
           <ChatHeader>
-            <LogoWrap>E</LogoWrap>
-            <HeaderText>Chat Support</HeaderText>
+            <LogoWrap src={Logo} alt="SoftMaxs" />
+            <HeaderText>SoftMaxs Support</HeaderText>
             <CloseBtn onClick={() => setOpen(false)}>×</CloseBtn>
           </ChatHeader>
 
-          {/* Body */}
+          {/* QUICK BUTTONS */}
+          <QuickBtns>
+            <WhatsBtn onClick={() => window.open("https://wa.me/918888888888", "_blank")}>
+              WhatsApp
+            </WhatsBtn>
+            <CallBtn onClick={() => window.open("tel:+918888888888")}>
+              Call Us
+            </CallBtn>
+          </QuickBtns>
+
           <ChatBody ref={bodyRef}>
             {chat.map((c, i) =>
               c.from === "bot" ? (
-                <BotMsg key={i}>{c.text}</BotMsg>
+                <BotLine key={i}>
+                  <BotAvatar src={Logo} />
+                  <BotMsg>{c.text}</BotMsg>
+                </BotLine>
               ) : (
                 <UserMsg key={i}>{c.text}</UserMsg>
               )
             )}
 
-            {typing && <TypingIndicator>Support is typing...</TypingIndicator>}
+            {typing && (
+              <Typing>
+                <span></span>
+                <span></span>
+                <span></span>
+              </Typing>
+            )}
           </ChatBody>
 
-          {/* Input */}
           <ChatInputWrap>
             <ChatInput
-              placeholder="Type a message..."
+              placeholder="Write your message..."
               value={msg}
               onChange={(e) => setMsg(e.target.value)}
-              onKeyDown={handleKey}
+              onKeyDown={handleEnter}
             />
             <SendBtn onClick={sendMessage}>
               <svg viewBox="0 0 24 24">

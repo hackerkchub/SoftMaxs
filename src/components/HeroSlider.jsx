@@ -1,14 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { useSwipeable } from "react-swipeable";
 
 /* ---------------------------------------------------
    CONSTANTS
 --------------------------------------------------- */
-const NAV_HEIGHT = "82px"; // your navbar height
+const NAV_HEIGHT = "82px";
 
 /* ---------------------------------------------------
-   WRAPPER → Full Screen Height (like screenshot)
+   WRAPPER (full height without navbar overlap)
 --------------------------------------------------- */
 const SliderWrap = styled.section`
   width: 100%;
@@ -20,15 +20,15 @@ const SliderWrap = styled.section`
 `;
 
 /* ---------------------------------------------------
-   FADE ANIMATION
+   ANIMATION
 --------------------------------------------------- */
 const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
 /* ---------------------------------------------------
-   SLIDE BACKGROUND
+   SLIDE IMAGE LAYER
 --------------------------------------------------- */
 const Slide = styled.div`
   position: absolute;
@@ -38,66 +38,61 @@ const Slide = styled.div`
   background-position: center;
   opacity: ${p => (p.show ? 1 : 0)};
   transition: opacity 1.1s ease;
-  filter: brightness(0.55); /* darker like screenshot */
+  filter: brightness(0.55);
   display: flex;
   align-items: center;
   padding-left: 120px;
 `;
 
 /* ---------------------------------------------------
-   MAIN CONTENT (Simplified like screenshot)
+   TEXT CONTENT
 --------------------------------------------------- */
 const Content = styled.div`
   max-width: 540px;
   color: white;
-  animation: ${fadeIn} .8s ease both;
+  animation: ${fadeIn} .7s ease both;
   font-family: "Inter", sans-serif;
 `;
 
-/* Title small (Adobe Solution) */
 const LineSmall = styled.h3`
-  font-size: 34px;
+  font-size: 32px;
   font-weight: 300;
   opacity: 0.9;
-  margin-bottom: 12px;
 `;
 
-/* Highlighted Partner Title */
 const HighlightBlock = styled.div`
   display: inline-block;
   position: relative;
-  margin-bottom: 14px;
+  margin: 10px 0 12px 0;
 `;
 
 const HighlightBg = styled.div`
   position: absolute;
   left: -14px;
   right: -14px;
-  top: 40%;
-  height: 28px;
+  top: 48%;
+  height: 26px;
   background: #facc15;
   border-radius: 6px;
   z-index: 1;
 `;
 
 const HighlightText = styled.h1`
-  font-size: 64px;
+  font-size: 62px;
   font-weight: 800;
   position: relative;
   z-index: 2;
 `;
 
-/* Subtext */
 const Desc = styled.p`
   margin-top: 10px;
   font-size: 20px;
   opacity: 0.92;
-  max-width: 420px;
+  max-width: 440px;
 `;
 
-/* CTA Button */
 const CTA = styled.button`
-  margin-top: 28px;
+  margin-top: 26px;
   padding: 14px 34px;
   background: #facc15;
   border: none;
@@ -106,7 +101,7 @@ const CTA = styled.button`
   color: #111;
   border-radius: 999px;
   cursor: pointer;
-  transition: .25s ease;
+  transition: 0.25s;
 
   &:hover {
     transform: translateY(-3px);
@@ -115,7 +110,7 @@ const CTA = styled.button`
 `;
 
 /* ---------------------------------------------------
-   NAVIGATION ARROWS
+   NAVIGATION BUTTONS
 --------------------------------------------------- */
 const Controls = styled.div`
   position: absolute;
@@ -127,7 +122,7 @@ const Controls = styled.div`
 `;
 
 const ArrowBtn = styled.button`
-  width: 56px;
+  width: 58px;
   height: 50px;
   border-radius: 10px;
   background: rgba(255,255,255,0.12);
@@ -151,43 +146,54 @@ const Divider = styled.div`
 `;
 
 /* ---------------------------------------------------
-   SLIDES (clean, simple like screenshot)
+   SLIDES (SoftMaxx Branding + load-safe Pexels URLs)
 --------------------------------------------------- */
 const slides = [
   {
-    bg: "https://images.pexels.com/photos/1181472/pexels-photo-1181472.jpeg",
-    small: "Adobe Solution",
+    bg: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg",
+    small: "SoftMaxs | Adobe Cloud",
     highlight: "Bronze Partner",
-    desc: "EbizON is now an Adobe Solution Partner."
+    desc: "SoftMaxs is now an official Adobe Solution Bronze Partner."
   },
   {
-    bg: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg",
-    small: "Digital Commerce",
-    highlight: "Engineering",
-    desc: "Building high-growth commerce systems worldwide."
+    bg: "https://images.pexels.com/photos/1181472/pexels-photo-1181472.jpeg",
+    small: "SoftMaxs | Digital Commerce",
+    highlight: "E-Commerce",
+    desc: "High-performance online store architecture & optimization."
   },
   {
     bg: "https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg",
-    small: "Experience Design",
-    highlight: "UX Strategy",
-    desc: "Human-centered design that boosts conversions."
+    small: "SoftMaxs | Experience Design",
+    highlight: "Smart UX",
+    desc: "Human-centered design that drives conversions and engagement."
   },
+  {
+    bg: "https://images.pexels.com/photos/3184643/pexels-photo-3184643.jpeg",
+    small: "SoftMaxs | Cloud Services",
+    highlight: "DevOps",
+    desc: "Secure, scalable cloud deployment and automation pipelines."
+  },
+  {
+    bg: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg",
+    small: "SoftMaxs | AI Solutions",
+    highlight: "AI Tools",
+    desc: "AI-driven automation, chatbots and workflow enhancement."
+  }
 ];
 
 /* ---------------------------------------------------
    MAIN COMPONENT
 --------------------------------------------------- */
 export default function HeroSlider() {
-
   const [idx, setIdx] = useState(0);
   const [paused, setPaused] = useState(false);
 
-  /* Auto Slide */
+  /* Auto-slide */
   useEffect(() => {
     if (paused) return;
     const t = setInterval(() => {
       setIdx(i => (i + 1) % slides.length);
-    }, 5500);
+    }, 5200);
     return () => clearInterval(t);
   }, [paused]);
 

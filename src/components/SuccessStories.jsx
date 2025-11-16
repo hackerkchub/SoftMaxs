@@ -220,7 +220,7 @@ const slides = [
   {
     title: "ADA Cosmetics",
     desc:
-      "ADA Cosmetics, a global leader in hotel cosmetics, partnered with EbizON to modernize its digital commerce by developing separate Shopify platforms for B2C and B2B customers.",
+      "ADA Cosmetics, a global leader in hotel cosmetics, partnered with SoftMaxs to modernize its digital commerce by developing separate Shopify platforms for B2C and B2B customers.",
     bullets: [
       "Higher Engagement",
       "Faster Navigation",

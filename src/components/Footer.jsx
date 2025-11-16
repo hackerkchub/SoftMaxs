@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+// IMPORT YOUR BRAND LOGO
+import Logo from "../assets/Logo.png";
+
 /* ---------------------------------------------
    FOOTER WRAPPER
 --------------------------------------------- */
@@ -33,22 +36,39 @@ const Grid = styled.div`
 `;
 
 /* ---------------------------------------------
-   LOGO & INTRO
+   BRAND ROW (Logo + Name inline)
 --------------------------------------------- */
-const Brand = styled.div``;
-
-const BrandName = styled.h2`
-  font-size: 32px;
-  color: #facc15;
-  font-weight: 900;
-  margin-bottom: 12px;
+const BrandRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
 `;
 
+const BrandLogo = styled.img`
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(255, 221, 87, 0.25);
+`;
+
+const BrandName = styled.h2`
+  font-size: 28px;
+  font-weight: 900;
+  color: #1e40af; /* NAVBAR THEME BLUE */
+  margin: 0;
+`;
+
+/* ---------------------------------------------
+   BRAND TEXT
+--------------------------------------------- */
 const BrandText = styled.p`
   font-size: 15px;
   line-height: 1.55;
-  max-width: 350px;
+  max-width: 380px;
   color: #c9c9c9;
+  margin-bottom: 20px;
 `;
 
 /* ---------------------------------------------
@@ -142,15 +162,19 @@ const Bottom = styled.div`
 export default function Footer() {
   return (
     <FooterWrap>
-
       <Grid>
 
         {/* LEFT BRAND SECTION */}
-        <Brand>
-          <BrandName>YourBrand</BrandName>
+        <div>
+          <BrandRow>
+            <BrandLogo src={Logo} alt="SoftMaxs Logo" />
+            <BrandName>SoftMaxs</BrandName>
+          </BrandRow>
+
           <BrandText>
-            We deliver enterprise-grade digital engineering, marketing,
-            cloud transformation, and scalable solutions for global brands.
+            Empowering global businesses with AI-driven technology,
+            cloud engineering, digital transformation, and enterprise
+            software solutions built for scale and performance.
           </BrandText>
 
           <Socials>
@@ -159,23 +183,23 @@ export default function Footer() {
             <a href="#"><i className="fa-brands fa-x-twitter"></i></a>
             <a href="#"><i className="fa-brands fa-instagram"></i></a>
           </Socials>
-        </Brand>
+        </div>
 
         {/* Column 1 */}
         <Column>
           <Title>Company</Title>
-          <Link href="#">About Us</Link>
+          <Link href="#">About SoftMaxs</Link>
           <Link href="#">Careers</Link>
-          <Link href="#">Why Choose Us</Link>
-          <Link href="#">Team</Link>
+          <Link href="#">Why SoftMaxs</Link>
+          <Link href="#">Leadership</Link>
         </Column>
 
         {/* Column 2 */}
         <Column>
           <Title>Services</Title>
-          <Link href="#">E-Commerce</Link>
+          <Link href="#">AI & Automation</Link>
           <Link href="#">Cloud & DevOps</Link>
-          <Link href="#">UI/UX Design</Link>
+          <Link href="#">UI/UX Engineering</Link>
           <Link href="#">Digital Marketing</Link>
         </Column>
 
@@ -183,7 +207,7 @@ export default function Footer() {
         <Column>
           <Title>Support</Title>
           <Link href="#">Contact Us</Link>
-          <Link href="#">Our Locations</Link>
+          <Link href="#">Office Locations</Link>
           <Link href="#">FAQs</Link>
           <Link href="#">Privacy Policy</Link>
         </Column>
@@ -191,7 +215,7 @@ export default function Footer() {
       </Grid>
 
       <Bottom>
-        © {new Date().getFullYear()} YourBrand. All Rights Reserved.
+        © {new Date().getFullYear()} SoftMaxs. All Rights Reserved.
       </Bottom>
 
     </FooterWrap>

@@ -2,60 +2,61 @@ import React from "react";
 import styled from "styled-components";
 
 /* ----------------------------------------------------
-      INLINE SVG LOGOS (BIG + PERFECT ALIGNMENT)
+      IMPORT SoftMaxx LOGO
+---------------------------------------------------- */
+import Logo from "../assets/Logo.png";
+
+/* ----------------------------------------------------
+      UPDATED PREMIUM LOGOS 
 ---------------------------------------------------- */
 
-// Clone Main Logo (EbizON style — inline SVG)
-const CloneMainLogo = () => (
-  <svg width="120" height="34" viewBox="0 0 200 60">
-    <text x="0" y="40" fontSize="38" fontWeight="700" fill="#f7b500" fontFamily="Inter, sans-serif">
-      EbizON
-    </text>
-  </svg>
-);
-
-// Partner Badge Icon (Bigger – same as screenshot)
-const BadgeIcon = () => (
-  <svg width="34" height="34" viewBox="0 0 24 24" fill="#e2b100">
-    <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" />
-  </svg>
-);
-
-// ADOBE LOGO (Large)
+/* -------- ADOBE -------- */
 const AdobeLogo = () => (
-  <svg width="120" height="34" viewBox="0 0 512 512">
+  <svg width="122" height="36" viewBox="0 0 512 512">
     <path fill="#FA0F00" d="M315.6 0h196.4v512L315.6 0zM0 0h196.4L0 512V0zm258.9 170.7L345 341.3h-66.1l-21.3-47.2h-79l-20.4 47.2h-62.8l84.8-170.7h78.7z"/>
   </svg>
 );
 
-// Hyvä Logo (Large)
+/* -------- HYVÄ -------- */
 const HyvaLogo = () => (
-  <svg width="120" height="34" viewBox="0 0 300 80">
-    <text x="0" y="55" fontSize="56" fontWeight="800" fill="#1A4ED8" fontFamily="Inter, sans-serif">
+  <svg width="125" height="40">
+    <text x="0" y="32" fontSize="34" fontWeight="800" fill="#1A4ED8" fontFamily="Inter">
       hyvä
     </text>
   </svg>
 );
 
-// HubSpot Logo (Large)
+/* -------- HUBSPOT (UPGRADED) -------- */
 const HubSpotLogo = () => (
-  <svg width="135" height="34" viewBox="0 0 512 512">
-    <path fill="#FF7A59" d="M256 152a104 104 0 100 208 104 104 0 000-208zM437 75l-40 40 20 20 40-40zM256 32h28v60h-28zM104 75l20 20-40 40-20-20z"/>
+  <svg width="145" height="40" viewBox="0 0 300 80">
+    <circle cx="28" cy="28" r="18" fill="#FF7A59" />
+    <circle cx="28" cy="9" r="6" fill="#FF7A59" />
+    <circle cx="46" cy="28" r="6" fill="#FF7A59" />
+    <circle cx="28" cy="47" r="6" fill="#FF7A59" />
+    <line x1="28" y1="9" x2="28" y2="47" stroke="#FF7A59" strokeWidth="4" strokeLinecap="round" />
+
+    <text x="70" y="34" fontSize="30" fontWeight="700" fill="#FF7A59" fontFamily="Inter">
+      HubSpot
+    </text>
   </svg>
 );
 
-// Klaviyo Logo (Large)
+/* -------- KLAVIYO (UPGRADED) -------- */
 const KlaviyoLogo = () => (
-  <svg width="145" height="34" viewBox="0 0 300 80">
-    <text x="0" y="55" fontSize="50" fontWeight="700" fill="#00A86B" fontFamily="Inter, sans-serif">
-      klaviyo
+  <svg width="155" height="42" viewBox="0 0 300 80">
+    {/* Green layered waves */}
+    <path d="M10 40 Q40 10, 70 40 Q40 70, 10 40" fill="#00C673" opacity="0.32" />
+    <path d="M15 40 Q40 20, 65 40 Q40 60, 15 40" fill="#00C673" />
+
+    <text x="85" y="42" fontSize="32" fontWeight="800" fill="#00A86B" fontFamily="Inter">
+      Klaviyo
     </text>
   </svg>
 );
 
 
 /* ----------------------------------------------------
-      STYLES – Same as real website
+      STYLES (Same layout)
 ---------------------------------------------------- */
 
 const Wrap = styled.section`
@@ -91,6 +92,27 @@ const LogoRow = styled.div`
   margin-bottom: 10px;
 `;
 
+/* Softmaxx Logo */
+const BrandLogo = styled.img`
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  border-radius: 8px;
+  background: white;
+  padding: 4px;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.15);
+`;
+
+/* -------- BLUR DIVIDER -------- */
+const DividerBlur = styled.div`
+  width: 2px;
+  height: 36px;
+  background: rgba(0,0,0,0.15);
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
+`;
+
+/* Text */
 const Title = styled.h4`
   font-weight: 700;
   font-size: 17px;
@@ -105,6 +127,7 @@ const Desc = styled.p`
   max-width: 240px;
 `;
 
+
 /* ----------------------------------------------------
       MAIN COMPONENT
 ---------------------------------------------------- */
@@ -114,49 +137,48 @@ export default function PartnerStrip() {
     <Wrap>
       <Container>
 
-        {/* Clone’s Main Logo (front-left)
+        {/* Adobe */}
         <Box>
           <LogoRow>
-            <CloneMainLogo />
-          </LogoRow>
-          <Title>EbizON Clone</Title>
-          <Desc>Your trusted digital transformation partner.</Desc>
-        </Box> */}
-
-        <Box>
-          <LogoRow>
-            <BadgeIcon />
+            <BrandLogo src={Logo} />
+            <DividerBlur />
             <AdobeLogo />
           </LogoRow>
           <Title>Adobe Solution Bronze Partner</Title>
-          <Desc>EbizON Is Now An Adobe Solution Partner</Desc>
+          <Desc>SoftMaxs is now an Adobe Solution Partner.</Desc>
         </Box>
 
+        {/* Hyvä */}
         <Box>
           <LogoRow>
-            <BadgeIcon />
+            <BrandLogo src={Logo} />
+            <DividerBlur />
             <HyvaLogo />
           </LogoRow>
           <Title>Hyvä Themes Silver Partner</Title>
-          <Desc>EbizON Becomes a Hyvä Themes Silver Partner</Desc>
+          <Desc>SoftMaxs officially becomes a Hyvä Themes partner.</Desc>
         </Box>
 
+        {/* HubSpot */}
         <Box>
           <LogoRow>
-            <BadgeIcon />
+            <BrandLogo src={Logo} />
+            <DividerBlur />
             <HubSpotLogo />
           </LogoRow>
           <Title>HubSpot Solution Partner</Title>
-          <Desc>EbizON is Now A HubSpot Solution Partner</Desc>
+          <Desc>SoftMaxs is recognized as a HubSpot Solution Partner.</Desc>
         </Box>
 
+        {/* Klaviyo */}
         <Box>
           <LogoRow>
-            <BadgeIcon />
+            <BrandLogo src={Logo} />
+            <DividerBlur />
             <KlaviyoLogo />
           </LogoRow>
           <Title>Silver Master Partner</Title>
-          <Desc>EbizON is now a Silver Master Partner with Klaviyo.</Desc>
+          <Desc>SoftMaxs is now a Silver Master Partner with Klaviyo.</Desc>
         </Box>
 
       </Container>

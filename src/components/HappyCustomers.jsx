@@ -176,7 +176,7 @@ const Logo = styled.img`
 const testimonials = [
   {
     text:
-      "Working with EbizON has been a fantastic experience. Their team demonstrates impressive technical expertise and maintains excellent communication throughout all meetings.",
+      "Working with SoftMaxs has been a fantastic experience. Their team demonstrates impressive technical expertise and maintains excellent communication throughout all meetings.",
     name: "Chetan Shah",
     role: "Project Stakeholder, Micebook",
     pic: "https://randomuser.me/api/portraits/men/32.jpg",
@@ -184,7 +184,7 @@ const testimonials = [
   },
   {
     text:
-      "Thank you to the EbizON team for their smooth communication and excellent attention throughout the project. They made everything super easy!",
+      "Thank you to the SoftMaxs team for their smooth communication and excellent attention throughout the project. They made everything super easy!",
     name: "Deigh-Anna",
     role: "JoyVIVA Team",
     pic: "https://randomuser.me/api/portraits/women/21.jpg",

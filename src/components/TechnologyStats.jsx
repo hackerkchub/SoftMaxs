@@ -86,12 +86,15 @@ export default function TechnologyStats() {
       <Container>
 
         <TitleRow>
-          <LeftTitle>Transforming businesses <br/> with technology</LeftTitle>
+          <LeftTitle>
+            Powering businesses <br/> through innovation
+          </LeftTitle>
+
           <RightDesc>
-            Ebizon is the leading e-commerce and digital activation agency for brands 
-            and retailers globally. We have assisted over a dozen billion dollar companies 
-            with consulting, technology, operations, and digital marketing capabilities in 
-            managing their unique brand online.
+            SoftMaxs empowers global brands, startups, and enterprises to scale through
+            intelligent technology, automation, and digital transformation. We engineer
+            reliable, future-ready solutions backed by deep industry expertise and
+            performance-focused execution.
           </RightDesc>
         </TitleRow>
 
@@ -99,28 +102,28 @@ export default function TechnologyStats() {
 
           <StatBox>
             <StatNumber>250+</StatNumber>
-            <StatTitle>Tech Masters</StatTitle>
+            <StatTitle>Technology Experts</StatTitle>
             <StatDesc>
-              Dynamic team of technology enthusiasts delivering 
-              high-end digital solutions.
+              A skilled team of engineers, architects, and creators building
+              next-generation digital ecosystems.
             </StatDesc>
           </StatBox>
 
           <StatBox>
             <StatNumber>2200+</StatNumber>
-            <StatTitle>Solutions Delivered</StatTitle>
+            <StatTitle>Projects Delivered</StatTitle>
             <StatDesc>
-              We’ve empowered businesses with futuristic scalable tech, 
-              marketing & eCommerce innovations.
+              Proven success in delivering scalable, dependable, and high-performance
+              solutions across industries.
             </StatDesc>
           </StatBox>
 
           <StatBox>
             <StatNumber>500+</StatNumber>
-            <StatTitle>Legacy Processes Transformed</StatTitle>
+            <StatTitle>Processes Modernized</StatTitle>
             <StatDesc>
-              Transforming businesses with end-to-end digital integration 
-              into their legacy systems.
+              Driving complete digital modernization with automated workflows, optimized
+              operations, and seamless integrations.
             </StatDesc>
           </StatBox>
 
