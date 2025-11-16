@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import logoImg from "../assets/logo.png"; 
+import Logo from "../assets/Logo.png"; 
 
 
 /* -------------------------------------------
@@ -183,7 +183,7 @@ export default function Navbar() {
           {/* 🔵 LOGO + SoftMaxx TEXT */}
           <LogoWrap>
             <LogoImg 
-              src={logoImg}
+              src={Logo}
               alt="SoftMaxs Logo" 
             />
             <Brand>SoftMaxs</Brand>
