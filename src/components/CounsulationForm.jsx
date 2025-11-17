@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import emailjs from "emailjs-com";
+import Swal from "sweetalert2";
 
 /* ------------------------------------
    MAIN WRAPPER
@@ -9,6 +11,11 @@ const Wrap = styled.section`
   padding: 80px 0;
   background: #fff;
   font-family: "Inter", sans-serif;
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 `;
 
 /* ------------------------------------
@@ -27,7 +34,7 @@ const Container = styled.div`
 `;
 
 /* ------------------------------------
-   LEFT YELLOW BOX
+   LEFT BOX
 ------------------------------------ */
 const LeftBox = styled.div`
   background: #facc15;
@@ -35,7 +42,6 @@ const LeftBox = styled.div`
   width: 380px;
   border-radius: 14px;
   color: #000;
-  flex-shrink: 0;
 
   @media (max-width: 950px) {
     width: 100%;
@@ -138,6 +144,12 @@ const Button = styled.button`
     transform: translateY(-3px);
   }
 
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
   svg {
     width: 22px;
     stroke: #000;
@@ -150,11 +162,92 @@ const Button = styled.button`
    MAIN COMPONENT
 ------------------------------------ */
 export default function ConsultationForm() {
+  const [form, setForm] = useState({
+    from_name: "",
+    reply_to: "",
+    company_name: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  // Validate Email
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  // Update Fields
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Send Email Function
+  const sendEmail = async () => {
+    if (!form.from_name || !form.reply_to || !form.message) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Missing Details",
+        text: "Please fill all required fields!",
+      });
+    }
+
+    if (!validateEmail(form.reply_to)) {
+      return Swal.fire({
+        icon: "error",
+        title: "Invalid Email",
+        text: "Please enter a valid email address.",
+      });
+    }
+
+    setLoading(true);
+
+    try {
+      // 1️⃣ Send Email To Admin
+      await emailjs.send(
+        "service_raophkf",
+        "template_admin_notify",
+        form,
+        "SgaZSFGHhlk4R6j2W"
+      );
+
+      // 2️⃣ Send Auto Reply to User
+      await emailjs.send(
+        "service_raophkf",
+        "template_user_reply",
+        form,
+        "SgaZSFGHhlk4R6j2W"
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: "Message Sent!",
+        text: "We will contact you shortly.",
+        confirmButtonColor: "#facc15",
+      });
+
+      setForm({
+        from_name: "",
+        reply_to: "",
+        company_name: "",
+        message: "",
+      });
+
+    } catch (err) {
+      console.log("EmailJS Error → ", err);
+
+      Swal.fire({
+        icon: "error",
+        title: "Error Sending Message",
+        text: "Please try again later.",
+      });
+    }
+
+    setLoading(false);
+  };
+
   return (
     <Wrap>
       <Container>
 
-        {/* LEFT YELLOW BOX */}
         <LeftBox>
           <Icon>
             <svg viewBox="0 0 24 24">
@@ -174,30 +267,73 @@ export default function ConsultationForm() {
           <Row2>
             <div style={{ flex: 1 }}>
               <Label>Full Name</Label>
-              <Input placeholder="Enter your full name" />
+              <Input
+                name="from_name"
+                value={form.from_name}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+              />
             </div>
 
             <div style={{ flex: 1 }}>
               <Label>Your Email</Label>
-              <Input placeholder="Enter your email" />
+              <Input
+                name="reply_to"
+                value={form.reply_to}
+                onChange={handleChange}
+                placeholder="Enter your email"
+              />
             </div>
           </Row2>
 
           <div style={{ marginBottom: "22px" }}>
             <Label>Company Name</Label>
-            <Input placeholder="Enter company name" />
+            <Input
+              name="company_name"
+              value={form.company_name}
+              onChange={handleChange}
+              placeholder="Enter company name"
+            />
           </div>
 
           <div>
             <Label>Message</Label>
-            <TextArea placeholder="Write your message here..." />
+            <TextArea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              placeholder="Write your message here..."
+            />
           </div>
 
-          <Button>
-            Request Free Quote
-            <svg viewBox="0 0 24 24">
-              <path d="M5 12h14M13 18l6-6-6-6" />
-            </svg>
+          <Button onClick={sendEmail} disabled={loading}>
+            {loading ? (
+              <>
+                <svg
+                  viewBox="0 0 50 50"
+                  style={{ animation: "spin 1s linear infinite" }}
+                >
+                  <circle
+                    cx="25"
+                    cy="25"
+                    r="20"
+                    stroke="#000"
+                    strokeWidth="5"
+                    fill="none"
+                    strokeDasharray="90"
+                    strokeDashoffset="50"
+                  />
+                </svg>
+                Sending...
+              </>
+            ) : (
+              <>
+                Request Free Quote
+                <svg viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 18l6-6-6-6" />
+                </svg>
+              </>
+            )}
           </Button>
 
         </RightBox>
