@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Logo from "../assets/Logo.png";
+import { useNavigate } from "react-router-dom";
 
-/* ---------------------------------------------
-   FOOTER WRAPPER
---------------------------------------------- */
+/* --------------------------------------------- */
 const FooterWrap = styled.footer`
   width: 100%;
   background: #0d0d0d;
@@ -13,9 +12,6 @@ const FooterWrap = styled.footer`
   font-family: "Inter", sans-serif;
 `;
 
-/* ---------------------------------------------
-   GRID SECTION
---------------------------------------------- */
 const Grid = styled.div`
   max-width: 1350px;
   margin: 0 auto;
@@ -28,28 +24,19 @@ const Grid = styled.div`
   @media (max-width: 1000px) {
     grid-template-columns: 1.5fr 1fr 1fr;
   }
-
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
   }
-
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 `;
 
-/* ---------------------------------------------
-   BRAND ROW (Logo + Name)
---------------------------------------------- */
 const BrandRow = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 16px;
-
-  @media (max-width: 480px) {
-    gap: 10px;
-  }
 `;
 
 const BrandLogo = styled.img`
@@ -67,24 +54,14 @@ const BrandName = styled.h2`
   margin: 0;
 `;
 
-/* ---------------------------------------------
-   BRAND TEXT
---------------------------------------------- */
 const BrandText = styled.p`
   font-size: clamp(14px, 2.8vw, 15px);
   line-height: 1.55;
   max-width: 380px;
   color: #c9c9c9;
   margin-bottom: 20px;
-
-  @media (max-width: 600px) {
-    max-width: 100%;
-  }
 `;
 
-/* ---------------------------------------------
-   COLUMN
---------------------------------------------- */
 const Column = styled.div``;
 
 const Title = styled.h4`
@@ -92,7 +69,6 @@ const Title = styled.h4`
   font-weight: 700;
   color: #fff;
   margin-bottom: 18px;
-
   position: relative;
   padding-bottom: 6px;
 
@@ -108,11 +84,12 @@ const Title = styled.h4`
   }
 `;
 
-const Link = styled.a`
+const LinkItem = styled.span`
   display: block;
   font-size: clamp(13.5px, 2.5vw, 14.5px);
   color: #c9c9c9;
   margin-bottom: 10px;
+  cursor: pointer;
   transition: 0.2s;
 
   &:hover {
@@ -121,9 +98,6 @@ const Link = styled.a`
   }
 `;
 
-/* ---------------------------------------------
-   SOCIAL ICONS
---------------------------------------------- */
 const Socials = styled.div`
   margin-top: 30px;
   display: flex;
@@ -137,10 +111,8 @@ const Socials = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
     font-size: clamp(16px, 4vw, 18px);
     color: #fff;
-
     border: 1px solid #2b2b2b;
     transition: 0.25s ease;
 
@@ -152,33 +124,34 @@ const Socials = styled.div`
   }
 `;
 
-/* ---------------------------------------------
-   BOTTOM BAR
---------------------------------------------- */
 const Bottom = styled.div`
   margin-top: clamp(35px, 7vw, 60px);
   padding: 18px 0;
   background: #000;
-
   text-align: center;
   font-size: clamp(12.5px, 2.4vw, 14px);
   color: #b5b5b5;
-
   border-top: 1px solid #1f1f1f;
 `;
 
-/* ---------------------------------------------
-   MAIN FOOTER
---------------------------------------------- */
+/* --------------------------------------------- */
+
 export default function Footer() {
+  const navigate = useNavigate();
+
+  // Only CONTACT US redirects
+  const handleContactClick = () => {
+    window.location.href = "/contact"; // Full reload + scroll to top
+  };
+
   return (
     <FooterWrap>
       <Grid>
 
-        {/* LEFT BRAND SECTION */}
+        {/* BRAND SECTION */}
         <div>
           <BrandRow>
-            <BrandLogo src={Logo} alt="SoftMaxs Logo" />
+            <BrandLogo src={Logo} />
             <BrandName>SoftMaxs</BrandName>
           </BrandRow>
 
@@ -196,31 +169,37 @@ export default function Footer() {
           </Socials>
         </div>
 
-        {/* Column 1 */}
+        {/* COMPANY */}
         <Column>
           <Title>Company</Title>
-          <Link href="#">About SoftMaxs</Link>
-          <Link href="#">Careers</Link>
-          <Link href="#">Why SoftMaxs</Link>
-          <Link href="#">Leadership</Link>
+          <LinkItem>About SoftMaxs</LinkItem>
+          <LinkItem>Careers</LinkItem>
+          <LinkItem>Why SoftMaxs</LinkItem>
+          <LinkItem>Leadership</LinkItem>
         </Column>
 
-        {/* Column 2 */}
+        {/* SERVICES */}
         <Column>
           <Title>Services</Title>
-          <Link href="#">AI & Automation</Link>
-          <Link href="#">Cloud & DevOps</Link>
-          <Link href="#">UI/UX Engineering</Link>
-          <Link href="#">Digital Marketing</Link>
+          <LinkItem>AI & Automation</LinkItem>
+          <LinkItem>Cloud & DevOps</LinkItem>
+          <LinkItem>UI/UX Engineering</LinkItem>
+          <LinkItem>Digital Marketing</LinkItem>
         </Column>
 
-        {/* Column 3 */}
+        {/* SUPPORT */}
         <Column>
           <Title>Support</Title>
-          <Link href="#">Contact Us</Link>
-          <Link href="#">Office Locations</Link>
-          <Link href="#">FAQs</Link>
-          <Link href="#">Privacy Policy</Link>
+
+          {/* ONLY THIS WORKS */}
+          <LinkItem onClick={handleContactClick}>
+            Contact Us
+          </LinkItem>
+
+          {/* NO redirect on these now */}
+          <LinkItem>Office Locations</LinkItem>
+          <LinkItem>FAQs</LinkItem>
+          <LinkItem>Privacy Policy</LinkItem>
         </Column>
 
       </Grid>
@@ -228,7 +207,6 @@ export default function Footer() {
       <Bottom>
         © {new Date().getFullYear()} SoftMaxs. All Rights Reserved.
       </Bottom>
-
     </FooterWrap>
   );
 }

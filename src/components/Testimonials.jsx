@@ -1,77 +1,70 @@
-// src/components/TestimonialSlider.jsx
+// src/components/Testimonials.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-/* ---------------------------
-   STYLES
-----------------------------*/
+/* ------------------------------------------
+   STYLES (Matches exact UI like screenshot)
+------------------------------------------- */
 const Wrap = styled.section`
   width: 100%;
-  padding: clamp(50px, 7vw, 90px) 0;
+  padding: 80px 0;
   background: #f6f9fc;
   font-family: "Inter", sans-serif;
 `;
 
 const Title = styled.h2`
   text-align: center;
-  font-size: clamp(26px, 4vw, 42px);
+  font-size: 42px;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 `;
 
 const Underline = styled.div`
-  width: 100px;
+  width: 110px;
   height: 4px;
   background: #e2b100;
-  margin: 0 auto 50px;
+  margin: 0 auto 60px;
 `;
 
-/* Slider wrapper */
-const SliderRow = styled.div`
+/* Cards row */
+const Row = styled.div`
   display: flex;
-  gap: 26px;
   justify-content: center;
+  gap: 26px;
   flex-wrap: wrap;
-
-  @media (max-width: 950px) {
-    flex-direction: column;
-    align-items: center;
-  }
 `;
 
-/* Individual testimonial card */
+/* Single Card */
 const Card = styled.div`
-  width: clamp(280px, 32%, 360px);
-  background: white;
-  padding: 26px 30px;
-  border-radius: 14px;
+  width: clamp(290px, 30%, 370px);
+  background: #fff;
+  padding: 28px 32px;
+  border-radius: 16px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  opacity: ${(p) => (p.active ? 1 : 0.2)};
-  transition: opacity 0.5s ease;
+  transition: 0.35s;
+
+  /* fade inactive cards */
+  opacity: ${(p) => (p.active ? 1 : 0.25)};
+  transform: ${(p) => (p.active ? "scale(1)" : "scale(0.95)")};
 
   @media (max-width: 950px) {
     width: 90%;
+    opacity: 1;
+    transform: scale(1);
   }
 `;
 
 const Stars = styled.div`
   color: #facc15;
   font-size: 20px;
-  margin-bottom: 10px;
-`;
-
-const ReviewText = styled.p`
-  font-size: 15px;
-  color: #444;
-  line-height: 1.6;
-  margin-top: 16px;
+  margin-bottom: 6px;
 `;
 
 const Reviewer = styled.div`
-  margin-top: 14px;
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-top: 14px;
 `;
 
 const Avatar = styled.img`
@@ -81,36 +74,42 @@ const Avatar = styled.img`
   object-fit: cover;
 `;
 
-/* Name & role */
-const ReviewerMeta = styled.div`
-  small {
-    font-size: 13px;
-    color: #666;
-  }
+const Meta = styled.div`
   strong {
     font-size: 15px;
     color: #111;
   }
+  small {
+    font-size: 13px;
+    color: #777;
+  }
 `;
 
-/* Slider arrows */
+const Text = styled.p`
+  margin-top: 20px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+`;
+
+/* Arrows */
 const Arrows = styled.div`
-  margin-top: 35px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 22px;
 
   button {
     width: 48px;
     height: 48px;
-    background: white;
     border-radius: 50%;
+    background: white;
     border: 2px solid #ddd;
     cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: 0.25s;
 
     &:hover {
@@ -128,48 +127,47 @@ const Arrows = styled.div`
   }
 `;
 
-/* ---------------------------
-   TESTIMONIAL SLIDER
-----------------------------*/
-
-export default function TestimonialSlider() {
+/* ------------------------------------------
+   MAIN COMPONENT
+------------------------------------------- */
+export default function Testimonials() {
   const testimonials = [
     {
       name: "Beat Walder",
       role: "Manager, Forester Beauty",
       avatar: "https://randomuser.me/api/portraits/men/31.jpg",
-      text: "I’m the owner of Forester Beauty in Switzerland. The SoftMaxs team helped migrate the entire store smoothly and enhanced the custom UI extensively.",
+      text: "I'm the owner of Forester Beauty in Switzerland. SoftMaxs guided the entire Shopify migration and improved custom elements for a better user experience.",
     },
     {
       name: "Alexandre Salem",
-      role: "eCommerce Manager, ADA Cosmetics",
+      role: "eCommerce Manager, ADA Cosmetic",
       avatar: "https://randomuser.me/api/portraits/men/57.jpg",
-      text: "Thanks to SoftMaxs’ solution, our platform now sells efficiently. Weekly syncs ensured accurate outcomes and faster execution.",
+      text: "Thanks to SoftMaxs' solution, we now operate efficiently with accurate, sprint-based weekly execution.",
     },
     {
       name: "Deigh-Anna",
       role: "JoyVIVA Team",
       avatar: "https://randomuser.me/api/portraits/women/45.jpg",
-      text: "Super flexible and unbelievably fast team. They helped us redesign our UX and improved conversions throughout the funnel.",
+      text: "The team was flexible, fast, and extremely detail-oriented. They made the entire project smooth!",
     },
     {
       name: "Richard Miles",
       role: "Operations Head, StyleHub",
       avatar: "https://randomuser.me/api/portraits/men/12.jpg",
-      text: "SoftMaxs modernized our store, improved page speed dramatically, and automated multiple workflows for scaling.",
+      text: "SoftMaxs modernized our store, improved speed, and automated workflows end-to-end.",
     },
     {
       name: "Mia Thompson",
       role: "Founder, GlowSkincare",
       avatar: "https://randomuser.me/api/portraits/women/33.jpg",
-      text: "The redesign improved customer retention by 40%. Their UX and branding team is outstanding.",
+      text: "Their redesign increased customer retention by 40%. Amazing UI/UX work!",
     },
     {
       name: "Daniel Cooper",
       role: "CTO, MarketQ",
       avatar: "https://randomuser.me/api/portraits/men/78.jpg",
-      text: "Our integration and automation pipeline is now 2× faster. SoftMaxs helped us connect ERP + CRM flawlessly.",
-    },
+      text: "Our entire automation + ERP pipeline improved drastically with their engineering support.",
+    }
   ];
 
   const [index, setIndex] = useState(0);
@@ -177,55 +175,53 @@ export default function TestimonialSlider() {
   const next = () => setIndex((i) => (i + 1) % testimonials.length);
   const prev = () => setIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
 
-  // AUTO SLIDE
+  /* Auto Slide */
   useEffect(() => {
-    const timer = setInterval(() => next(), 6000);
+    const timer = setInterval(next, 6000);
     return () => clearInterval(timer);
   }, []);
+
+  /* Helper: Show 3 testimonials around index */
+  const getVisible = () => {
+    const total = testimonials.length;
+
+    return [
+      testimonials[index],
+      testimonials[(index + 1) % total],
+      testimonials[(index + 2) % total],
+    ];
+  };
 
   return (
     <Wrap>
       <Title>What Our Customers Says</Title>
       <Underline />
 
-      <SliderRow>
-        {/* Show 3 cards around active one like EbizonDigital */}
-        {testimonials.map((t, i) => {
-          const isActive =
-            i === index ||
-            i === (index + 1) % testimonials.length ||
-            i === (index - 1 + testimonials.length) % testimonials.length;
+      <Row>
+        {getVisible().map((t, i) => (
+          <Card key={i} active={i === 1}>
+            <Stars>★★★★★</Stars>
 
-          return (
-            <Card key={i} active={isActive}>
-              <Stars>★★★★★</Stars>
+            <Reviewer>
+              <Avatar src={t.avatar} />
+              <Meta>
+                <strong>{t.name}</strong><br />
+                <small>{t.role}</small>
+              </Meta>
+            </Reviewer>
 
-              <Reviewer>
-                <Avatar src={t.avatar} />
-                <ReviewerMeta>
-                  <strong>{t.name}</strong>
-                  <br />
-                  <small>{t.role}</small>
-                </ReviewerMeta>
-              </Reviewer>
+            <Text>“{t.text}”</Text>
+          </Card>
+        ))}
+      </Row>
 
-              <ReviewText>“{t.text}”</ReviewText>
-            </Card>
-          );
-        })}
-      </SliderRow>
-
+      {/* Arrows */}
       <Arrows>
         <button onClick={prev}>
-          <svg viewBox="0 0 24 24">
-            <path d="M15 6l-6 6 6 6" />
-          </svg>
+          <svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" /></svg>
         </button>
-
         <button onClick={next}>
-          <svg viewBox="0 0 24 24">
-            <path d="M9 6l6 6-6 6" />
-          </svg>
+          <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" /></svg>
         </button>
       </Arrows>
     </Wrap>
