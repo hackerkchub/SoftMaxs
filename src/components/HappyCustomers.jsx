@@ -6,7 +6,7 @@ import styled from "styled-components";
 ------------------------------------------- */
 const Wrap = styled.section`
   width: 100%;
-  padding: 80px 0;
+  padding: clamp(50px, 7vw, 80px) 0;
   background: #ffffff;
   font-family: "Inter", sans-serif;
 `;
@@ -15,14 +15,14 @@ const Wrap = styled.section`
    TITLE + UNDERLINE
 ------------------------------------------- */
 const Title = styled.h2`
-  font-size: 48px;
+  font-size: clamp(28px, 5vw, 48px);
   font-weight: 800;
-  padding-left: 120px;
+  padding-left: clamp(0px, 10vw, 120px);
   color: #000;
 
   @media (max-width: 900px) {
-    padding-left: 20px;
     text-align: center;
+    padding-left: 0;
   }
 `;
 
@@ -31,7 +31,7 @@ const Underline = styled.div`
   height: 4px;
   background: #facc15;
   border-radius: 5px;
-  margin-left: 120px;
+  margin-left: clamp(0px, 10vw, 120px);
   margin-top: 10px;
 
   @media (max-width: 900px) {
@@ -41,13 +41,13 @@ const Underline = styled.div`
 `;
 
 /* -------------------------------------------
-   ARROWS (EbizON Style)
+   ARROWS
 ------------------------------------------- */
 const Arrows = styled.div`
   display: flex;
   gap: 16px;
   justify-content: flex-end;
-  padding-right: 140px;
+  padding-right: clamp(0px, 12vw, 140px);
   margin-bottom: 20px;
   margin-top: -40px;
 
@@ -58,8 +58,8 @@ const Arrows = styled.div`
   }
 
   button {
-    width: 48px;
-    height: 48px;
+    width: clamp(40px, 8vw, 48px);
+    height: clamp(40px, 8vw, 48px);
     background: #facc15;
     border-radius: 50%;
     border: 3px solid #444;
@@ -75,8 +75,8 @@ const Arrows = styled.div`
     }
 
     svg {
-      width: 22px;
-      height: 22px;
+      width: clamp(18px, 4vw, 22px);
+      height: clamp(18px, 4vw, 22px);
       stroke: #000;
       stroke-width: 2.5;
       fill: none;
@@ -91,8 +91,8 @@ const Grid = styled.div`
   width: 88%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.35fr 0.65fr;   /* Left big, right small */
-  gap: 24px;
+  grid-template-columns: 1.35fr 0.65fr;
+  gap: clamp(16px, 4vw, 24px);
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
@@ -100,29 +100,31 @@ const Grid = styled.div`
 `;
 
 /* -------------------------------------------
-   INDIVIDUAL CARDS
+   CARDS
 ------------------------------------------- */
 const CardBig = styled.div`
   background: #eaf2ff;
   border-radius: 12px;
-  padding: 45px 40px;
+  padding: clamp(25px, 5vw, 45px) clamp(20px, 4vw, 40px);
   min-height: 300px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 
 const CardSmall = styled(CardBig)`
-  transform: scale(0.90);
+  transform: scale(0.9);
   opacity: 0.85;
 
   @media (max-width: 900px) {
     transform: scale(1);
+    opacity: 1;
   }
 `;
 
 const Quote = styled.p`
-  font-size: 18px;
+  font-size: clamp(15px, 2.4vw, 18px);
   line-height: 1.55;
   color: #222;
   font-style: italic;
@@ -130,15 +132,22 @@ const Quote = styled.p`
 `;
 
 /* -------------------------------------------
-   FOOTER AREA
+   FOOTER ROW
 ------------------------------------------- */
 const FooterRow = styled.div`
   margin-top: 20px;
   border-top: 1px solid #d8e0ef;
   padding-top: 18px;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
 `;
 
 const Profile = styled.div`
@@ -148,26 +157,30 @@ const Profile = styled.div`
 `;
 
 const Pic = styled.img`
-  width: 48px;
-  height: 48px;
+  width: clamp(38px, 8vw, 48px);
+  height: clamp(38px, 8vw, 48px);
   border-radius: 50%;
   object-fit: cover;
 `;
 
 const Name = styled.h4`
-  font-size: 18px;
+  font-size: clamp(16px, 3vw, 18px);
   font-weight: 800;
 `;
 
 const Role = styled.p`
-  font-size: 13px;
+  font-size: clamp(12px, 2.5vw, 13px);
   color: #555;
   margin-top: -2px;
 `;
 
 const Logo = styled.img`
-  height: 40px;
+  height: clamp(30px, 6vw, 40px);
   opacity: 0.9;
+  
+  @media (max-width: 500px) {
+    align-self: flex-start;
+  }
 `;
 
 /* -------------------------------------------
@@ -232,7 +245,7 @@ export default function HappyCustomers() {
       </Arrows>
 
       <Grid>
-        {/* LEFT — ACTIVE BIG */}
+        {/* LEFT — BIG CARD */}
         <CardBig>
           <Quote>“{current.text}”</Quote>
 
@@ -249,7 +262,7 @@ export default function HappyCustomers() {
           </FooterRow>
         </CardBig>
 
-        {/* RIGHT — NEXT SMALL */}
+        {/* RIGHT — SMALL NEXT CARD */}
         <CardSmall>
           <Quote>“{nextOne.text.substring(0, 140)}...”</Quote>
 

@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import Logo from "../assets/logo.png";   
 
-/* -------------------------------------
-   REALISTIC MODERN PROFESSIONAL ICONS
-------------------------------------- */
+/* ---------------- ICONS ---------------- */
 
 const IconMobile = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" strokeWidth="2">
@@ -64,18 +63,17 @@ const IconAI = () => (
   </svg>
 );
 
-/* -------------------------------------
-          STYLES
-------------------------------------- */
+/* ---------------- STYLES ---------------- */
 
 const Wrap = styled.section`
-  padding: 60px 0;
+  padding: clamp(40px, 7vw, 60px) 0;
   width: 100%;
+  font-family: "Inter", sans-serif;
 `;
 
 const Title = styled.h2`
   text-align: center;
-  font-size: 32px;
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: 700;
   margin-bottom: 6px;
 `;
@@ -84,106 +82,103 @@ const Underline = styled.div`
   width: 70px;
   height: 3px;
   background: #e2b100;
-  margin: 0 auto 40px auto;
+  margin: 0 auto clamp(20px, 4vw, 40px) auto;
 `;
 
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 30px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
+  padding: 0 clamp(16px, 4vw, 30px);
 
-  @media(max-width: 1000px){
+  display: grid;
+  gap: clamp(16px, 3vw, 22px);
+  grid-template-columns: repeat(4, 1fr);
+
+  @media (max-width: 1024px) {
     grid-template-columns: repeat(2, 1fr);
   }
-  @media(max-width: 600px){
+  @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 `;
 
 const Card = styled.div`
   background: #eef4ff;
-  border-radius: 8px;
-  padding: 26px;
-  height: 205px;
+  border-radius: 10px;
+  padding: clamp(18px, 4vw, 26px);
+  min-height: 210px;
+  text-align: center;
+  transition: 0.25s ease;
   cursor: pointer;
-  transition: 0.2s ease;
 
   &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
   }
 `;
 
 const CardTitle = styled.h4`
-  font-size: 18px;
+  font-size: clamp(16px, 2.8vw, 18px);
   font-weight: 700;
-  margin: 12px 0 8px 0;
-  color: #0f172a;
+  margin: 10px 0 8px;
 `;
 
 const CardDesc = styled.p`
-  font-size: 14px;
-  line-height: 1.45;
+  font-size: clamp(13px, 2.5vw, 14px);
+  line-height: 1.5;
   color: #475569;
 `;
 
-/* -------------------------------------
-     YELLOW CTA BAR
-------------------------------------- */
+/* ---------------- CTA BAR ---------------- */
 
 const BottomBar = styled.div`
   background: #facc15;
   color: #111;
-  margin: 50px auto 0 auto;
+  margin: clamp(30px, 5vw, 50px) auto 0;
   max-width: 900px;
-  padding: 14px 22px;
+
+  padding: clamp(12px, 2.5vw, 18px);
   border-radius: 12px;
   font-weight: 600;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:14px;
-  cursor:pointer;
-  transition:.2s;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 14px);
+
+  cursor: pointer;
+  transition: .25s;
 
   &:hover {
-    background:#ffdd3d;
+    background: #ffdd3d;
+  }
+
+  img {
+    width: clamp(18px, 4vw, 26px);
+    height: clamp(18px, 4vw, 26px);
   }
 `;
 
 const ArrowRight = () => (
-  <svg width="22" height="22" fill="none" stroke="#111" strokeWidth="2"
+  <svg width="20" height="20" fill="none" stroke="#111" strokeWidth="2"
        strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
     <path d="M5 12h14M13 18l6-6-6-6"/>
   </svg>
 );
 
-
-/* -------------------------------------
-            MAIN COMPONENT
-------------------------------------- */
+/* ---------------- MAIN COMPONENT ---------------- */
 
 export default function OurServices() {
 
   const data = [
-    { icon:<IconMobile/>, title:"Mobile Application", desc:"Captivate users with feature-rich native iOS/Android apps aligned with business needs." },
-
-    { icon:<IconEcommerce/>, title:"E-Commerce", desc:"Superior customer experience with scalable platforms and digital solutions." },
-
-    { icon:<IconBlockchain/>, title:"Blockchain", desc:"Build secure next-gen blockchain apps with transparency and traceability." },
-
-    { icon:<IconCloud/>, title:"Cloud Services & Support", desc:"Move to cloud with expert guidance, selection, migration & maintenance." },
-
-    { icon:<IconSEO/>, title:"SEO & Link Building", desc:"Boost search visibility, traffic & brand credibility with authoritative SEO." },
-
-    { icon:<IconAds/>, title:"Paid Ads, Landing Pages", desc:"Attract high-intent traffic with targeted ads & persuasive landing pages." },
-
-    { icon:<IconEngineering/>, title:"Engineering Services", desc:"CAD design, prototyping, automation & tech execution." },
-
-    { icon:<IconAI/>, title:"AI Solutions", desc:"AI-powered automations, predictions, integrations & custom models." }
+    { icon: <IconMobile />, title: "Mobile Application", desc: "Captivate users with feature-rich native iOS/Android apps." },
+    { icon: <IconEcommerce />, title: "E-Commerce", desc: "Scalable platforms and outstanding commerce experience." },
+    { icon: <IconBlockchain />, title: "Blockchain", desc: "Secure blockchain apps with transparency." },
+    { icon: <IconCloud />, title: "Cloud Services", desc: "Cloud migration, setup & support." },
+    { icon: <IconSEO />, title: "SEO & Link Building", desc: "Boost visibility & ranking with authority." },
+    { icon: <IconAds />, title: "Paid Ads", desc: "High-converting ad campaigns & landing pages." },
+    { icon: <IconEngineering />, title: "Engineering Services", desc: "CAD design, prototyping & automation." },
+    { icon: <IconAI />, title: "AI Solutions", desc: "AI automation, predictions & integrations." },
   ];
 
   return (
@@ -202,10 +197,8 @@ export default function OurServices() {
       </Container>
 
       <BottomBar>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="#000">
-          <path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" />
-        </svg>
-        Avail our services and start driving more growth for your business. Contact Us Now
+        <img src={Logo} alt="softmaxs-logo" />
+        Avail our services and start driving more growth for your business. Contact us today!
         <ArrowRight />
       </BottomBar>
     </Wrap>

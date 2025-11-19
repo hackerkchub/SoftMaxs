@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
-// IMPORT YOUR BRAND LOGO
 import Logo from "../assets/Logo.png";
 
 /* ---------------------------------------------
@@ -11,7 +9,7 @@ const FooterWrap = styled.footer`
   width: 100%;
   background: #0d0d0d;
   color: #d9d9d9;
-  padding: 70px 0 0 0;
+  padding: clamp(50px, 7vw, 70px) 0 0 0;
   font-family: "Inter", sans-serif;
 `;
 
@@ -21,42 +19,51 @@ const FooterWrap = styled.footer`
 const Grid = styled.div`
   max-width: 1350px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 clamp(18px, 5vw, 40px);
 
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 50px;
+  gap: clamp(25px, 5vw, 50px);
+
+  @media (max-width: 1000px) {
+    grid-template-columns: 1.5fr 1fr 1fr;
+  }
 
   @media (max-width: 900px) {
     grid-template-columns: 1fr 1fr;
   }
+
   @media (max-width: 600px) {
     grid-template-columns: 1fr;
   }
 `;
 
 /* ---------------------------------------------
-   BRAND ROW (Logo + Name inline)
+   BRAND ROW (Logo + Name)
 --------------------------------------------- */
 const BrandRow = styled.div`
   display: flex;
   align-items: center;
   gap: 14px;
   margin-bottom: 16px;
+
+  @media (max-width: 480px) {
+    gap: 10px;
+  }
 `;
 
 const BrandLogo = styled.img`
-  width: 48px;
-  height: 48px;
+  width: clamp(40px, 8vw, 48px);
+  height: clamp(40px, 8vw, 48px);
   border-radius: 50%;
   object-fit: cover;
   box-shadow: 0 4px 10px rgba(255, 221, 87, 0.25);
 `;
 
 const BrandName = styled.h2`
-  font-size: 28px;
+  font-size: clamp(22px, 5vw, 28px);
   font-weight: 900;
-  color: #1e40af; /* NAVBAR THEME BLUE */
+  color: #1e40af;
   margin: 0;
 `;
 
@@ -64,11 +71,15 @@ const BrandName = styled.h2`
    BRAND TEXT
 --------------------------------------------- */
 const BrandText = styled.p`
-  font-size: 15px;
+  font-size: clamp(14px, 2.8vw, 15px);
   line-height: 1.55;
   max-width: 380px;
   color: #c9c9c9;
   margin-bottom: 20px;
+
+  @media (max-width: 600px) {
+    max-width: 100%;
+  }
 `;
 
 /* ---------------------------------------------
@@ -77,7 +88,7 @@ const BrandText = styled.p`
 const Column = styled.div``;
 
 const Title = styled.h4`
-  font-size: 17px;
+  font-size: clamp(16px, 2.7vw, 17px);
   font-weight: 700;
   color: #fff;
   margin-bottom: 18px;
@@ -99,7 +110,7 @@ const Title = styled.h4`
 
 const Link = styled.a`
   display: block;
-  font-size: 14.5px;
+  font-size: clamp(13.5px, 2.5vw, 14.5px);
   color: #c9c9c9;
   margin-bottom: 10px;
   transition: 0.2s;
@@ -116,18 +127,18 @@ const Link = styled.a`
 const Socials = styled.div`
   margin-top: 30px;
   display: flex;
-  gap: 16px;
+  gap: clamp(12px, 3vw, 16px);
 
   a {
-    width: 42px;
-    height: 42px;
+    width: clamp(36px, 7vw, 42px);
+    height: clamp(36px, 7vw, 42px);
     background: #1a1a1a;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 18px;
+    font-size: clamp(16px, 4vw, 18px);
     color: #fff;
 
     border: 1px solid #2b2b2b;
@@ -145,12 +156,12 @@ const Socials = styled.div`
    BOTTOM BAR
 --------------------------------------------- */
 const Bottom = styled.div`
-  margin-top: 60px;
+  margin-top: clamp(35px, 7vw, 60px);
   padding: 18px 0;
   background: #000;
 
   text-align: center;
-  font-size: 14px;
+  font-size: clamp(12.5px, 2.4vw, 14px);
   color: #b5b5b5;
 
   border-top: 1px solid #1f1f1f;

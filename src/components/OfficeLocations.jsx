@@ -6,7 +6,7 @@ import styled from "styled-components";
 ----------------------------*/
 const Wrap = styled.section`
   width: 100%;
-  padding: 80px 0;
+  padding: clamp(50px, 10vw, 80px) 0;
   background: #fdf4d7;
   font-family: "Inter", sans-serif;
 `;
@@ -17,44 +17,50 @@ const Wrap = styled.section`
 const Grid = styled.div`
   max-width: 1250px;
   margin: 0 auto;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: clamp(22px, 5vw, 40px);
   text-align: center;
 
   @media (max-width: 950px) {
     grid-template-columns: 1fr;
-    gap: 40px;
   }
 `;
 
 /* ---------------------------
-   CARD
+   CARD → FLEX COLUMN
 ----------------------------*/
 const Card = styled.div`
-  padding: 10px 22px;
+  padding: clamp(10px, 3vw, 22px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
+/* ---------------------------
+   IMAGE — Centered
+----------------------------*/
 const Illustration = styled.img`
-  width: 260px;
-  height: 180px;
+  width: clamp(200px, 40vw, 260px);
+  height: clamp(130px, 25vw, 180px);
   object-fit: contain;
-  margin-bottom: 18px;
-
-  @media (max-width: 950px) {
-    width: 230px;
-    height: 150px;
-  }
+  margin: 0 auto 18px auto;
+  display: block;
 `;
 
+/* ---------------------------
+   TITLE/TEXT
+----------------------------*/
 const Title = styled.h3`
-  font-size: 22px;
+  font-size: clamp(18px, 3.5vw, 22px);
   font-weight: 800;
   margin-bottom: 14px;
 `;
 
 const Text = styled.p`
-  font-size: 15px;
+  font-size: clamp(14px, 2.8vw, 15px);
   line-height: 1.55;
   color: #222;
 `;
@@ -63,32 +69,38 @@ const Email = styled.p`
   margin-top: 10px;
   font-weight: 600;
   color: #000;
+  font-size: clamp(14px, 3vw, 15px);
 `;
 
 const Phone = styled.p`
-  margin: 12px 0;
+  margin: 12px 0 6px 0;
   font-weight: 500;
+  font-size: clamp(14px, 3vw, 15px);
 `;
 
 /* ---------------------------
-   SOCIAL ICONS
+   SOCIAL ICONS — ALWAYS LAST
 ----------------------------*/
 const Socials = styled.div`
-  margin-top: 30px;
+  margin-top: auto; /* Push to bottom */
+  padding-top: 20px;
+
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: clamp(12px, 3vw, 18px);
 
   a {
-    width: 42px;
-    height: 42px;
+    width: clamp(36px, 8vw, 42px);
+    height: clamp(36px, 8vw, 42px);
     background: white;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+
+    font-size: clamp(16px, 4vw, 20px);
     color: black;
+
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     transition: 0.2s ease;
 
@@ -107,7 +119,7 @@ export default function OfficeLocations() {
     <Wrap>
       <Grid>
 
-        {/* ---------------- USA ---------------- */}
+        {/* USA OFFICE */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/1.webp"
@@ -124,7 +136,7 @@ export default function OfficeLocations() {
           <Email>contact@softmaxs.com</Email>
         </Card>
 
-        {/* ---------------- Headquarters (India) ---------------- */}
+        {/* INDIA HQ */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/2.webp"
@@ -140,6 +152,7 @@ export default function OfficeLocations() {
           <Phone>+91 98715 44221 (IND)</Phone>
           <Email>contact@softmaxs.com</Email>
 
+          {/* Social Icons at very bottom now */}
           <Socials>
             <a href="#"><i className="fa-brands fa-facebook"></i></a>
             <a href="#"><i className="fa-brands fa-linkedin"></i></a>
@@ -148,7 +161,7 @@ export default function OfficeLocations() {
           </Socials>
         </Card>
 
-        {/* ---------------- Development Center ---------------- */}
+        {/* DEVELOPMENT CENTER */}
         <Card>
           <Illustration
             src="https://www.gstatic.com/webp/gallery/4.webp"

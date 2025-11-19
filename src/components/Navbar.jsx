@@ -1,73 +1,69 @@
+// src/components/Navbar.jsx
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import Logo from "../assets/Logo.png"; 
-
+import Logo from "../assets/Logo.png";
+import { useNavigate } from "react-router-dom";
 
 /* -------------------------------------------
-   WRAPPER (Transparent → Solid on Scroll)
+   NAV WRAPPER — using $scrolled (transient prop)
 ------------------------------------------- */
 const Nav = styled.header`
   width: 100%;
   position: sticky;
   top: 0;
-  left: 0;
   z-index: 2000;
+
+  background: ${({ $scrolled }) => ($scrolled ? "#ffffff" : "transparent")};
+  box-shadow: ${({ $scrolled }) =>
+    $scrolled ? "0 2px 10px rgba(2,6,23,0.08)" : "none"};
+
   transition: 0.3s ease;
-
-  background: ${({ scrolled }) =>
-    scrolled ? "#ffffff" : "transparent"};
-
-  box-shadow: ${({ scrolled }) =>
-    scrolled ? "0 2px 10px rgba(2,6,23,0.08)" : "none"};
 `;
 
-/* -------------------------------------------
-   INNER CONTENT
-------------------------------------------- */
 const Inner = styled.div`
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: ${({ $scrolled }) => ($scrolled ? "12px 22px" : "20px 22px")};
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ scrolled }) => (scrolled ? "14px 24px" : "20px 24px")};
-  max-width: 1300px;
-  margin: 0 auto;
   transition: 0.3s ease;
 `;
 
 /* -------------------------------------------
-   LOGO + TEXT
+   LOGO + BRAND
 ------------------------------------------- */
 const LogoWrap = styled.div`
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   cursor: pointer;
 `;
 
 const LogoImg = styled.img`
-  height: 46px;
-  width: 46px;
+  width: clamp(36px, 6vw, 48px);
+  height: clamp(36px, 6vw, 48px);
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #4db6ff;
 `;
 
-const Brand = styled.span`
-  font-size: 26px;
+const Brand = styled.div`
+  font-size: clamp(20px, 4vw, 26px);
   font-weight: 800;
   color: #0077ff;
-  letter-spacing: 0.5px;
 `;
 
 /* -------------------------------------------
    DESKTOP MENU
 ------------------------------------------- */
 const Menu = styled.ul`
-  display: flex;
-  gap: 30px;
   list-style: none;
+  display: flex;
+  gap: 32px;
   font-weight: 600;
-  color: #111827;
+  color: #111;
 
   @media (max-width: 900px) {
     display: none;
@@ -76,8 +72,8 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
   cursor: pointer;
+  font-size: 15px;
   position: relative;
-  font-size: 15.5px;
 
   &:hover::after {
     width: 100%;
@@ -92,27 +88,27 @@ const MenuItem = styled.li`
     bottom: -6px;
     left: 0;
     transition: 0.25s;
-    border-radius: 6px;
   }
 `;
 
 /* -------------------------------------------
-   CTA BUTTON
+   DESKTOP CTA
 ------------------------------------------- */
 const CTA = styled.button`
+  padding: 10px 26px;
   background: #0077ff;
+  color: white;
   border: none;
-  padding: 10px 22px;
   border-radius: 40px;
+  cursor: pointer;
   font-size: 15px;
   font-weight: 700;
-  cursor: pointer;
-  color: #fff;
+
   transition: 0.25s;
 
   &:hover {
-    background: #0d8bff;
     transform: translateY(-2px);
+    background: #0d8bff;
   }
 
   @media (max-width: 900px) {
@@ -125,11 +121,12 @@ const CTA = styled.button`
 ------------------------------------------- */
 const MobileMenuBtn = styled.button`
   display: none;
-  font-size: 30px;
-  background: none;
   border: none;
+  background: none;
+  font-size: 30px;
   cursor: pointer;
-  color: ${({ scrolled }) => (scrolled ? "#111" : "#fff")};
+
+  color: ${({ $scrolled }) => ($scrolled ? "#111" : "#fff")};
 
   @media (max-width: 900px) {
     display: block;
@@ -137,89 +134,107 @@ const MobileMenuBtn = styled.button`
 `;
 
 /* -------------------------------------------
-   MOBILE MENU DROPDOWN
+   MOBILE MENU (using $show to avoid warnings)
 ------------------------------------------- */
 const MobileMenu = styled.ul`
-  display: none;
+  display: ${({ $show }) => ($show ? "flex" : "none")};
+  flex-direction: column;
+  width: 100%;
+  background: #fff;
+  list-style: none;
+  padding: 24px 28px;
+  gap: 18px;
+  font-weight: 600;
 
-  @media (max-width: 900px) {
-    display: ${({ show }) => (show ? "flex" : "none")};
-    flex-direction: column;
-    gap: 18px;
-    padding: 22px 28px;
-    list-style: none;
-    background: #ffffff;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 
   li {
-    padding: 6px 0;
     cursor: pointer;
+    padding: 6px 0;
   }
 `;
 
+const MobileCTA = styled.button`
+  margin-top: 12px;
+  padding: 12px;
+  width: 100%;
+  background: #0077ff;
+  border: none;
+  border-radius: 40px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+`;
+
 /* -------------------------------------------
-   NAVBAR COMPONENT
+   MAIN COMPONENT
 ------------------------------------------- */
 export default function Navbar() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  /* Scroll background effect */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener("scroll", onScroll);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  /* Safe Navigation */
+  const go = (path) => {
+    navigate(path);
+    setOpen(false); // close mobile menu
+  };
 
   return (
     <>
-      <Nav scrolled={scrolled}>
-        <Inner scrolled={scrolled}>
-
-          {/* 🔵 LOGO + SoftMaxx TEXT */}
-          <LogoWrap>
-            <LogoImg 
-              src={Logo}
-              alt="SoftMaxs Logo" 
-            />
+      <Nav $scrolled={scrolled}>
+        <Inner $scrolled={scrolled}>
+          {/* LOGO → HOME */}
+          <LogoWrap onClick={() => go("/")}>
+            <LogoImg src={Logo} alt="SoftMaxs Logo" />
             <Brand>SoftMaxs</Brand>
           </LogoWrap>
 
-          {/* Desktop Menu */}
+          {/* DESKTOP MENU */}
           <Menu>
-            <MenuItem>Offerings</MenuItem>
-            <MenuItem>Industries</MenuItem>
-            <MenuItem>Explore SoftMaxs</MenuItem>
-            <MenuItem>Resources</MenuItem>
-            <MenuItem>Careers</MenuItem>
-            <MenuItem>Contact Us</MenuItem>
+            <MenuItem onClick={() => go("/")}>Offerings</MenuItem>
+            <MenuItem onClick={() => go("/")}>Industries</MenuItem>
+            <MenuItem onClick={() => go("/")}>Explore</MenuItem>
+            <MenuItem onClick={() => go("/")}>Resources</MenuItem>
+            <MenuItem onClick={() => go("/")}>Careers</MenuItem>
+
+            <MenuItem onClick={() => go("/contact")}>Contact Us</MenuItem>
           </Menu>
 
-          {/* CTA */}
-          <CTA>Get Proposal</CTA>
+          {/* Desktop CTA */}
+          <CTA onClick={() => go("/contact")}>Get Proposal</CTA>
 
-          {/* Mobile Button */}
-          <MobileMenuBtn onClick={() => setOpen(!open)} scrolled={scrolled}>
+          {/* Mobile Toggle */}
+          <MobileMenuBtn
+            $scrolled={scrolled}
+            onClick={() => setOpen(!open)}
+          >
             ☰
           </MobileMenuBtn>
         </Inner>
       </Nav>
 
-      {/* Mobile Dropdown */}
-      <MobileMenu show={open}>
-        <li>Offerings</li>
-        <li>Industries</li>
-        <li>Explore SoftMaxs</li>
-        <li>Resources</li>
-        <li>Careers</li>
-        <li>Contact Us</li>
-        <CTA style={{ marginTop: "10px", display: "block" }}>
+      {/* MOBILE MENU */}
+      <MobileMenu $show={open}>
+        <li onClick={() => go("/")}>Offerings</li>
+        <li onClick={() => go("/")}>Industries</li>
+        <li onClick={() => go("/")}>Explore</li>
+        <li onClick={() => go("/")}>Resources</li>
+        <li onClick={() => go("/")}>Careers</li>
+
+        <li onClick={() => go("/contact")}>Contact Us</li>
+
+        <MobileCTA onClick={() => go("/contact")}>
           Get Proposal
-        </CTA>
+        </MobileCTA>
       </MobileMenu>
     </>
   );

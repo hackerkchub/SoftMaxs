@@ -7,14 +7,14 @@ import styled from "styled-components";
 
 const Wrap = styled.section`
   width: 100%;
-  padding: 70px 0;
+  padding: clamp(50px, 7vw, 70px) 0;
   background: #ffffff;
   font-family: "Inter", sans-serif;
 `;
 
 const Title = styled.h2`
   text-align: center;
-  font-size: 42px;
+  font-size: clamp(28px, 5vw, 42px);
   font-weight: 800;
   color: #000;
   margin-bottom: 10px;
@@ -25,7 +25,7 @@ const Underline = styled.div`
   height: 3px;
   background: #e2b100;
   border-radius: 6px;
-  margin: 0 auto 40px auto;
+  margin: 0 auto clamp(28px, 5vw, 40px) auto;
 `;
 
 const Grid = styled.div`
@@ -35,9 +35,13 @@ const Grid = styled.div`
 
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+  gap: clamp(20px, 3vw, 40px);
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1100px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -50,9 +54,10 @@ const Card = styled.div`
   text-align: center;
 `;
 
+/* ► RESPONSIVE VIDEO FRAME (keeps aspect ratio) */
 const VideoFrame = styled.div`
   width: 100%;
-  height: 390px;
+  aspect-ratio: 16 / 9;       /* keep perfect video ratio */
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
@@ -64,21 +69,22 @@ const VideoFrame = styled.div`
   }
 `;
 
+/* TEXT */
 const Name = styled.h4`
-  font-size: 19px;
+  font-size: clamp(16px, 2vw, 19px);
   font-weight: 800;
   margin-top: 14px;
   color: #000;
 `;
 
 const Role = styled.p`
-  font-size: 14px;
+  font-size: clamp(13px, 2vw, 14px);
   color: #444;
   margin-top: 5px;
 `;
 
 /* -------------------------------------------
-   DATA (dummy YouTube shorts — 100% loadable)
+   DATA
 ------------------------------------------- */
 
 const videos = [

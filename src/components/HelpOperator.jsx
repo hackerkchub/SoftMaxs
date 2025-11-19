@@ -7,7 +7,7 @@ import Logo from "../assets/Logo.png";
 ---------------------------------------- */
 const pulse = keyframes`
   0% { transform: scale(1); }
-  50% { transform: scale(1.07); }
+  50% { transform: scale(1.08); }
   100% { transform: scale(1); }
 `;
 
@@ -27,8 +27,8 @@ const typingDots = keyframes`
 ---------------------------------------- */
 const Wrapper = styled.div`
   position: fixed;
-  bottom: 26px;
-  right: 26px;
+  bottom: clamp(16px, 4vw, 26px);
+  right: clamp(16px, 4vw, 26px);
   z-index: 2000;
   font-family: "Inter", sans-serif;
 `;
@@ -37,8 +37,8 @@ const Wrapper = styled.div`
    Floating Button
 ---------------------------------------- */
 const FloatBtn = styled.button`
-  width: 62px;
-  height: 62px;
+  width: clamp(52px, 12vw, 62px);
+  height: clamp(52px, 12vw, 62px);
   border-radius: 50%;
   background: #1e40af;
   border: none;
@@ -55,26 +55,30 @@ const FloatBtn = styled.button`
   }
 
   img {
-    width: 34px;
-    height: 34px;
+    width: clamp(26px, 7vw, 34px);
+    height: clamp(26px, 7vw, 34px);
   }
 `;
 
 /* ---------------------------------------
-   CHAT BOX
+   CHAT BOX (FULLY RESPONSIVE)
 ---------------------------------------- */
 const ChatBox = styled.div`
   position: absolute;
-  bottom: 80px;
+  bottom: calc(clamp(52px, 12vw, 62px) + 20px);
   right: 0;
-  width: 350px;
-  height: 470px;
+  width: clamp(270px, 70vw, 350px);
+  height: clamp(340px, 80vh, 470px);
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 12px 32px rgba(0,0,0,0.25);
   display: flex;
   flex-direction: column;
   animation: ${fadeIn} 0.25s ease;
+
+  @media (max-width: 400px) {
+    right: -10px;
+  }
 `;
 
 /* ---------------------------------------
@@ -107,7 +111,7 @@ const CloseBtn = styled.button`
   margin-left: auto;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
 `;
 
@@ -116,14 +120,14 @@ const CloseBtn = styled.button`
 ---------------------------------------- */
 const ChatBody = styled.div`
   flex: 1;
-  padding: 12px;
+  padding: clamp(8px, 2vw, 12px);
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
 `;
 
-// Bot message container with avatar
+/* Bot message container with avatar */
 const BotLine = styled.div`
   display: flex;
   align-items: flex-start;
@@ -131,8 +135,8 @@ const BotLine = styled.div`
 `;
 
 const BotAvatar = styled.img`
-  width: 32px;
-  height: 32px;
+  width: clamp(26px, 7vw, 32px);
+  height: clamp(26px, 7vw, 32px);
   border-radius: 10px;
   border: 2px solid #1e40af;
 `;
@@ -207,10 +211,6 @@ const SendBtn = styled.button`
     height: 20px;
     fill: white;
   }
-
-  &:hover {
-    background: #2a4fe0;
-  }
 `;
 
 /* ---------------------------------------
@@ -220,12 +220,12 @@ const QuickBtns = styled.div`
   display: flex;
   gap: 10px;
   margin: 8px 0;
-  padding-left: 6px;
+  padding: 0 10px;
 
   button {
     flex: 1;
-    padding: 8px 10px;
-    font-size: 13px;
+    padding: clamp(6px, 1.5vw, 8px) 10px;
+    font-size: clamp(12px, 2.7vw, 13px);
     border-radius: 8px;
     border: none;
     cursor: pointer;
@@ -262,7 +262,7 @@ export default function HelpOperator() {
     }
   }, [chat, typing]);
 
-  /* Sound Effects */
+  /* Sounds */
   const playSendSound = () => {
     const audio = new Audio("https://assets.mixkit.co/sfx/preview/mixkit-message-pop-alert-2354.mp3");
     audio.volume = 0.4;
@@ -275,8 +275,8 @@ export default function HelpOperator() {
     audio.play();
   };
 
-  /* Bot auto reply */
-  const botReply = (text) => {
+  /* Bot reply */
+  const botReply = () => {
     setTyping(true);
 
     setTimeout(() => {
@@ -284,25 +284,23 @@ export default function HelpOperator() {
         ...prev,
         {
           from: "bot",
-          text: "Thanks for messaging! A SoftMaxs expert will reach out shortly 😊"
+          text: "Thanks! A SoftMaxs expert will reach out shortly 😊"
         }
       ]);
       setTyping(false);
-    }, 1200);
+    }, 1100);
   };
 
-  /* Send Message */
+  /* Send message */
   const sendMessage = () => {
     if (!msg.trim()) return;
 
     playSendSound();
-
     setChat((prev) => [...prev, { from: "user", text: msg }]);
-    botReply(msg);
+    botReply();
     setMsg("");
   };
 
-  /* On Enter */
   const handleEnter = (e) => {
     if (e.key === "Enter") sendMessage();
   };
@@ -325,12 +323,12 @@ export default function HelpOperator() {
         <ChatBox>
 
           <ChatHeader>
-            <LogoWrap src={Logo} alt="SoftMaxs" />
+            <LogoWrap src={Logo} />
             <HeaderText>SoftMaxs Support</HeaderText>
             <CloseBtn onClick={() => setOpen(false)}>×</CloseBtn>
           </ChatHeader>
 
-          {/* QUICK BUTTONS */}
+          {/* Quick Buttons */}
           <QuickBtns>
             <WhatsBtn onClick={() => window.open("https://wa.me/918888888888", "_blank")}>
               WhatsApp

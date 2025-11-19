@@ -16,7 +16,7 @@ const slideRight = keyframes`
 const Wrap = styled.section`
   width: 100%;
   background: #faf4df;
-  padding: 110px 0;
+  padding: clamp(60px, 10vw, 110px) 0;
   font-family: "Inter", sans-serif;
   overflow: hidden;
 `;
@@ -24,7 +24,7 @@ const Wrap = styled.section`
 /* -------------------- TITLE ---------------------- */
 const Title = styled.h2`
   text-align: center;
-  font-size: 42px;
+  font-size: clamp(26px, 5vw, 42px);
   font-weight: 800;
   color: #111;
 `;
@@ -33,7 +33,7 @@ const Underline = styled.div`
   width: 80px;
   height: 4px;
   background: #e2b100;
-  margin: 14px auto 70px auto;
+  margin: 14px auto clamp(30px, 8vw, 70px) auto;
   border-radius: 6px;
 `;
 
@@ -41,17 +41,14 @@ const Underline = styled.div`
 const RowWrapper = styled.div`
   width: 100%;
   overflow: visible;
-  margin: 60px 0;
+  margin: clamp(30px, 6vw, 60px) 0;
 `;
 
 /* -------------------- ROW ---------------------- */
 const Row = styled.div`
   display: flex;
-  gap: 126px;
-
-  /* ✔ Speed increased: 18s instead of 30s */
+  gap: clamp(40px, 8vw, 126px);
   animation: ${(p) => (p.reverse ? slideRight : slideLeft)} 18s linear infinite;
-
   width: max-content;
 
   &:hover {
@@ -61,12 +58,13 @@ const Row = styled.div`
 
 /* -------------------- DIAMOND CARD ---------------------- */
 const Card = styled.div`
-  width: 108px;
-  height: 108px;
+  width: clamp(68px, 14vw, 108px);
+  height: clamp(68px, 14vw, 108px);
   transform: rotate(45deg);
   background: white;
   border-radius: 10px;
   box-shadow: 0px 12px 22px rgba(0, 0, 0, 0.12);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,8 +77,8 @@ const Card = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 65px;
-  height: 65px;
+  width: clamp(40px, 8vw, 65px);
+  height: clamp(40px, 8vw, 65px);
   object-fit: contain;
   transform: rotate(-45deg);
 `;
@@ -96,7 +94,7 @@ const logos = [
   "https://images.weserv.nl/?url=logo.clearbit.com/cranimals.com&h=120.webp",
   "https://images.weserv.nl/?url=logo.clearbit.com/americord.com&h=120.webp",
   "https://images.weserv.nl/?url=logo.clearbit.com/softwarekeep.com&h=120.webp",
-  "https://images.weserv.nl/?url=logo.clearbit.com/smithsonianmag.com&h=120.webp",
+  "https://images.weserv.nl/?url=logo.clearbit.com/smithsonianmag.com&h=120.webp"
 ];
 
 const fullRow = [...logos, ...logos];

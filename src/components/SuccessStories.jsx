@@ -15,7 +15,7 @@ const Wrap = styled.section`
    TOP TITLE
 ------------------------------------------- */
 const Title = styled.h2`
-  font-size: 42px;
+  font-size: clamp(26px, 5vw, 42px);
   font-weight: 800;
   margin-bottom: 40px;
   color: #000;
@@ -36,44 +36,48 @@ const SliderBox = styled.div`
   margin: 0 auto;
   background: #eaf2ff;
   border-radius: 14px;
+
   display: flex;
-  padding: 50px 50px;
-  gap: 50px;
+  padding: clamp(20px, 4vw, 50px);
+  gap: 40px;
+
   box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
   position: relative;
 
-  @media (max-width: 950px) {
-    flex-direction: column;
+  /* Keep image on right even on small screens */
+  @media (max-width: 650px) {
+    gap: 20px;
+    padding: 18px;
   }
 `;
 
 /* -------------------------------------------
-   LEFT CONTENT (updated)
+   LEFT CONTENT
 ------------------------------------------- */
 const Left = styled.div`
-  flex: 1.1;
+  flex: 1.2;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;   /* 🔥 Button bottom पर fix */
+  justify-content: space-between;
 `;
 
+/* Titles & Content */
 const CaseTitle = styled.h3`
-  font-size: 26px;
+  font-size: clamp(20px, 3.5vw, 26px);
   font-weight: 800;
   margin-bottom: 15px;
   color: #000;
 `;
 
 const Desc = styled.p`
-  font-size: 17px;
+  font-size: clamp(14px, 2.2vw, 17px);
   line-height: 1.6;
   color: #333;
   margin-bottom: 25px;
-  max-width: 90%;
 `;
 
 const BulletTitle = styled.h4`
-  font-size: 18px;
+  font-size: clamp(17px, 2.5vw, 18px);
   font-weight: 800;
   margin-bottom: 10px;
   color: #000;
@@ -85,26 +89,26 @@ const BulletList = styled.ul`
 
   li {
     margin-bottom: 8px;
-    font-size: 16px;
+    font-size: clamp(14px, 2vw, 16px);
     color: #000;
   }
 `;
 
 /* -------------------------------------------
-   BUTTON UPDATED with ARROW
+   BUTTON
 ------------------------------------------- */
 const Button = styled.button`
-  padding: 14px 32px;
+  padding: 12px 28px;
   background: #facc15;
   color: #111;
-  font-size: 17px;
+  font-size: clamp(15px, 2.3vw, 17px);
   border-radius: 999px;
   border: none;
   cursor: pointer;
   font-weight: 700;
   transition: 0.2s ease;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   width: fit-content;
 
@@ -115,22 +119,13 @@ const Button = styled.button`
 `;
 
 const BtnArrow = () => (
-  <svg
-    width="20"
-    height="20"
-    stroke="#111"
-    fill="none"
-    strokeWidth="2.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    viewBox="0 0 24 24"
-  >
+  <svg width="20" height="20" stroke="#111" fill="none" strokeWidth="2.5" viewBox="0 0 24 24">
     <path d="M5 12h14M13 6l6 6-6 6" />
   </svg>
 );
 
 /* -------------------------------------------
-   RIGHT IMAGE AUTO SIZE
+   RIGHT IMAGE — Fully Responsive
 ------------------------------------------- */
 const Right = styled.div`
   flex: 1;
@@ -140,14 +135,13 @@ const Right = styled.div`
 
 const Image = styled.img`
   width: 100%;
-  height: auto;       /* 🔥 Slide के height के हिसाब से image resize */
-  max-height: 350px;  /* ✔ Control to match ebizon view */
+  height: clamp(180px, 40vw, 350px);
   border-radius: 12px;
   object-fit: cover;
 `;
 
 /* -------------------------------------------
-   TOP RIGHT ARROWS SAME
+   TOP RIGHT ARROWS
 ------------------------------------------- */
 const Arrows = styled.div`
   position: absolute;
@@ -182,6 +176,11 @@ const Arrows = styled.div`
       transform: translateY(-2px);
     }
   }
+
+  @media(max-width: 650px){
+    top: -45px;
+    right: 10px;
+  }
 `;
 
 /* -------------------------------------------
@@ -194,7 +193,7 @@ const BottomBar = styled.div`
   padding: 16px 28px;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 18px;
+  font-size: clamp(15px, 2.5vw, 18px);
   color: #111;
   display: flex;
   align-items: center;
@@ -214,37 +213,30 @@ const ArrowRight = () => (
 );
 
 /* -------------------------------------------
-   DATA
+   DATA – FAST UNSPLASH IMAGES
 ------------------------------------------- */
 const slides = [
   {
     title: "ADA Cosmetics",
-    desc:
-      "ADA Cosmetics, a global leader in hotel cosmetics, partnered with SoftMaxs to modernize its digital commerce by developing separate Shopify platforms for B2C and B2B customers.",
-    bullets: [
-      "Higher Engagement",
-      "Faster Navigation",
-      "Better Conversions",
-      "Performance Gains",
-      "Stronger Brand Perception"
-    ],
-    img: "https://images.pexels.com/photos/3182368/pexels-photo-3182368.jpeg"
+    desc: "Global leader in hotel cosmetics. We built B2C + B2B Shopify storefronts with modern CX.",
+    bullets: ["Higher Engagement", "Faster Navigation", "Better Conversions", "Performance Gains"],
+    img: "https://images.pexels.com/photos/3182368/pexels-photo-3182368.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1200"
   },
   {
     title: "Joy Viva Clinic",
-    desc:
-      "Helping JoyViva launch a modern wellness storefront & subscription-based customer system.",
+    desc: "Built a subscription-based storefront with a fully optimized checkout experience.",
     bullets: ["Boosted Retention", "Improved Checkout", "Better SEO Performance", "Modern UX Upgrade"],
-    img: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg"
+    img: "https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1200"
   },
   {
     title: "FedEx Automation",
-    desc:
-      "A complete digital transformation strategy to streamline order processing and logistics automation.",
+    desc: "Streamlined logistics automation and order processing for enterprise operations.",
     bullets: ["Faster Workflows", "Reduced Manual Errors", "Better User Experience"],
-    img: "https://images.pexels.com/photos/3182833/pexels-photo-3182833.jpeg"
+    img: "https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=1200"
   }
 ];
+
+
 
 /* -------------------------------------------
    MAIN COMPONENT
@@ -288,7 +280,6 @@ export default function SuccessStories() {
             </BulletList>
           </div>
 
-          {/* Button at BOTTOM with arrow */}
           <Button>
             View Case Study
             <BtnArrow />
