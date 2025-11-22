@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Logo from "../assets/Logo.png";   
+import Logo from "../assets/Logo.png";
+import { useNavigate } from "react-router-dom";
 
 /* ---------------- ICONS ---------------- */
-
 const IconMobile = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" strokeWidth="2">
     <rect x="7" y="2" width="10" height="20" rx="2"></rect>
@@ -89,7 +89,6 @@ const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 clamp(16px, 4vw, 30px);
-
   display: grid;
   gap: clamp(16px, 3vw, 22px);
   grid-template-columns: repeat(4, 1fr);
@@ -129,23 +128,18 @@ const CardDesc = styled.p`
   color: #475569;
 `;
 
-/* ---------------- CTA BAR ---------------- */
-
 const BottomBar = styled.div`
   background: #facc15;
   color: #111;
   margin: clamp(30px, 5vw, 50px) auto 0;
   max-width: 900px;
-
   padding: clamp(12px, 2.5vw, 18px);
   border-radius: 12px;
   font-weight: 600;
-
   display: flex;
   align-items: center;
   justify-content: center;
   gap: clamp(8px, 2vw, 14px);
-
   cursor: pointer;
   transition: .25s;
 
@@ -159,20 +153,12 @@ const BottomBar = styled.div`
   }
 `;
 
-const ArrowRight = () => (
-  <svg width="20" height="20" fill="none" stroke="#111" strokeWidth="2"
-       strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-    <path d="M5 12h14M13 18l6-6-6-6"/>
-  </svg>
-);
-
-/* ---------------- MAIN COMPONENT ---------------- */
-
 export default function OurServices() {
+  const navigate = useNavigate();
 
   const data = [
     { icon: <IconMobile />, title: "Mobile Application", desc: "Captivate users with feature-rich native iOS/Android apps." },
-    { icon: <IconEcommerce />, title: "E-Commerce", desc: "Scalable platforms and outstanding commerce experience." },
+    { icon: <IconEcommerce />, title: "E-Commerce", desc: "Scalable platforms and outstanding commerce experience.", link: "/ecommerce" },
     { icon: <IconBlockchain />, title: "Blockchain", desc: "Secure blockchain apps with transparency." },
     { icon: <IconCloud />, title: "Cloud Services", desc: "Cloud migration, setup & support." },
     { icon: <IconSEO />, title: "SEO & Link Building", desc: "Boost visibility & ranking with authority." },
@@ -181,6 +167,16 @@ export default function OurServices() {
     { icon: <IconAI />, title: "AI Solutions", desc: "AI automation, predictions & integrations." },
   ];
 
+  const goToPage = (link) => {
+    if (!link) return;
+
+    navigate(link);
+
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 50);
+  };
+
   return (
     <Wrap>
       <Title>Our Services</Title>
@@ -188,7 +184,7 @@ export default function OurServices() {
 
       <Container>
         {data.map((s, i) => (
-          <Card key={i}>
+          <Card key={i} onClick={() => goToPage(s.link)}>
             {s.icon}
             <CardTitle>{s.title}</CardTitle>
             <CardDesc>{s.desc}</CardDesc>
@@ -199,7 +195,6 @@ export default function OurServices() {
       <BottomBar>
         <img src={Logo} alt="softmaxs-logo" />
         Avail our services and start driving more growth for your business. Contact us today!
-        <ArrowRight />
       </BottomBar>
     </Wrap>
   );

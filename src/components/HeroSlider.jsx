@@ -13,15 +13,13 @@ const NAV_HEIGHT = "82px";
 const SliderWrap = styled.section`
   width: 100%;
   height: calc(100vh - ${NAV_HEIGHT});
-  min-height: 480px; /* Safe minimum for mobile */
+  min-height: 480px;
   position: relative;
   overflow: hidden;
   background: #000;
-  margin-top: ${NAV_HEIGHT};
+  margin-top: 0;   /* ✅ remove gap under navbar */
+  padding-top: ${NAV_HEIGHT}; /* ✅ makes content visible below sticky navbar */
 
-  @media (max-width: 768px) {
-    height: calc(85vh - ${NAV_HEIGHT});
-  }
 
   @media (max-width: 480px) {
     height: calc(75vh - ${NAV_HEIGHT});

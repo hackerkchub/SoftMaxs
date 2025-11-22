@@ -23,7 +23,6 @@ export default function Home() {
     <>
       <GlobalStyles />
       <Navbar />
-
       <HeroSlider />
       <PartnerStrip />
       <TechnologyStats />
