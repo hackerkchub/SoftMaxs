@@ -137,11 +137,12 @@ const Bottom = styled.div`
 /* --------------------------------------------- */
 
 export default function Footer() {
+
   const navigate = useNavigate();
 
-  // Only CONTACT US redirects
-  const handleContactClick = () => {
-    window.location.href = "/contact"; // Full reload + scroll to top
+  const goTo = (path) => {
+    navigate(path);
+    window.scrollTo(0, 0);
   };
 
   return (
@@ -172,34 +173,28 @@ export default function Footer() {
         {/* COMPANY */}
         <Column>
           <Title>Company</Title>
-          <LinkItem>About SoftMaxs</LinkItem>
-          <LinkItem>Careers</LinkItem>
-          <LinkItem>Why SoftMaxs</LinkItem>
-          <LinkItem>Leadership</LinkItem>
+          <LinkItem onClick={() => goTo("/about")}>About SoftMaxs</LinkItem>
+          <LinkItem onClick={() => goTo("/careers")}>Careers</LinkItem>
+          <LinkItem onClick={() => goTo("/why-softmaxs")}>Why SoftMaxs</LinkItem>
+          <LinkItem onClick={() => goTo("/leadership")}>Leadership</LinkItem>
         </Column>
 
         {/* SERVICES */}
         <Column>
           <Title>Services</Title>
-          <LinkItem>AI & Automation</LinkItem>
-          <LinkItem>Cloud & DevOps</LinkItem>
-          <LinkItem>UI/UX Engineering</LinkItem>
-          <LinkItem>Digital Marketing</LinkItem>
+          <LinkItem onClick={() => goTo("/ai-automation")}>AI & Automation</LinkItem>
+          <LinkItem onClick={() => goTo("/cloud-devops")}>Cloud & DevOps</LinkItem>
+          <LinkItem onClick={() => goTo("/ui-ux")}>UI/UX Engineering</LinkItem>
+          <LinkItem onClick={() => goTo("/digital-marketing")}>Digital Marketing</LinkItem>
         </Column>
 
         {/* SUPPORT */}
         <Column>
           <Title>Support</Title>
-
-          {/* ONLY THIS WORKS */}
-          <LinkItem onClick={handleContactClick}>
-            Contact Us
-          </LinkItem>
-
-          {/* NO redirect on these now */}
-          <LinkItem>Office Locations</LinkItem>
-          <LinkItem>FAQs</LinkItem>
-          <LinkItem>Privacy Policy</LinkItem>
+          <LinkItem onClick={() => goTo("/contact")}>Contact Us</LinkItem>
+          <LinkItem onClick={() => goTo("/locations")}>Office Locations</LinkItem>
+          <LinkItem onClick={() => goTo("/faq")}>FAQs</LinkItem>
+          <LinkItem onClick={() => goTo("/privacy-policy")}>Privacy Policy</LinkItem>
         </Column>
 
       </Grid>
@@ -209,4 +204,4 @@ export default function Footer() {
       </Bottom>
     </FooterWrap>
   );
-}
+};

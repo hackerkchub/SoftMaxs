@@ -6,6 +6,8 @@ import Contact from "../pages/Contact";
 import OfferingPage from "../pages/OfferingPage";
 import IndustriesPage from "../pages/IndustriesPage";
 import Ecommerce from "../pages/Ecommerce";
+import Careers from "../pages/Careers";
+import Pricing from "../pages/Pricing";
 // future pages
 // import About from "../pages/About";
 // import Services from "../pages/Services";
@@ -18,6 +20,8 @@ export default function AppRouter() {
       <Route path="/offerings" element={<OfferingPage />} />
       <Route path="/industries" element={<IndustriesPage />} />
       <Route path="/ecommerce" element={<Ecommerce />} />
+      <Route path="/careers" element={<Careers />} />
+      <Route path="/pricing" element={<Pricing />} />
     </Routes>
   );
 }
