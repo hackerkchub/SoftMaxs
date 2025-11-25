@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import OfficeLocation from "../components/OfficeLocations";
 import HelpOperator from "../components/HelpOperator";
 import Swal from "sweetalert2";
+
+/* NOTE: OfficeLocation removed as requested */
 
 const Wrapper = styled.div`
   background: #050816;
@@ -36,6 +37,12 @@ const Banner = styled.section`
   > * {
     position: relative;
     z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    padding: 28px 20px;
+    align-items: flex-start;
   }
 `;
 
@@ -70,6 +77,16 @@ const BannerText = styled.div`
     font-size: 11px;
     opacity: 0.75;
   }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 26px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
 `;
 
 /* ========== SECTION 2 – SERVICES MENU + PLANS ========== */
@@ -78,6 +95,15 @@ const ServicesSection = styled.section`
   display: flex;
   gap: 40px;
   padding: 60px 60px 40px;
+
+  @media (max-width: 992px) {
+    padding: 28px 20px 18px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    gap: 18px;
+  }
 `;
 
 const PlansArea = styled.div`
@@ -105,6 +131,23 @@ const HighlightTag = styled.span`
   margin-bottom: 10px;
 `;
 
+const BillingSwitch = styled.div`
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 18px;
+  flex-wrap: wrap;
+`;
+
+const BillingButton = styled.button`
+  background: ${({ active }) => (active ? "#22d3ee" : "transparent")};
+  color: ${({ active }) => (active ? "#020617" : "#e5e7ff")};
+  border: 1px solid rgba(148, 163, 253, 0.35);
+  padding: 8px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 13px;
+`;
+
 const PlanCard = styled.div`
   background: radial-gradient(circle at top left, #1f2a68, #0b1023);
   border-radius: 16px;
@@ -112,6 +155,11 @@ const PlanCard = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
   max-width: 520px;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    padding: 18px;
+  }
 `;
 
 const PlanName = styled.h3`
@@ -186,6 +234,12 @@ const SidebarWrapper = styled.aside`
   position: sticky;
   top: 110px;
   align-self: flex-start;
+
+  @media (max-width: 992px) {
+    position: relative;
+    width: 100%;
+    top: 0;
+  }
 `;
 
 const CategoryBlock = styled.div`
@@ -267,6 +321,10 @@ const ModalBox = styled.div`
   padding: 24px 22px 26px;
   border: 1px solid rgba(148, 163, 253, 0.6);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
 `;
 
 const ModalHeader = styled.div`
@@ -328,11 +386,74 @@ const NavButton = styled.button`
   cursor: pointer;
 `;
 
-/* ========== SECTION 3 – FAQ ACCORDION ========== */
+/* ========== SECTION 3 – YEARLY / QUARTERLY / HALF-YEAR PROMO ========== */
+
+const PromoSection = styled.section`
+  padding: 28px 60px;
+  background: linear-gradient(180deg, rgba(2,6,23,1) 0%, rgba(3,7,27,1) 100%);
+
+  @media (max-width: 768px) {
+    padding: 18px 20px;
+  }
+`;
+
+const PromoGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const PromoCard = styled.div`
+  background: radial-gradient(circle at top left, #0b1023, #07132a);
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid rgba(148, 163, 253, 0.25);
+  cursor: pointer;
+`;
+
+const PromoTag = styled.span`
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(99,102,241,0.12);
+  color: #6366f1;
+  font-size: 12px;
+  margin-bottom: 8px;
+`;
+
+const PromoTitle = styled.h4`
+  font-size: 18px;
+  margin: 6px 0 8px;
+`;
+
+const PromoText = styled.p`
+  font-size: 13px;
+  color: #cbd5f5;
+  margin-bottom: 12px;
+`;
+
+const PromoList = styled.ul`
+  font-size: 13px;
+  margin-left: 16px;
+`;
+
+/* ========== SECTION 4 – FAQ ACCORDION ========== */
 
 const FAQSection = styled.section`
   padding: 40px 60px 30px;
   background: #020617;
+
+  @media (max-width: 768px) {
+    padding: 28px 20px 18px;
+  }
 `;
 
 const FAQHeader = styled.h2`
@@ -366,7 +487,7 @@ const FAQAnswer = styled.div`
   padding-top: ${({ open }) => (open ? "6px" : "0")};
 `;
 
-/* ========== SECTION 4 – FORM + DISCOUNT SLIDER ========== */
+/* ========== SECTION 5 – FORM + DISCOUNT SLIDER (same as before) ========== */
 
 const FormSection = styled.section`
   display: flex;
@@ -374,6 +495,12 @@ const FormSection = styled.section`
   padding: 50px 60px;
   background: #020617;
   border-top: 1px solid rgba(30, 64, 175, 0.8);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 28px 20px;
+    gap: 20px;
+  }
 `;
 
 const DiscountArea = styled.div`
@@ -559,9 +686,11 @@ const serviceMenu = [
   },
 ];
 
+/* Plans now include a numeric monthlyAmount for discount calculations */
 const defaultPlans = [
   {
     name: "Basic / Starter",
+    monthlyAmount: 399,
     price: "$399 / month",
     idealFor: "Early-stage businesses validating their product or idea.",
     features: [
@@ -573,6 +702,7 @@ const defaultPlans = [
   },
   {
     name: "Pro / Growth",
+    monthlyAmount: 899,
     price: "$899 / month",
     idealFor: "Growing teams needing a predictable engineering partner.",
     features: [
@@ -584,7 +714,8 @@ const defaultPlans = [
   },
   {
     name: "UltraPro / Scale",
-    price: "Custom Quote",
+    monthlyAmount: 1299,
+    price: "$1299 / month",
     idealFor: "Scale-ups & enterprises with complex requirements.",
     features: [
       "Everything in Growth",
@@ -598,6 +729,7 @@ const defaultPlans = [
 const marketingPlans = [
   {
     name: "Basic / Starter",
+    monthlyAmount: 399,
     price: "$399 / month",
     idealFor: "Startups & small businesses beginning their digital marketing.",
     features: [
@@ -610,6 +742,7 @@ const marketingPlans = [
   },
   {
     name: "Pro / Professional",
+    monthlyAmount: 899,
     price: "$899 / month",
     idealFor: "Growing brands focused on lead generation & conversions.",
     features: [
@@ -622,7 +755,8 @@ const marketingPlans = [
   },
   {
     name: "UltraPro / Enterprise",
-    price: "Custom Quote",
+    monthlyAmount: 1299,
+    price: "$1299 / month",
     idealFor: "Enterprises seeking aggressive market leadership.",
     features: [
       "Everything in Professional",
@@ -671,13 +805,57 @@ const discountSlides = [
   },
 ];
 
+/* helpful util to format currency */
+const money = (num) => {
+  if (num == null) return "Custom Quote";
+  return `$${Number(Math.round(num)).toLocaleString()}`;
+};
+
+/* discount calculation: returns formatted string for given cycle */
+const calcCyclePrice = (monthlyAmount, cycle) => {
+  if (monthlyAmount == null) return "Custom Quote";
+
+  const base = monthlyAmount;
+
+  if (cycle === "monthly") {
+    // 20% off on monthly as requested
+    const discounted = base * (1 - 0.2);
+    const saved = base - discounted;
+    return `${money(discounted)} / month • Save ${money(saved)}`;
+  }
+
+  if (cycle === "quarterly") {
+    // 25% off
+    const discounted = base * (1 - 0.25);
+    const total = discounted * 3;
+    const saved = (base - discounted) * 3;
+    return `${money(total)} billed quarterly • Save ${money(saved)}`;
+  }
+
+  if (cycle === "halfyear") {
+    // 30% off
+    const discounted = base * (1 - 0.3);
+    const total = discounted * 6;
+    const saved = (base - discounted) * 6;
+    return `${money(total)} billed half-yearly • Save ${money(saved)}`;
+  }
+
+  if (cycle === "yearly") {
+    // 40% off + 1 month free
+    const discounted = base * (1 - 0.4);
+    const total = discounted * 12;
+    const saved = (base - discounted) * 12;
+    return `${money(total)} billed yearly • Save ${money(saved)} + 1 month free`;
+  }
+
+  return money(base);
+};
+
 /* ========== COMPONENT ========== */
 
 const Pricing = () => {
   const [openCategoryKey, setOpenCategoryKey] = useState(serviceMenu[0].key);
-  const [selectedService, setSelectedService] = useState(
-    serviceMenu[0].items[0]
-  );
+  const [selectedService, setSelectedService] = useState(serviceMenu[0].items[0]);
 
   const [showModal, setShowModal] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -695,10 +873,15 @@ const Pricing = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const plansForSelected =
-    selectedService === "Digital Marketing Development"
+  /* billing cycle state: monthly / quarterly / halfyear / yearly */
+  const [billingCycle, setBillingCycle] = useState("monthly");
+
+  /* select plans set based on service */
+  const plansForSelected = useMemo(() => {
+    return selectedService === "Digital Marketing Development"
       ? marketingPlans
       : defaultPlans;
+  }, [selectedService]);
 
   const mainPlan = plansForSelected[0];
 
@@ -761,6 +944,7 @@ const Pricing = () => {
           monthly_budget: formData.budget,
           project_brief: formData.brief,
           selected_service: selectedService,
+          billing_cycle: billingCycle,
         }),
       });
 
@@ -798,6 +982,12 @@ const Pricing = () => {
     }
   };
 
+  /* scroll helper to plans section */
+  const scrollToPlans = () => {
+    const el = document.getElementById("plans-area");
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <Wrapper>
       <Navbar />
@@ -805,32 +995,60 @@ const Pricing = () => {
       {/* SECTION 1: Banner */}
       <Banner>
         <BannerText>
-          <span className="logo">
-            🚀 SoftMax · Unlimited Growth
-          </span>
+          <span className="logo">🚀 SoftMax · Unlimited Growth</span>
           <h1>Limited Time Offer! Accelerate Your Growth with SoftMax!</h1>
-          <p>
-            Get 20% OFF all new projects & digital marketing plans this month!
-          </p>
-          <small>
-            *Terms and conditions apply. Offer valid for new customers only.
-          </small>
+          <p>Get 20% OFF all new projects & digital marketing plans this month!</p>
+          <small>*Terms and conditions apply. Offer valid for new customers only.</small>
         </BannerText>
       </Banner>
 
       {/* SECTION 2: Services Menu + Plans */}
-      <ServicesSection>
+      <ServicesSection id="plans-area">
         <PlansArea>
           <HighlightTag>{selectedService}</HighlightTag>
-          <PlansHeading>Monthly Unlimited Plans for {selectedService}</PlansHeading>
+          <PlansHeading>Plans for {selectedService}</PlansHeading>
           <PlansSubText>
-            Select a service from the menu to explore curated plans. Upgrade or
-            downgrade anytime as your needs evolve.
+            Select a service from the menu to explore curated plans. Choose billing
+            frequency to see discounted ranges for quarterly, half-yearly and yearly billing.
           </PlansSubText>
+
+          <BillingSwitch>
+            <BillingButton
+              type="button"
+              active={billingCycle === "monthly"}
+              onClick={() => setBillingCycle("monthly")}
+            >
+              Monthly (20% off)
+            </BillingButton>
+
+            <BillingButton
+              type="button"
+              active={billingCycle === "quarterly"}
+              onClick={() => setBillingCycle("quarterly")}
+            >
+              Quarterly (25% off)
+            </BillingButton>
+
+            <BillingButton
+              type="button"
+              active={billingCycle === "halfyear"}
+              onClick={() => setBillingCycle("halfyear")}
+            >
+              Half-year (30% off)
+            </BillingButton>
+
+            <BillingButton
+              type="button"
+              active={billingCycle === "yearly"}
+              onClick={() => setBillingCycle("yearly")}
+            >
+              Yearly (40% off + 1 month free)
+            </BillingButton>
+          </BillingSwitch>
 
           <PlanCard>
             <PlanName>{mainPlan.name}</PlanName>
-            <PlanPrice>{mainPlan.price}</PlanPrice>
+            <PlanPrice>{calcCyclePrice(mainPlan.monthlyAmount, billingCycle)}</PlanPrice>
             <PlanIdeal>{mainPlan.idealFor}</PlanIdeal>
             <PlanFeatureList>
               {mainPlan.features.slice(0, 4).map((f, idx) => (
@@ -839,11 +1057,26 @@ const Pricing = () => {
             </PlanFeatureList>
             <ButtonsRow>
               <PrimaryButton>Purchase Plan</PrimaryButton>
-              <GhostButton onClick={() => { setShowModal(true); setActiveSlide(0);}}>
+              <GhostButton onClick={() => { setShowModal(true); setActiveSlide(0); }}>
                 View all plans & details
               </GhostButton>
             </ButtonsRow>
           </PlanCard>
+
+          {/* small list for other tiers kept as-is (no new boxes) */}
+          {/* <div style={{ marginTop: 16 }}>
+            {plansForSelected.slice(1).map((p, i) => (
+              <div key={i} style={{ marginTop: 12 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <div style={{ fontWeight: 700 }}>{p.name}</div>
+                    <div style={{ fontSize: 13, color: '#c6d1ff' }}>{p.idealFor}</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>{calcCyclePrice(p.monthlyAmount, billingCycle)}</div>
+                </div>
+              </div>
+            ))}
+          </div> */}
         </PlansArea>
 
         <SidebarWrapper>
@@ -852,9 +1085,7 @@ const Pricing = () => {
               <CategoryHeader
                 type="button"
                 onClick={() =>
-                  setOpenCategoryKey((prev) =>
-                    prev === cat.key ? "" : cat.key
-                  )
+                  setOpenCategoryKey((prev) => (prev === cat.key ? "" : cat.key))
                 }
               >
                 <span>{cat.category}</span>
@@ -868,6 +1099,7 @@ const Pricing = () => {
                     active={selectedService === item}
                     onClick={() => {
                       setSelectedService(item);
+                      setBillingCycle('monthly');
                     }}
                   >
                     {item}
@@ -884,16 +1116,14 @@ const Pricing = () => {
         <ModalOverlay>
           <ModalBox>
             <ModalHeader>
-              <ModalTitle>
-                Plans for {selectedService}
-              </ModalTitle>
+              <ModalTitle>Plans for {selectedService}</ModalTitle>
               <CloseButton onClick={() => setShowModal(false)}>×</CloseButton>
             </ModalHeader>
 
             <SliderWrapper>
               <Slide>
                 <PlanName>{plansForSelected[activeSlide].name}</PlanName>
-                <PlanPrice>{plansForSelected[activeSlide].price}</PlanPrice>
+                <PlanPrice>{calcCyclePrice(plansForSelected[activeSlide].monthlyAmount, billingCycle)}</PlanPrice>
                 <PlanIdeal>{plansForSelected[activeSlide].idealFor}</PlanIdeal>
                 <PlanFeatureList>
                   {plansForSelected[activeSlide].features.map((f, idx) => (
@@ -907,9 +1137,7 @@ const Pricing = () => {
                 <NavButton
                   type="button"
                   onClick={() =>
-                    setActiveSlide((s) =>
-                      s === 0 ? plansForSelected.length - 1 : s - 1
-                    )
+                    setActiveSlide((s) => (s === 0 ? plansForSelected.length - 1 : s - 1))
                   }
                 >
                   ⟵ Previous
@@ -922,9 +1150,7 @@ const Pricing = () => {
                 <NavButton
                   type="button"
                   onClick={() =>
-                    setActiveSlide((s) =>
-                      s === plansForSelected.length - 1 ? 0 : s + 1
-                    )
+                    setActiveSlide((s) => (s === plansForSelected.length - 1 ? 0 : s + 1))
                   }
                 >
                   Next ⟶
@@ -935,6 +1161,62 @@ const Pricing = () => {
         </ModalOverlay>
       )}
 
+      {/* NEW: Promo Section (Yearly / Quarterly / Half-year cards) */}
+     <PromoSection>
+  <PlansHeading>Save More with Longer Billing Cycles</PlansHeading>
+  <PlansSubText>
+    Unlock smarter pricing with long-term billing cycles. Commit more, save more —
+    and get predictable growth support throughout the year.
+  </PlansSubText>
+
+  <PromoGrid>
+    {/* YEARLY */}
+    <PromoCard onClick={() => { setBillingCycle("yearly"); scrollToPlans(); }}>
+      <PromoTag>Yearly</PromoTag>
+      <PromoTitle>Save 40% • Best value + 1 month free</PromoTitle>
+      <PromoText>
+        Perfect for brands scaling steadily and needing consistent engineering & marketing support.
+        Pay annually and unlock our biggest discount with complimentary extra validity.
+      </PromoText>
+      <PromoList>
+        <li>Flat 40% savings compared to monthly billing</li>
+        <li>12 months billed upfront with transparent cost clarity</li>
+        <li>Extra 1 month service added at no additional cost</li>
+      </PromoList>
+    </PromoCard>
+
+    {/* HALF YEAR */}
+    <PromoCard onClick={() => { setBillingCycle("halfyear"); scrollToPlans(); }}>
+      <PromoTag>Half-year</PromoTag>
+      <PromoTitle>Save 30% • Most balanced choice</PromoTitle>
+      <PromoText>
+        A great mid-term option for growing businesses seeking strong savings without a long commitment.
+        Ideal for evolving product cycles and seasonal brands.
+      </PromoText>
+      <PromoList>
+        <li>Save 30% compared to monthly billing</li>
+        <li>6-month predictable budgeting with reduced overhead</li>
+        <li>Best for semi-annual campaigns or product growth phases</li>
+      </PromoList>
+    </PromoCard>
+
+    {/* QUARTERLY */}
+    <PromoCard onClick={() => { setBillingCycle("quarterly"); scrollToPlans(); }}>
+      <PromoTag>Quarterly</PromoTag>
+      <PromoTitle>Save 25% • Fast growth booster</PromoTitle>
+      <PromoText>
+        Tailored for startups, campaigns, and brands testing new initiatives.
+        Quarterly billing gives flexibility while still offering sizable discounts.
+      </PromoText>
+      <PromoList>
+        <li>25% savings vs monthly billing</li>
+        <li>3-month commitment keeps cash flow agile</li>
+        <li>Perfect for pilots, launches, and performance pushes</li>
+      </PromoList>
+    </PromoCard>
+  </PromoGrid>
+</PromoSection>
+
       {/* SECTION 3: FAQ */}
       <FAQSection>
         <FAQHeader>Common Questions About Our Plans</FAQHeader>
@@ -942,12 +1224,7 @@ const Pricing = () => {
           const open = activeFAQIndex === idx;
           return (
             <FAQItem key={idx}>
-              <FAQQuestion
-                type="button"
-                onClick={() =>
-                  setActiveFAQIndex(open ? null : idx)
-                }
-              >
+              <FAQQuestion type="button" onClick={() => setActiveFAQIndex(open ? null : idx)}>
                 <span>{item.q}</span>
                 <span>{open ? "−" : "+"}</span>
               </FAQQuestion>
@@ -968,10 +1245,7 @@ const Pricing = () => {
             <DiscountText>{discountSlides[discountIndex].text}</DiscountText>
             <SliderDots>
               {discountSlides.map((_, idx) => (
-                <SliderDot
-                  key={idx}
-                  active={idx === discountIndex}
-                />
+                <SliderDot key={idx} active={idx === discountIndex} />
               ))}
             </SliderDots>
           </DiscountCard>
@@ -980,9 +1254,7 @@ const Pricing = () => {
         <FormArea>
           <FormCard onSubmit={handleSubmit}>
             <FormTitle>Please share details so we can discuss your project.</FormTitle>
-            <FormSub>
-              Fill the form and our consultant will get back within 24 hours.
-            </FormSub>
+            <FormSub>Fill the form and our consultant will get back within 24 hours.</FormSub>
 
             <Field>
               <Label htmlFor="name">Full Name *</Label>
@@ -1040,6 +1312,11 @@ const Pricing = () => {
               />
             </Field>
 
+            <Field>
+              <Label>Selected Service</Label>
+              <div style={{ marginBottom: 8 }}>{selectedService} • Billing: {billingCycle}</div>
+            </Field>
+
             <SubmitButton type="submit" disabled={isSubmitting}>
               {isSubmitting ? "Submitting..." : "Request Free Quote →"}
             </SubmitButton>
@@ -1047,8 +1324,7 @@ const Pricing = () => {
         </FormArea>
       </FormSection>
 
-      {/* SECTION 5 & 6: Office Locations + Footer */}
-      <OfficeLocation />
+      {/* Footer */}
       <Footer />
 
       {/* Help Operator – always bottom right */}

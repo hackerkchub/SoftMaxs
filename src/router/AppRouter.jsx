@@ -8,6 +8,9 @@ import IndustriesPage from "../pages/IndustriesPage";
 import Ecommerce from "../pages/Ecommerce";
 import Careers from "../pages/Careers";
 import Pricing from "../pages/Pricing";
+import WebDevelopmentPage from "../pages/WebDevelopmentPage";
+import AIAutomationPage from "../pages/AIAutomationPage";
+import DigitalMarketingPage from "../pages/DigitalMarketingPage";
 // future pages
 // import About from "../pages/About";
 // import Services from "../pages/Services";
@@ -22,6 +25,9 @@ export default function AppRouter() {
       <Route path="/ecommerce" element={<Ecommerce />} />
       <Route path="/careers" element={<Careers />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/web-development" element={<WebDevelopmentPage />} />
+      <Route path="/ai-automation" element={<AIAutomationPage />} />
+      <Route path="/digital-marketing" element={<DigitalMarketingPage />} />
     </Routes>
   );
 }
