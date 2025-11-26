@@ -15,7 +15,7 @@ import CloudDevOpsPage from "../pages/CloudDevOpsPage";
 import BlockchainSolutionsPage from "../pages/BlockchainPage";
 import DatabaseSolutionsPage from "../pages/DatabaseSolutionsPage";
 import UiUxPage from "../pages/UiUxPage";
-import IotPage from "../pages/IoTpage";
+import IotPage from "../pages/IotPage";
 import CxConsultingPage from "../pages/CxConsultingPage";
 import FAQ from "../pages/FAQ";
 import BookCall from "../pages/BookCall";
