@@ -2,8 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "../assets/Logo.png";
 import { useNavigate } from "react-router-dom";
+import { FiPhoneCall } from "react-icons/fi";  // ⭐ Added Icon
 
-/* ---------------- ICONS ---------------- */
+/* ---------------------------------------------------
+   ICON COMPONENTS (must be ABOVE the main component)
+--------------------------------------------------- */
 const IconMobile = () => (
   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#1e3a8a" strokeWidth="2">
     <rect x="7" y="2" width="10" height="20" rx="2"></rect>
@@ -63,8 +66,9 @@ const IconAI = () => (
   </svg>
 );
 
-/* ---------------- STYLES ---------------- */
-
+/* ---------------------------------------------------
+   STYLES
+--------------------------------------------------- */
 const Wrap = styled.section`
   padding: clamp(40px, 7vw, 60px) 0;
   width: 100%;
@@ -139,9 +143,9 @@ const BottomBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(8px, 2vw, 14px);
+  gap: clamp(10px, 2.5vw, 18px);
   cursor: pointer;
-  transition: .25s;
+  transition: 0.25s;
 
   &:hover {
     background: #ffdd3d;
@@ -153,23 +157,26 @@ const BottomBar = styled.div`
   }
 `;
 
+/* ---------------------------------------------------
+   MAIN COMPONENT
+--------------------------------------------------- */
 export default function OurServices() {
   const navigate = useNavigate();
 
+  /* ⭐ each service now links properly */
   const data = [
-    { icon: <IconMobile />, title: "Mobile Application", desc: "Captivate users with feature-rich native iOS/Android apps." },
+    { icon: <IconMobile />, title: "Mobile Application", desc: "Captivate users with feature-rich native iOS/Android apps.", link: "/offerings" },
     { icon: <IconEcommerce />, title: "E-Commerce", desc: "Scalable platforms and outstanding commerce experience.", link: "/ecommerce" },
-    { icon: <IconBlockchain />, title: "Blockchain", desc: "Secure blockchain apps with transparency." },
-    { icon: <IconCloud />, title: "Cloud Services", desc: "Cloud migration, setup & support." },
-    { icon: <IconSEO />, title: "SEO & Link Building", desc: "Boost visibility & ranking with authority." },
-    { icon: <IconAds />, title: "Paid Ads", desc: "High-converting ad campaigns & landing pages." },
-    { icon: <IconEngineering />, title: "Engineering Services", desc: "CAD design, prototyping & automation." },
-    { icon: <IconAI />, title: "AI Solutions", desc: "AI automation, predictions & integrations." },
+    { icon: <IconBlockchain />, title: "Blockchain", desc: "Secure blockchain apps with transparency.", link: "/blockchain-solutions" },
+    { icon: <IconCloud />, title: "Cloud Services", desc: "Cloud migration, setup & support.", link: "/cloud-devops" },
+    { icon: <IconSEO />, title: "SEO & Link Building", desc: "Boost visibility & ranking with authority.", link: "/seo-services" },
+    { icon: <IconAds />, title: "Paid Ads", desc: "High-converting ad campaigns & landing pages.", link: "/paid-ads" },
+    { icon: <IconEngineering />, title: "Engineering Services", desc: "CAD design, prototyping & automation.", link: "/web-development" },
+    { icon: <IconAI />, title: "AI Solutions", desc: "AI automation, predictions & integrations.", link: "/ai-automation" },
   ];
 
   const goToPage = (link) => {
     if (!link) return;
-
     navigate(link);
 
     setTimeout(() => {
@@ -192,7 +199,9 @@ export default function OurServices() {
         ))}
       </Container>
 
-      <BottomBar>
+      {/* ⭐ CONTACT BUTTON FIXED + ICON */}
+      <BottomBar onClick={() => navigate("/contact")}>
+        <FiPhoneCall size={22} color="#111" />
         <img src={Logo} alt="softmaxs-logo" />
         Avail our services and start driving more growth for your business. Contact us today!
       </BottomBar>

@@ -17,10 +17,16 @@ import DatabaseSolutionsPage from "../pages/DatabaseSolutionsPage";
 import UiUxPage from "../pages/UiUxPage";
 import IotPage from "../pages/IotPage";
 import CxConsultingPage from "../pages/CxConsultingPage";
+import ShopifyPage from "../pages/ShopifyPage";
+import MagentoPage from "../pages/MagentoPage";
+import WordpressPage from "../pages/WordpressPage";
 import FAQ from "../pages/FAQ";
+import Leadership from "../pages/leadership";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
+import WhySoftmaxs from "../pages/whySoftmaxs";
 import BookCall from "../pages/BookCall";
-// future pages
-// import About from "../pages/About";
+import About from "../pages/About";
+import OfficeLocations from "../pages/OfficeLocations";
 // import Services from "../pages/Services";
 
 export default function AppRouter() {
@@ -44,6 +50,14 @@ export default function AppRouter() {
       <Route path="/database-solutions" element={<DatabaseSolutionsPage />} />
       <Route path="/iot-solutions" element={<IotPage />} />
       <Route path="/cx-consulting" element={<CxConsultingPage />} />
+      <Route path="/leadership" element={<Leadership />} />
+      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="/why-softmaxs" element={<WhySoftmaxs />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/locations" element={<OfficeLocations />} />
+      <Route path="/shopify-development" element={<ShopifyPage />} />
+      <Route path="/magento-development" element={<MagentoPage />} />
+      <Route path="/wordpress-development" element={<WordpressPage />} />
     </Routes>
   );
 }

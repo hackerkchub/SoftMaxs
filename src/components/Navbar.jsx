@@ -1,63 +1,73 @@
-// src/components/Navbar.jsx
-import React, { useState, useEffect, useRef } from "react";
+// =============================================
+// NAVBAR — SoftMaxs (FINAL UPDATED)
+// =============================================
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import Logo from "../assets/Logo.png";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const HIGHLIGHT = "#0077ff";
+const BRAND_GRADIENT = "linear-gradient(90deg,#0077ff,#00c8ff)";
 
-/* ================================
-   STYLES
-================================ */
+/* ----------------------------------------------------
+   NAVBAR BASE
+---------------------------------------------------- */
 const Nav = styled.header`
   width: 100%;
   position: sticky;
   top: 0;
-  z-index: 2000;
-  background: ${({ $scrolled }) =>
-    $scrolled ? "rgba(255, 255, 255, 0.96)" : "rgba(255, 255, 255, 0.9)"};
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: ${({ $scrolled }) =>
-    $scrolled ? "0 2px 12px rgba(15, 23, 42, 0.12)" : "0 1px 6px rgba(15, 23, 42, 0.06)"};
-  transition: background 0.25s ease, box-shadow 0.25s ease, padding 0.25s ease;
+  z-index: 3000;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 2px 14px rgba(15, 23, 42, 0.12);
+  color: #0f172a;
 `;
 
 const Inner = styled.div`
   max-width: 1300px;
-  margin: 0 auto;
-  padding: ${({ $scrolled }) => ($scrolled ? "10px 18px" : "14px 18px")};
+  margin: auto;
+  padding: 14px 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
 
+/* BRANDING */
 const LogoWrap = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+
+  &:hover img {
+    transform: rotate(5deg);
+  }
 `;
 
 const LogoImg = styled.img`
-  height: clamp(32px, 6vw, 42px);
-  width: clamp(32px, 6vw, 42px);
+  height: 42px;
+  width: 42px;
   border-radius: 50%;
+  border: 2px solid #5dc9ff;
+  transition: 0.3s ease;
   object-fit: cover;
-  border: 2px solid #4db6ff;
 `;
 
 const Brand = styled.div`
-  font-weight: 800;
-  color: ${HIGHLIGHT};
-  font-size: clamp(18px, 3vw, 22px);
+  font-weight: 900;
+  font-size: 24px;
+  background: ${BRAND_GRADIENT};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 `;
 
-/* desktop menu */
+/* ----------------------------------------------------
+   DESKTOP MENU
+---------------------------------------------------- */
 const Menu = styled.ul`
-  list-style: none;
   display: flex;
-  gap: 26px;
+  gap: 28px;
+  list-style: none;
   font-weight: 600;
   position: relative;
 
@@ -66,45 +76,39 @@ const Menu = styled.ul`
   }
 `;
 
-/* underline element */
+const MenuItem = styled.li`
+  cursor: pointer;
+  padding: 6px 2px;
+  font-size: 15px;
+  position: relative;
+  color: #0f172a;
+
+  &:hover {
+    color: ${HIGHLIGHT};
+  }
+`;
+
 const Underline = styled.div`
   position: absolute;
   bottom: -6px;
   height: 3px;
+  width: 0;
   background: ${HIGHLIGHT};
   border-radius: 999px;
   transition: transform 0.28s ease, width 0.28s ease;
-  will-change: transform, width;
 `;
 
-const MenuItem = styled.li`
-  padding: 6px 2px;
-  cursor: pointer;
-  position: relative;
-  font-size: 15px;
-  color: #111827;
-`;
-
-/* desktop CTA (optional) */
 const CTA = styled.button`
-  padding: 8px 18px;
+  padding: 8px 20px;
   border-radius: 999px;
   border: none;
   background: #0f172a;
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
-  font-size: 0.9rem;
   cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
-  transition: 0.2s ease;
-  margin-left: 16px;
 
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.35);
+    background: #1f2933;
   }
 
   @media (max-width: 900px) {
@@ -112,19 +116,39 @@ const CTA = styled.button`
   }
 `;
 
-/* Mega menu wrapper */
+/* Mobile Toggle */
+const MobileToggle = styled.button`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #0f172a;
+  }
+`;
+
+/* ----------------------------------------------------
+   DESKTOP MEGA MENU
+---------------------------------------------------- */
 const Mega = styled.div`
   position: absolute;
+  top: calc(100%);
   left: 0;
   right: 0;
-  top: calc(100%);
   pointer-events: ${(p) => (p.$show ? "auto" : "none")};
   opacity: ${(p) => (p.$show ? 1 : 0)};
-  transform: translateY(${(p) => (p.$show ? "8px" : "0px")});
-  transition: opacity 0.22s ease, transform 0.22s ease;
+  transform: translateY(${(p) => (p.$show ? "10px" : "0")});
+  transition: opacity 0.25s ease, transform 0.25s ease;
   display: flex;
   justify-content: center;
-  z-index: 1500;
+  z-index: 2600;
 
   @media (max-width: 900px) {
     display: none;
@@ -132,445 +156,487 @@ const Mega = styled.div`
 `;
 
 const MegaInner = styled.div`
-  width: min(1100px, 94%);
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: 14px;
-  padding: 22px 22px 20px;
-  display: flex;
-  gap: 24px;
-  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.18);
+  width: min(1180px, 95%);
+  background: #ffffff;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  padding: 28px;
+  gap: 32px;
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.14);
   border: 1px solid rgba(148, 163, 184, 0.35);
 `;
 
-/* mega left */
+/* LEFT */
 const MegaLeft = styled.div`
-  min-width: 250px;
-  background: #f9fafb;
-  border-radius: 10px;
-  padding: 14px 10px;
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 16px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 `;
 
 const MegaLeftItem = styled.button`
-  background: ${(p) => (p.$selected ? "rgba(239, 246, 255, 0.95)" : "transparent")};
+  padding: 12px 14px;
   border: none;
-  padding: 8px 10px;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background: ${(p) => (p.$selected ? "#fff" : "transparent")};
+  border-left: ${(p) => (p.$selected ? `4px solid ${HIGHLIGHT}` : "4px solid transparent")};
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 8px;
-  color: ${(p) => (p.$selected ? "#0f172a" : "#111827")};
-  border-left: ${(p) =>
-    p.$selected ? `3px solid ${HIGHLIGHT}` : "3px solid transparent"};
-
-  span:last-child {
-    opacity: 0.6;
-  }
+  text-align: left;
+  border-radius: 10px;
+  color: #0f172a;
 
   &:hover {
-    background: rgba(239, 246, 255, 0.9);
+    background: #ffffff;
   }
 `;
 
-/* mega right */
+/* OFFERINGS RIGHT GRID */
 const MegaRight = styled.div`
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 22px;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const MegaCard = styled.div`
-  padding: 8px 2px;
+  padding: 18px 16px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+
+  &:hover {
+    background: #f8fafc;
+    transform: translateY(-2px);
+  }
 `;
 
-const MegaTitle = styled.h5`
-  font-weight: 700;
-  margin-bottom: 4px;
-  font-size: 0.93rem;
+const MegaTitle = styled.h4`
+  font-weight: 800;
+  font-size: 15px;
   color: #0f172a;
 `;
 
 const MegaDesc = styled.p`
-  margin: 0;
-  color: #4b5563;
-  font-size: 0.8rem;
+  font-size: 13px;
+  margin-top: 6px;
+  color: #475569;
 `;
 
-/* ==========================
-   MOBILE MENU
-========================== */
-const MobileToggle = styled.button`
-  display: none;
+/* RIGHT DETAIL PANEL (Industries / Explore) */
+const DetailLayout = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
 
-  @media (max-width: 900px) {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 34px;
-    width: 34px;
-    border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.6);
-    background: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
-    position: relative;
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
   }
 `;
 
-const BurgerLines = styled.div`
-  position: relative;
-  width: 18px;
-  height: 2px;
-  background: #0f172a;
-  border-radius: 999px;
-  transition: 0.22s ease;
-  transform: ${({ $open }) => ($open ? "rotate(45deg)" : "rotate(0deg)")};
+const DetailTitle = styled.h3`
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+`;
 
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 18px;
-    height: 2px;
-    background: #0f172a;
-    border-radius: 999px;
-    transition: 0.22s ease;
-  }
+const DetailImage = styled.img`
+  width: 100%;
+  height: 220px;
+  border-radius: 16px;
+  object-fit: cover;
 
-  &::before {
-    top: ${({ $open }) => ($open ? "0px" : "-6px")};
-    opacity: 1;
-  }
-
-  &::after {
-    top: ${({ $open }) => ($open ? "0px" : "6px")};
-    transform: ${({ $open }) => ($open ? "rotate(-90deg)" : "rotate(0deg)")};
+  @media (max-width: 1100px) {
+    height: 200px;
   }
 `;
 
+const DetailCTA = styled.button`
+  background: none;
+  border: none;
+  color: ${HIGHLIGHT};
+  margin-top: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+/* ----------------------------------------------------
+   MOBILE PANEL (Overlay + Drawer)
+---------------------------------------------------- */
 const MobileOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  z-index: 1900;
-  opacity: ${({ $open }) => ($open ? 1 : 0)};
-  pointer-events: ${({ $open }) => ($open ? "auto" : "none")};
-  transition: opacity 0.25s ease;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  background: ${(p) => (p.$open ? "rgba(0,0,0,0.5)" : "transparent")};
+  backdrop-filter: ${(p) => (p.$open ? "blur(8px)" : "none")};
+  pointer-events: ${(p) => (p.$open ? "auto" : "none")};
+  transition: 0.3s;
+  z-index: 3000;
+
+  @media (min-width: 900px) {
+    display: none;
+  }
 `;
 
 const MobilePanel = styled.div`
-  width: 100%;
-  max-width: 480px;
-  background: rgba(15, 23, 42, 0.96);
-  color: #f9fafb;
-  padding: 16px 18px 32px;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
-  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.45);
-  transform: translateY(${({ $open }) => ($open ? "0" : "-14px")});
-  transition: transform 0.28s ease;
-`;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 82%;
+  max-width: 360px;
+  height: ${(p) => (p.$open ? "100%" : "0")};
+  overflow: hidden;
+  background: #0f172a;
+  color: #fff;
+  border-bottom-right-radius: 22px;
+  transition: 0.32s ease;
+  z-index: 3500;
+  padding: ${(p) => (p.$open ? "18px" : "0")};
 
-const MobileTopBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const MobileBrandWrap = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const MobileClose = styled.button`
-  border: none;
-  background: transparent;
-  color: #e5e7eb;
-  font-size: 1.2rem;
-  cursor: pointer;
+  @media (min-width: 900px) {
+    display: none;
+  }
 `;
 
 const MobileList = styled.ul`
   list-style: none;
-  margin: 20px 0 0;
+  margin-top: 22px;
   padding: 0;
-`;
-
-const MobileItem = styled.li`
-  padding: 10px 2px;
-  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
-`;
-
-const MobileBtn = styled.button`
   width: 100%;
-  text-align: left;
-  border: none;
+`;
+
+const Section = styled.li`
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px 0;
+`;
+
+const SectionHeader = styled.button`
+  width: 100%;
   background: transparent;
-  color: #e5e7eb;
-  font-size: 0.98rem;
-  font-weight: 600;
-  padding: 4px 0;
+  border: none;
+  color: #fff;
+  font-size: 0.95rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   cursor: pointer;
 `;
 
-const MobileSub = styled.div`
-  margin-top: 6px;
-  padding-left: 4px;
-  font-size: 0.82rem;
-  color: #9ca3af;
+const Chevron = styled.span`
+  transition: 0.25s ease;
+  transform: ${(p) => (p.$open ? "rotate(90deg)" : "rotate(0deg)")};
 `;
 
-/* ================================
-   COMPONENT
-================================ */
+const Dropdown = styled.div`
+  max-height: ${(p) => (p.$open ? "500px" : "0")};
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+  padding-left: ${(p) => (p.$open ? "10px" : "0")};
+`;
+
+const SubList = styled.ul`
+  list-style: none;
+  padding-left: 12px;
+  margin: 6px 0;
+`;
+
+const SubItem = styled.li`
+  padding: 5px 0;
+`;
+
+const SubLink = styled.button`
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  font-size: 0.85rem;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    color: #ffffff;
+  }
+`;
+
+const SimpleLink = styled.button`
+  background: transparent;
+  border: none;
+  color: #cbd5f5;
+  font-size: 0.9rem;
+  width: 100%;
+  text-align: left;
+  padding: 4px 0;
+
+  &:hover {
+    color: #ffffff;
+  }
+`;
+
+/* ================================================
+   MAIN COMPONENT
+================================================ */
 export default function Navbar() {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const navRef = useRef(null);
   const menuRef = useRef(null);
   const underlineRef = useRef(null);
 
-  const [hovered, setHovered] = useState("");
-  const [activeTop, setActiveTop] = useState("");
   const [megaOpen, setMegaOpen] = useState(false);
-  const [megaLocked, setMegaLocked] = useState(false);
   const [megaTop, setMegaTop] = useState("");
   const [leftSelected, setLeftSelected] = useState(0);
-  const [scrolled, setScrolled] = useState(false);
 
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  /* ACTIVE SECTION BY PAGE */
-  useEffect(() => {
-    if (location.pathname.startsWith("/offerings")) setActiveTop("Offerings");
-    else if (location.pathname.startsWith("/industries")) setActiveTop("Industries");
-    else if (location.pathname.startsWith("/explore")) setActiveTop("Explore SoftMaxs");
-    else if (location.pathname.startsWith("/resources")) setActiveTop("Resources");
-    else if (location.pathname.startsWith("/careers")) setActiveTop("Careers");
-    else if (location.pathname.startsWith("/contact")) setActiveTop("Contact Us");
-    else setActiveTop("");
-  }, [location.pathname]);
+  // Mobile dropdown states
+  const [mobileOfferingsOpen, setMobileOfferingsOpen] = useState(false);
+  const [mobileOfferCatIdx, setMobileOfferCatIdx] = useState(null);
+  const [mobileIndustriesOpen, setMobileIndustriesOpen] = useState(false);
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
 
-  /* SCROLL → COMPACT NAV */
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 10) setScrolled(true);
-      else setScrolled(false);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  /* UNDERLINE MOVEMENT */
-  const moveUnderline = (label) => {
-    const items = menuRef.current?.querySelectorAll("li");
-    const underline = underlineRef.current;
-
-    if (!items || !underline) return;
-
-    const item = [...items].find((el) => el.innerText === label);
-    if (!item) return;
-
-    const rect = item.getBoundingClientRect();
-    const parentRect = menuRef.current.getBoundingClientRect();
-
-    underline.style.width = rect.width + "px";
-    underline.style.transform = `translateX(${rect.left - parentRect.left}px)`;
+  /* OFFERINGS DATA (with descriptions for desktop) */
+  const OFFERINGS = {
+    left: ["IT & Software", "Emerging Technologies", "Design & Strategy", "Platform Specialization"],
+    right: [
+      [
+        { t: "Mobile App Development", d: "Native & cross-platform apps for iOS and Android.", link: "/offerings" },
+        { t: "Web Development", d: "High-performing web apps and portals.", link: "/web-development" },
+        { t: "ECommerce Development", d: "Stores & marketplaces optimised for conversion.", link: "/ecommerce" },
+        { t: "Database Solutions", d: "Architecture, performance & scaling.", link: "/database-solutions" },
+      ],
+      [
+        { t: "AI & Automation", d: "AI copilots, ML models and workflow automation.", link: "/ai-automation" },
+        { t: "Cloud & DevOps", d: "CI/CD pipelines and cloud-native infrastructure.", link: "/cloud-devops" },
+        { t: "IoT Engineering", d: "Connected devices, telemetry and control.", link: "/iot-solutions" },
+        { t: "Blockchain Solutions", d: "Web3, smart contracts and secure ledgers.", link: "/blockchain-solutions" },
+      ],
+      [
+        { t: "UI/UX Engineering", d: "Interfaces that feel effortless across web and mobile.", link: "/ui-ux" },
+        { t: "CX Consulting", d: "Customer journeys, service blueprints & CX.", link: "/cx-consulting" },
+      ],
+      [
+        { t: "Shopify Development", d: "Custom Shopify themes, apps and integrations.", link: "/shopify-development" },
+        { t: "Magento Development", d: "Enterprise Adobe Commerce implementations.", link: "/magento-development" },
+        { t: "WordPress Development", d: "CMS & marketing sites built for speed.", link: "/wordpress-development" },
+      ],
+    ],
   };
 
-  /* hover underline */
-  useEffect(() => {
-    if (hovered) moveUnderline(hovered);
-  }, [hovered]);
-
-  /* active underline */
-  useEffect(() => {
-    if (activeTop) moveUnderline(activeTop);
-    else if (underlineRef.current) {
-      underlineRef.current.style.width = "0px";
-    }
-  }, [activeTop]);
-
-  /* OUTSIDE CLICK TO CLOSE MEGA WHEN OPEN OR LOCKED */
-  useEffect(() => {
-    const handler = (e) => {
-      const navEl = navRef.current;
-      const megaEl = document.getElementById("mega-menu");
-
-      if (!megaOpen && !megaLocked) return;
-
-      if (
-        navEl &&
-        megaEl &&
-        !navEl.contains(e.target) &&
-        !megaEl.contains(e.target)
-      ) {
-        setMegaOpen(false);
-        setMegaLocked(false);
-        setMegaTop("");
-      }
-    };
-
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [megaOpen, megaLocked]);
-
-  /* MEGA MENU DATA */
-  const MEGA_DATA = {
-    Offerings: {
-      left: [
-        "Engineering & Development",
-        "Marketing & Communication",
-        "Data Science & Analytics",
-        "CX Consulting & Strategy",
-        "Maintenance & Support",
-      ],
-      rightByLeft: [
-        [
-          { title: "Web & Mobile", desc: "React, Next, Flutter apps." },
-          { title: "Backend", desc: "Node, Go, Java APIs." },
-        ],
-        [
-          { title: "Growth Marketing", desc: "Conversion-led campaigns." },
-          { title: "Brand Systems", desc: "Visual identity systems." },
-        ],
-        [
-          { title: "ML Models", desc: "Predictive systems." },
-          { title: "Data Warehousing", desc: "ETL pipelines." },
-        ],
-        [
-          { title: "CX Strategy", desc: "Customer journey mapping." },
-          { title: "Design Systems", desc: "UI/UX foundations." },
-        ],
-        [
-          { title: "Support & Ops", desc: "Monitoring & alerts." },
-          { title: "SRE", desc: "Cloud reliability." },
-        ],
-      ],
+  /* INDUSTRIES DATA (with descriptions for desktop) */
+  const INDUSTRIES = [
+    {
+      t: "We Serve",
+      d: "SoftMaxs partners with enterprises and growing teams across manufacturing, SaaS, retail and services.",
+      img: "https://images.unsplash.com/photo-1522199710521-72d69614c702?w=900&auto=format&fit=crop&q=80",
+      link: "/industries", // ← as you requested
     },
-
-    Industries: {
-      left: ["Industry & Automation", "Nonprofit", "eCommerce", "Media & Publishing"],
-      rightByLeft: [
-        [
-          { title: "Smart Factories", desc: "IoT + automation." },
-          { title: "Robotics", desc: "Telemetry & control." },
-        ],
-        [
-          { title: "Donor Platforms", desc: "Fundraising + CRM." },
-          { title: "Volunteer Tools", desc: "Engagement apps." },
-        ],
-        [
-          { title: "Storefronts", desc: "Commerce engines." },
-          { title: "Marketplace", desc: "Vendor platforms." },
-        ],
-        [
-          { title: "Publishing", desc: "CMS + workflows." },
-          { title: "OTT", desc: "Streaming platforms." },
-        ],
-      ],
+    {
+      t: "ECommerce",
+      d: "Building scalable digital commerce ecosystems for D2C brands and marketplaces.",
+      img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=900&auto=format&fit=crop&q=80",
+      link: "/ecommerce",
     },
-
-    "Explore SoftMaxs": {
-      left: ["Success Stories", "Insights", "The Team", "Blog"],
-      rightByLeft: [
-        [
-          { title: "Case Studies", desc: "Business outcomes." },
-          { title: "Testimonials", desc: "Client voices." },
-        ],
-        [
-          { title: "Guides", desc: "Step-by-step resources." },
-          { title: "Research", desc: "Deep insights." },
-        ],
-        [
-          { title: "Leadership", desc: "Team profiles." },
-          { title: "Culture", desc: "Our values." },
-        ],
-        [
-          { title: "Articles", desc: "Latest updates." },
-          { title: "Announcements", desc: "Major releases." },
-        ],
-      ],
+    {
+      t: "Blockchain Solutions",
+      d: "Web3, DeFi and digital identity use-cases delivered safely.",
+      img: "https://images.unsplash.com/photo-1555949963-aa79dcee981d?w=900&auto=format&fit=crop&q=80",
+      link: "/blockchain-solutions",
     },
-  };
+    {
+      t: "CX Consulting",
+      d: "Redesign customer journeys across every touchpoint.",
+      img: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=900&auto=format&fit=crop&q=80",
+      link: "/cx-counsulting",
+    },
+    {
+      t: "Digital Marketing",
+      d: "Performance SEO, paid media and lifecycle marketing.",
+      img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=900&auto=format&fit=crop&q=80",
+      link: "/digital-marketing",
+    },
+  ];
 
-  /* CLICK ON TOP ITEM (desktop) */
-  const handleTopClick = (label) => {
-    if (["Offerings", "Industries", "Explore SoftMaxs"].includes(label)) {
-      setMegaTop(label);
-      setLeftSelected(0);
+  /* EXPLORE DATA (with descriptions for desktop) */
+  const EXPLORE = [
+    {
+      t: "About Us",
+      d: "Learn our story, values and how the SoftMaxs team works.",
+      img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=900&auto=format&fit=crop&q=80",
+      link: "/about",
+    },
+    {
+      t: "Why SoftMaxs",
+      d: "What makes SoftMaxs different for your roadmap.",
+      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=900&auto=format&fit=crop&q=80",
+      link: "/why-softmaxs",
+    },
+    {
+      t: "FAQ’s",
+      d: "Timelines, tech stacks, engagement models and more.",
+      img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=900&auto=format&fit=crop&q=80",
+      link: "/faq",
+    },
+    {
+      t: "Privacy & Policy",
+      d: "Exactly how we handle and protect your data.",
+      img: "https://images.unsplash.com/photo-1508873535684-277a3cbcc4e0?w=900&auto=format&fit=crop&q=80",
+      link: "/privacy-policy",
+    },
+  ];
+
+  /* ----------------------------------------------------
+     DESKTOP — HANDLE TOP NAV
+  ---------------------------------------------------- */
+  const handleTopClick = (item) => {
+    setLeftSelected(0);
+
+    if (["Offerings", "Industries", "Explore SoftMaxs"].includes(item)) {
+      setMegaTop(item);
       setMegaOpen(true);
-      setMegaLocked(true); // lock until outside click
+      return; // no redirect for these
+    }
+
+    if (item === "Pricing") navigate("/pricing");
+    if (item === "Careers") navigate("/careers");
+  };
+
+  /* ----------------------------------------------------
+     DESKTOP — UNDERLINE HOVER
+  ---------------------------------------------------- */
+  const moveUnderline = (label) => {
+    const underlineEl = underlineRef.current;
+    const menuEl = menuRef.current;
+    if (!underlineEl || !menuEl) return;
+
+    if (!label) {
+      underlineEl.style.width = "0px";
       return;
     }
 
-    const map = {
-      Resources: "/resources",
-      Careers: "/careers",
-      "Contact Us": "/contact",
-    };
+    const items = menuEl.querySelectorAll("li");
+    const target = [...items].find((n) => n.innerText === label);
+    if (!target) return;
 
-    navigate(map[label] || "/");
-    setActiveTop(label);
-    setMegaOpen(false);
-    setMegaLocked(false);
+    const rect = target.getBoundingClientRect();
+    const parentRect = menuEl.getBoundingClientRect();
+
+    underlineEl.style.width = `${rect.width}px`;
+    underlineEl.style.transform = `translateX(${rect.left - parentRect.left}px)`;
   };
 
-  /* DOUBLE CLICK => DIRECT NAV */
-  const handleDoubleClick = (label) => {
-    const map = {
-      Offerings: "/offerings",
-      Industries: "/industries",
-      "Explore SoftMaxs": "/explore",
-    };
-
-    if (map[label]) {
-      navigate(map[label]);
-      setActiveTop(label);
+  /* ----------------------------------------------------
+     DESKTOP RIGHT PANEL
+  ---------------------------------------------------- */
+  const renderRight = () => {
+    if (megaTop === "Offerings") {
+      return (
+        <MegaRight>
+          {OFFERINGS.right[leftSelected].map((s) => (
+            <MegaCard key={s.t} onClick={() => navigate(s.link)}>
+              <MegaTitle>{s.t}</MegaTitle>
+              <MegaDesc>{s.d}</MegaDesc>
+            </MegaCard>
+          ))}
+        </MegaRight>
+      );
     }
 
-    setMegaOpen(false);
-    setMegaLocked(false);
-  };
-
-  /* HOVER TO OPEN MEGA (ONLY WHEN NOT LOCKED) */
-  const handleHover = (label) => {
-    setHovered(label);
-
-    if (!megaLocked && ["Offerings", "Industries", "Explore SoftMaxs"].includes(label)) {
-      setMegaTop(label);
-      setLeftSelected(0);
-      setMegaOpen(true);
+    if (megaTop === "Industries") {
+      const i = INDUSTRIES[leftSelected];
+      return (
+        <DetailLayout>
+          <div>
+            <DetailTitle>{i.t}</DetailTitle>
+            <MegaDesc>{i.d}</MegaDesc>
+            <DetailCTA onClick={() => navigate(i.link)}>Explore {i.t} →</DetailCTA>
+          </div>
+          <DetailImage src={i.img} alt={i.t} />
+        </DetailLayout>
+      );
     }
+
+    if (megaTop === "Explore SoftMaxs") {
+      const e = EXPLORE[leftSelected];
+      return (
+        <DetailLayout>
+          <div>
+            <DetailTitle>{e.t}</DetailTitle>
+            <MegaDesc>{e.d}</MegaDesc>
+            <DetailCTA onClick={() => navigate(e.link)}>Open {e.t} →</DetailCTA>
+          </div>
+          <DetailImage src={e.img} alt={e.t} />
+        </DetailLayout>
+      );
+    }
+
+    return null;
   };
 
-  /* MOBILE NAVIGATION HANDLERS */
-  const goTo = (path) => {
-    navigate(path);
+  /* ----------------------------------------------------
+     MOBILE HANDLERS
+  ---------------------------------------------------- */
+  const goTo = (link) => {
     setMobileOpen(false);
+    navigate(link);
   };
+
+  const handleToggleOfferingsMain = () => {
+    const newOpen = !mobileOfferingsOpen;
+    setMobileOfferingsOpen(newOpen);
+    setMobileOfferCatIdx(null);
+    if (newOpen) {
+      setMobileIndustriesOpen(false);
+      setMobileExploreOpen(false);
+    }
+  };
+
+  const handleToggleOfferCategory = (idx) => {
+    setMobileOfferCatIdx((prev) => (prev === idx ? null : idx));
+  };
+
+  const handleToggleIndustries = () => {
+    const newOpen = !mobileIndustriesOpen;
+    setMobileIndustriesOpen(newOpen);
+    if (newOpen) {
+      setMobileOfferingsOpen(false);
+      setMobileOfferCatIdx(null);
+      setMobileExploreOpen(false);
+    }
+  };
+
+  const handleToggleExplore = () => {
+    const newOpen = !mobileExploreOpen;
+    setMobileExploreOpen(newOpen);
+    if (newOpen) {
+      setMobileOfferingsOpen(false);
+      setMobileOfferCatIdx(null);
+      setMobileIndustriesOpen(false);
+    }
+  };
+
+  /* ----------------------------------------------------
+     RENDER
+  ---------------------------------------------------- */
 
   return (
     <>
-      <Nav id="navbar-root" ref={navRef} $scrolled={scrolled}>
-        <Inner $scrolled={scrolled}>
-          <LogoWrap onClick={() => navigate("/")}>
+      <Nav>
+        <Inner>
+          <LogoWrap
+            onClick={() => {
+              navigate("/");
+              setMegaOpen(false);
+            }}
+          >
             <LogoImg src={Logo} alt="SoftMaxs logo" />
             <Brand>SoftMaxs</Brand>
           </LogoWrap>
@@ -578,145 +644,175 @@ export default function Navbar() {
           {/* DESKTOP MENU */}
           <Menu ref={menuRef}>
             <Underline ref={underlineRef} />
-
-            {["Offerings", "Industries", "Explore SoftMaxs", "Resources", "Careers", "Contact Us"].map(
-              (item) => (
-                <MenuItem
-                  key={item}
-                  onMouseEnter={() => handleHover(item)}
-                  onMouseLeave={() => setHovered("")}
-                  onClick={() => handleTopClick(item)}
-                  onDoubleClick={() => handleDoubleClick(item)}
-                >
-                  {item}
-                </MenuItem>
-              )
-            )}
+            {["Offerings", "Industries", "Explore SoftMaxs", "Pricing", "Careers"].map((m) => (
+              <MenuItem
+                key={m}
+                onMouseEnter={() => moveUnderline(m)}
+                onMouseLeave={() => moveUnderline("")}
+                onClick={() => handleTopClick(m)}
+              >
+                {m}
+              </MenuItem>
+            ))}
           </Menu>
 
-          {/* Desktop CTA (optional) */}
-          <CTA onClick={() => navigate("/contact")}>
-            Let&apos;s talk
+          <CTA
+            onClick={() => {
+              setMegaOpen(false);
+              navigate("/contact");
+            }}
+          >
+            Let&apos;s Talk
           </CTA>
 
-          {/* MOBILE TOGGLE */}
-          <MobileToggle
-            aria-label="Toggle navigation"
-            onClick={() => setMobileOpen((p) => !p)}
-          >
-            <BurgerLines $open={mobileOpen} />
-          </MobileToggle>
+          {/* MOBILE HAMBURGER */}
+          <MobileToggle onClick={() => setMobileOpen(true)}>☰</MobileToggle>
         </Inner>
 
-        {/* MEGA MENU (DESKTOP ONLY) */}
-        <Mega
-          id="mega-menu"
-          $show={megaOpen}
-          onMouseLeave={() => {
-            if (!megaLocked) setMegaOpen(false);
-          }}
-        >
-          {megaOpen && megaTop && MEGA_DATA[megaTop] && (
-            <MegaInner>
+        {/* DESKTOP MEGA MENU */}
+        <Mega $show={megaOpen}>
+          {megaOpen && (
+            <MegaInner
+              onMouseLeave={() => {
+                setMegaOpen(false);
+                moveUnderline("");
+              }}
+            >
               <MegaLeft>
-                {MEGA_DATA[megaTop].left.map((item, i) => (
-                 <MegaLeftItem
-  key={item}
-  $selected={i === leftSelected}
-  onMouseEnter={() => setLeftSelected(i)}
-  onClick={() => {
-    if (megaTop === "Industries" && item === "eCommerce") {
-      navigate("/ecommerce");
-      setMegaOpen(false);
-      setMegaLocked(false);
-      setMegaTop("");
-      return;
-    }
-  }}
->
+                {megaTop === "Offerings" &&
+                  OFFERINGS.left.map((c, idx) => (
+                    <MegaLeftItem
+                      key={c}
+                      $selected={leftSelected === idx}
+                      onMouseEnter={() => setLeftSelected(idx)}
+                    >
+                      {c}
+                    </MegaLeftItem>
+                  ))}
 
-                    <span>{item}</span>
-                    <span>›</span>
-                  </MegaLeftItem>
-                ))}
+                {megaTop === "Industries" &&
+                  INDUSTRIES.map((i, idx) => (
+                    <MegaLeftItem
+                      key={i.t}
+                      $selected={leftSelected === idx}
+                      onClick={() => setLeftSelected(idx)}
+                    >
+                      {i.t}
+                    </MegaLeftItem>
+                  ))}
+
+                {megaTop === "Explore SoftMaxs" &&
+                  EXPLORE.map((e, idx) => (
+                    <MegaLeftItem
+                      key={e.t}
+                      $selected={leftSelected === idx}
+                      onClick={() => setLeftSelected(idx)}
+                    >
+                      {e.t}
+                    </MegaLeftItem>
+                  ))}
               </MegaLeft>
 
-              <MegaRight>
-                {MEGA_DATA[megaTop].rightByLeft[leftSelected].map((card, c) => (
-                  <MegaCard key={c}>
-                    <MegaTitle>{card.title}</MegaTitle>
-                    <MegaDesc>{card.desc}</MegaDesc>
-                  </MegaCard>
-                ))}
-              </MegaRight>
+              {renderRight()}
             </MegaInner>
           )}
         </Mega>
       </Nav>
 
-      {/* MOBILE FULL-SCREEN OVERLAY MENU */}
-      <MobileOverlay
+      {/* MOBILE OVERLAY */}
+      <MobileOverlay $open={mobileOpen} onClick={() => setMobileOpen(false)} />
+
+      {/* MOBILE PANEL */}
+      <MobilePanel
         $open={mobileOpen}
         onClick={(e) => {
-          // click outside panel => close
-          if (e.target === e.currentTarget) setMobileOpen(false);
+          e.stopPropagation();
         }}
       >
-        <MobilePanel $open={mobileOpen}>
-          <MobileTopBar>
-            <MobileBrandWrap onClick={() => goTo("/")}>
+        {mobileOpen && (
+          <>
+            {/* Logo */}
+            <LogoWrap onClick={() => goTo("/")}>
               <LogoImg src={Logo} alt="SoftMaxs" />
               <Brand>SoftMaxs</Brand>
-            </MobileBrandWrap>
+            </LogoWrap>
 
-            <MobileClose onClick={() => setMobileOpen(false)}>✕</MobileClose>
-          </MobileTopBar>
+            <MobileList>
+              {/* OFFERINGS — Category + Subcategory dropdowns */}
+              <Section>
+                <SectionHeader onClick={handleToggleOfferingsMain}>
+                  <span>Offerings</span>
+                  <Chevron $open={mobileOfferingsOpen}>›</Chevron>
+                </SectionHeader>
 
-          <MobileList>
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/offerings")}>
-                <span>Offerings</span>
-                <span>›</span>
-              </MobileBtn>
-              <MobileSub>Engineering, marketing, analytics & more.</MobileSub>
-            </MobileItem>
+                <Dropdown $open={mobileOfferingsOpen}>
+                  {OFFERINGS.left.map((cat, idx) => (
+                    <div key={cat}>
+                      <SectionHeader onClick={() => handleToggleOfferCategory(idx)}>
+                        <span>{cat}</span>
+                        <Chevron $open={mobileOfferCatIdx === idx}>›</Chevron>
+                      </SectionHeader>
 
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/industries")}>
-                <span>Industries</span>
-                <span>›</span>
-              </MobileBtn>
-              <MobileSub>Solutions for eCommerce, media, nonprofit & more.</MobileSub>
-            </MobileItem>
+                      <Dropdown $open={mobileOfferCatIdx === idx}>
+                        <SubList>
+                          {OFFERINGS.right[idx].map((svc) => (
+                            <SubItem key={svc.t}>
+                              <SubLink onClick={() => goTo(svc.link)}>{svc.t}</SubLink>
+                            </SubItem>
+                          ))}
+                        </SubList>
+                      </Dropdown>
+                    </div>
+                  ))}
+                </Dropdown>
+              </Section>
 
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/explore")}>
-                <span>Explore SoftMaxs</span>
-                <span>›</span>
-              </MobileBtn>
-              <MobileSub>Case studies, team, culture & insights.</MobileSub>
-            </MobileItem>
+              {/* INDUSTRIES — simple list under one dropdown, categories redirect on click */}
+              <Section>
+                <SectionHeader onClick={handleToggleIndustries}>
+                  <span>Industries</span>
+                  <Chevron $open={mobileIndustriesOpen}>›</Chevron>
+                </SectionHeader>
 
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/resources")}>
-                <span>Resources</span>
-              </MobileBtn>
-            </MobileItem>
+                <Dropdown $open={mobileIndustriesOpen}>
+                  {INDUSTRIES.map((i) => (
+                    <SubItem key={i.t}>
+                      <SimpleLink onClick={() => goTo(i.link)}>{i.t}</SimpleLink>
+                    </SubItem>
+                  ))}
+                </Dropdown>
+              </Section>
 
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/careers")}>
-                <span>Careers</span>
-              </MobileBtn>
-            </MobileItem>
+              {/* EXPLORE SOFTMAXS — simple list */}
+              <Section>
+                <SectionHeader onClick={handleToggleExplore}>
+                  <span>Explore SoftMaxs</span>
+                  <Chevron $open={mobileExploreOpen}>›</Chevron>
+                </SectionHeader>
 
-            <MobileItem>
-              <MobileBtn onClick={() => goTo("/contact")}>
-                <span>Contact Us</span>
-              </MobileBtn>
-            </MobileItem>
-          </MobileList>
-        </MobilePanel>
-      </MobileOverlay>
+                <Dropdown $open={mobileExploreOpen}>
+                  {EXPLORE.map((e) => (
+                    <SubItem key={e.t}>
+                      <SimpleLink onClick={() => goTo(e.link)}>{e.t}</SimpleLink>
+                    </SubItem>
+                  ))}
+                </Dropdown>
+              </Section>
+
+              {/* OTHER LINKS */}
+              <Section>
+                <SimpleLink onClick={() => goTo("/pricing")}>Pricing</SimpleLink>
+              </Section>
+              <Section>
+                <SimpleLink onClick={() => goTo("/careers")}>Careers</SimpleLink>
+              </Section>
+              <Section>
+                <SimpleLink onClick={() => goTo("/contact")}>Contact Us</SimpleLink>
+              </Section>
+            </MobileList>
+          </>
+        )}
+      </MobilePanel>
     </>
   );
 }
