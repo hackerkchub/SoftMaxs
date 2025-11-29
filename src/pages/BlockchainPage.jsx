@@ -720,7 +720,7 @@ const BlockchainSolutionsPage = () => {
       desc: "Unified on-chain metrics and protocol health signals for DeFi teams and investors."
     },
     {
-      img: "https://images.unsplash.com/photo-1644342259930-5a5fb4d1263c?auto=format&fit=crop&w=1200&q=50&fm=webp",
+      img: "https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=1600&q=60&fm=webp",
       title: "Supply Chain Traceability",
       desc: "End-to-end traceability for shipments and certificates anchored on a private ledger."
     },
@@ -756,7 +756,7 @@ const BlockchainSolutionsPage = () => {
         "APIs for ERP and logistics platforms to plug into"
       ],
       img:
-        "https://images.unsplash.com/photo-1618005198919-d3d4b5a92eee?auto=format&fit=crop&w=1200&q=50&fm=webp"
+        "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=60&fm=webp"
     },
     {
       title: "TokenHub – Tokenised Investment Marketplace",
@@ -863,9 +863,9 @@ const BlockchainSolutionsPage = () => {
               <span>Book a 30-Minute Blockchain Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>Explore Blockchain Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

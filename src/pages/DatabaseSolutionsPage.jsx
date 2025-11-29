@@ -704,16 +704,16 @@ const DatabaseSolutionsPage = () => {
   ];
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1587202372775-98973d4a9078?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1587202372775-98973d4a9078?auto=format&fit=crop&w=1600&q=60&fm=webp"
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=60&fm=webp"
   ];
 
   const workItems = [
     {
-      img: "https://images.unsplash.com/photo-1587202372775-98973d4a9078?auto=format&fit=crop&w=1200&q=50&fm=webp",
+      img: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=1600&q=60&fm=webp",
       title: "Global MySQL Cluster Optimisation",
       desc: "Re-architected schemas, indexes and replication strategy to handle traffic spikes with headroom."
     },
@@ -861,9 +861,9 @@ const DatabaseSolutionsPage = () => {
               <span>Book a 30-Minute Data Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>View Database Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

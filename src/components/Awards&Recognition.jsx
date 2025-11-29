@@ -60,8 +60,8 @@ const AwardCard = styled.div`
 
 const AwardsRecognition = () => {
   const awards = [
-    "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/clutch.svg",
-    "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/goodfirms.svg",
+    "https://logo.clearbit.com/clutch.co",
+    "https://logo.clearbit.com/goodfirms.co",
     "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/google.svg",
     "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/shopify.svg",
     "https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/amazon.svg",

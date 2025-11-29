@@ -27,6 +27,8 @@ import WhySoftmaxs from "../pages/whySoftmaxs";
 import BookCall from "../pages/BookCall";
 import About from "../pages/About";
 import OfficeLocations from "../pages/OfficeLocations";
+import PaidAdsPage from "../pages/PaidAdsPage";
+import SEOLinkBuildingPage from "../pages/SEOLinkBuildingPage";
 // import Services from "../pages/Services";
 
 export default function AppRouter() {
@@ -58,6 +60,8 @@ export default function AppRouter() {
       <Route path="/shopify-development" element={<ShopifyPage />} />
       <Route path="/magento-development" element={<MagentoPage />} />
       <Route path="/wordpress-development" element={<WordpressPage />} />
+      <Route path="/paid-ads" element={<PaidAdsPage />} />
+      <Route path="/seo-services" element={<SEOLinkBuildingPage />} />
     </Routes>
   );
 }

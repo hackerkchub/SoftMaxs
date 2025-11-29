@@ -1,4 +1,4 @@
-// CareerPage.jsx
+// src/pages/CareerPage.jsx
 
 // IMPORTS
 import React, { useState } from "react";
@@ -41,7 +41,7 @@ const BgImageSection = styled.section`
   }
 `;
 
-// Apply Button
+// Apply Button (Hero)
 const ApplyButton = styled.button`
   background: #facc15;
   color: black;
@@ -60,7 +60,7 @@ const ApplyButton = styled.button`
   }
 `;
 
-// Generic yellow line used in headings
+// Yellow Box Line
 const YellowLine = styled.div`
   width: 6px;
   height: 40px;
@@ -68,7 +68,6 @@ const YellowLine = styled.div`
   border-radius: 4px;
 `;
 
-// Common section heading wrapper
 const SectionHeadingRow = styled.div`
   max-width: 1280px;
   margin: 0 auto;
@@ -83,7 +82,6 @@ const SectionHeadingText = styled.h2`
   font-weight: 800;
   line-height: 1.3;
   margin: 0;
-  text-align: left;
 
   @media (min-width: 768px) {
     font-size: 32px;
@@ -125,7 +123,7 @@ const PerkCard = styled.div`
   padding: 40px 24px;
   text-align: center;
   transition: 0.3s;
-  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+  cursor: default;
 
   &:hover {
     transform: translateY(-6px);
@@ -171,7 +169,6 @@ const TestimonialWrapper = styled.div`
 const TestimonialGrid = styled.div`
   display: grid;
   gap: 32px;
-  padding: 0 4px;
 
   @media (min-width: 992px) {
     grid-template-columns: repeat(3, 1fr);
@@ -183,7 +180,6 @@ const TestimonialCard = styled.div`
   border-radius: 12px;
   padding: 24px;
   background: #fff;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.04);
 `;
 
 const TestimonialImg = styled.img`
@@ -197,8 +193,8 @@ const TestimonialImg = styled.img`
 
 const TestimonialText = styled.p`
   font-size: 15px;
-  line-height: 1.6;
   color: #444;
+  line-height: 1.6;
 `;
 
 // JOBS
@@ -228,16 +224,28 @@ const JobCard = styled.div`
   border-radius: 12px;
   background: white;
   min-height: 240px;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.05);
+  transition: 0.2s;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  }
 `;
 
 const JobTitle = styled.h3`
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
+`;
+
+const JobMeta = styled.p`
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 8px;
 `;
 
 const JobText = styled.p`
@@ -250,11 +258,10 @@ const ApplyBtn = styled.button`
   color: black;
   padding: 12px 24px;
   border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
   border: none;
   margin-top: 18px;
   cursor: pointer;
+  font-weight: 600;
   transition: 0.2s;
 
   &:hover {
@@ -267,20 +274,18 @@ const ViewMoreBtn = styled.button`
   color: black;
   padding: 12px 30px;
   border-radius: 999px;
-  font-size: 16px;
-  font-weight: 600;
   border: none;
+  font-size: 16px;
   margin: 32px auto 0 auto;
   display: block;
   cursor: pointer;
-  transition: 0.2s;
 
   &:hover {
     background: #fbbf24;
   }
 `;
+/* ==================== MAIN YOUTUBE VIDEO ==================== */
 
-// MAIN YOUTUBE HERO
 const MainVideoSection = styled.section`
   width: 100%;
   padding-top: 24px;
@@ -299,368 +304,457 @@ const MainVideoFrame = styled.iframe`
   border-radius: 10px;
 `;
 
-// YOUTUBE VIDEO GRID
-const VideoSection = styled.section`
-  background: #f8f5e9;
-  padding: 60px 0;
+/* ========================= APPLY POPUP ========================= */
+
+const PopupOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(6px);
+  z-index: 999999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const VideoWrapper = styled.div`
-  max-width: 1280px;
-  margin: auto;
-  padding: 0 24px;
-`;
+const PopupBox = styled.div`
+  width: 92%;
+  max-width: 520px;
+  background: white;
+  padding: 30px;
+  border-radius: 14px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  animation: fadeIn 0.2s ease;
 
-const VideoGrid = styled.div`
-  display: grid;
-  gap: 24px;
-
-  @media (min-width: 992px) {
-    grid-template-columns: repeat(3, 1fr);
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
   }
 `;
 
-const VideoCard = styled.div`
-  width: 100%;
-`;
-
-const VideoFrame = styled.iframe`
-  width: 100%;
-  aspect-ratio: 16 / 9;
+const CloseBtn = styled.button`
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
   border: none;
+  font-size: 26px;
+  cursor: pointer;
+`;
+
+const PInput = styled.input`
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-`;
-
-// FORM INPUTS (exported)
-export const Input = styled.input`
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  width: 100%;
   margin-bottom: 12px;
-  box-sizing: border-box;
 `;
 
-export const TextArea = styled.textarea`
-  padding: 12px;
-  font-size: 16px;
-  height: 140px;
-  border-radius: 6px;
-  border: 1px solid #e5e7eb;
-  background: #fff;
+const PTextArea = styled.textarea`
   width: 100%;
+  padding: 12px;
+  height: 120px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   margin-bottom: 12px;
   resize: vertical;
-  box-sizing: border-box;
 `;
 
-export const Submit = styled.button`
-  margin-top: 10px;
-  padding: 12px 22px;
-  background: #f4b21a;
-  color: #fff;
+const PSubmit = styled.button`
+  width: 100%;
+  padding: 12px;
+  background: #facc15;
+  border-radius: 100px;
   border: none;
-  font-size: 18px;
-  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: 0.3s;
-  font-weight: 600;
 
   &:hover {
-    background: #d99c14;
+    background: #fbbf24;
   }
 `;
 
-// QUOTE SECTION
-const QuoteSection = styled.section`
-  padding: 60px 0 80px;
-  background: #fff;
+/* ========================= JOB DESCRIPTION POPUP ========================= */
+
+const JobDescBody = styled.div`
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 12px;
+  line-height: 1.6;
 `;
 
-const QuoteHeading = styled.h2`
-  text-align: center;
-  font-size: 26px;
-  font-weight: 800;
-  margin-bottom: 32px;
-
-  @media (min-width: 768px) {
-    font-size: 32px;
-  }
+const JobDescMeta = styled.p`
+  font-size: 13px;
+  margin-bottom: 12px;
+  color: #6b7280;
 `;
 
-const QuoteWrapper = styled.div`
-  max-width: 1280px;
-  margin: auto;
-  padding: 0 24px;
-  display: grid;
-  gap: 24px;
-
-  @media (min-width: 992px) {
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-  }
+const JobDescList = styled.ul`
+  padding-left: 18px;
+  margin-bottom: 16px;
 `;
 
-// ==================== Component ====================
+const JobDescItem = styled.li`
+  margin-bottom: 6px;
+`;
+
+/* ==================== JOB DATA (same as earlier) ==================== */
+
+const JOBS = [
+  {
+    id: 1,
+    title: "Front End Developer – AngularJS",
+    shortMeta: "Full-time · 3–5 years · Pune / Remote",
+    shortText:
+      "Build modern, responsive UIs using AngularJS and REST APIs for global brands.",
+    longSummary:
+      "As a Front End Developer at SoftMaxs, you will work closely with designers, backend engineers and project managers to ship performant, accessible and scalable web experiences.",
+    responsibilities: [
+      "Develop high-quality AngularJS apps.",
+      "Work with designers to create pixel-perfect UIs.",
+      "Integrate REST/GraphQL APIs.",
+      "Ensure accessibility and performance.",
+    ],
+    mustHave: [
+      "3–5 years experience in AngularJS.",
+      "Strong HTML/CSS/JS fundamentals.",
+      "Experience with Git & Agile.",
+    ],
+  },
+  {
+    id: 2,
+    title: "Drupal Developer",
+    shortMeta: "Full-time · 3–6 years · Remote",
+    shortText:
+      "Implement and maintain enterprise-grade Drupal platforms for global clients.",
+    longSummary:
+      "You will architect and develop Drupal-based web applications, custom modules and integrations while working with an international client base.",
+    responsibilities: [
+      "Develop and maintain Drupal 9/10 sites.",
+      "Create custom modules & integrations.",
+      "Implement secure, scalable systems.",
+    ],
+    mustHave: [
+      "3+ years Drupal experience.",
+      "PHP, MySQL, Drupal config knowledge.",
+      "Performance + security understanding.",
+    ],
+  },
+  {
+    id: 3,
+    title: "Technical Architect",
+    shortMeta: "Full-time · 7+ years · Hybrid",
+    shortText:
+      "Lead solution architecture and guide teams delivering complex digital platforms.",
+    longSummary:
+      "As a Technical Architect, you will define technical roadmaps, review solution designs and mentor engineering teams.",
+    responsibilities: [
+      "Define scalable cloud architectures.",
+      "Review technical designs.",
+      "Guide engineering teams.",
+    ],
+    mustHave: [
+      "7+ years experience.",
+      "Strong cross-stack knowledge.",
+      "Great communication skills.",
+    ],
+  },
+  // Extra jobs
+  {
+    id: 4,
+    title: "React Developer",
+    shortMeta: "Full-time · 2–4 years · Remote",
+    shortText:
+      "Build component-driven frontends using React, TypeScript and modern tooling.",
+    longSummary:
+      "You'll work on modern React systems, reusable UI components and fast user interfaces.",
+    responsibilities: [
+      "Build reusable React components.",
+      "Integrate REST/GraphQL APIs.",
+      "Ensure performance and accessibility.",
+    ],
+    mustHave: ["React + JS mastery.", "TypeScript is a bonus."],
+  },
+  {
+    id: 5,
+    title: "Node.js Backend Developer",
+    shortMeta: "Full-time · 3–5 years · Remote",
+    shortText:
+      "Design and implement scalable backend services using Node.js and databases.",
+    longSummary:
+      "You will be responsible for building robust APIs, microservices and backend logic.",
+    responsibilities: [
+      "Build secure REST/GraphQL APIs.",
+      "Handle databases efficiently.",
+      "Implement monitoring & logs.",
+    ],
+    mustHave: ["3+ years Node.js.", "Strong DB knowledge."],
+  },
+  {
+    id: 6,
+    title: "UI/UX Designer",
+    shortMeta: "Full-time · 3–6 years · Remote",
+    shortText:
+      "Design clean, conversion-focused experiences for web and mobile products.",
+    longSummary:
+      "You will own designs from research to final prototypes and design systems.",
+    responsibilities: [
+      "User flows, wireframes, prototypes.",
+      "High-fidelity UI designs.",
+      "Ensure developer alignment.",
+    ],
+    mustHave: ["Strong portfolio.", "Figma/Sketch expertise."],
+  },
+];
+
+/* ==================== MAIN COMPONENT ==================== */
 
 const CareerPage = () => {
   const [showMoreJobs, setShowMoreJobs] = useState(false);
+  const [showApplyPopup, setShowApplyPopup] = useState(false);
+  const [selectedJob, setSelectedJob] = useState("");
+  const [showJobPopup, setShowJobPopup] = useState(false);
+  const [jobDetail, setJobDetail] = useState(null);
+
+  const openApplyPopup = (job) => {
+    setSelectedJob(job);
+    setShowApplyPopup(true);
+  };
+
+  const openJobPopup = (job) => {
+    setJobDetail(job);
+    setShowJobPopup(true);
+  };
+
+  const closeApplyPopup = () => setShowApplyPopup(false);
+  const closeJobPopup = () => setShowJobPopup(false);
+
+  /* ==================== SAFE APPLY FORM (FREE PLAN OK) ==================== */
+  async function handleApplySubmit(e) {
+    e.preventDefault();
+
+    const btn = e.target.querySelector("button[type='submit']");
+    btn.disabled = true;
+    btn.innerText = "Submitting…";
+
+    const formData = new FormData(e.target);
+
+    // Web3Forms REQUIRED FIELDS
+    formData.append("access_key", "9adfabce-a75b-4ab8-aea1-b79edaeeb7e0");
+    formData.append("subject", `New Application – ${selectedJob}`);
+
+    // REMOVE resume before sending (free-plan restriction)
+    formData.delete("resume");
+
+    try {
+      const res = await fetch(
+        "https://api.web3forms.com/submit?redirect=0",
+        { method: "POST", body: formData }
+      );
+
+      const data = await res.json();
+
+      if (data.success) {
+        Swal.fire({
+          title: "🎉 Application Submitted!",
+          text: "Our HR team will contact you soon.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
+        setTimeout(() => setShowApplyPopup(false), 900);
+        e.target.reset();
+      } else {
+        Swal.fire({
+          title: "❌ Failed",
+          text: data.message || "Please try again.",
+          icon: "error",
+          timer: 2300,
+          showConfirmButton: false,
+        });
+      }
+    } catch {
+      Swal.fire({
+        title: "❌ Network Error",
+        text: "Please check your connection.",
+        icon: "error",
+      });
+    }
+
+    btn.disabled = false;
+    btn.innerText = "Submit Application";
+  }
+
+  const primaryJobs = JOBS.slice(0, 3);
+  const extraJobs = JOBS.slice(3);
 
   return (
     <PageWrapper>
-      {/* Global Navbar from project */}
       <Navbar />
-
-      {/* Hero Image */}
       <BgImageSection />
 
-      {/* MAIN BIG HEADING WITH YELLOW LINE */}
-      <SectionHeadingRow style={{ marginTop: "40px" }}>
+      {/* MAIN HEADING */}
+      <SectionHeadingRow style={{ marginTop: 40 }}>
         <YellowLine />
         <SectionHeadingText>
-          SoftMaxs Seeks Out Driven A Class Members That Crave Solving Unique
-          Technical & Marketing Problems.
+          SoftMaxs Seeks Out Driven A-Class Members That Crave Solving Digital Problems.
         </SectionHeadingText>
       </SectionHeadingRow>
 
-      {/* MAIN VIDEO CARD */}
-      <div className="w-full max-w-5xl bg-white shadow-2xl rounded-xl overflow-hidden border border-gray-200 mx-auto mt-6">
+      {/* MAIN VIDEO */}
+      <div className="w-full max-w-5xl bg-white shadow-xl rounded-xl overflow-hidden mx-auto mt-6">
         <MainVideoSection>
           <MainVideoWrapper>
-        <MainVideoFrame
-  src="https://www.youtube.com/embed/QSwvg9Rv2EI?rel=0&modestbranding=1&controls=1&showinfo=0&iv_load_policy=3&playsinline=1"
-  title="SoftMaxs Culture Video"
-  frameBorder="0"
-  allowFullScreen
-/>
-
-
-
-
- 
+            <MainVideoFrame
+              src="https://www.youtube.com/embed/QSwvg9Rv2EI"
+              title="SoftMaxs Culture Video"
+              allowFullScreen
+            />
           </MainVideoWrapper>
         </MainVideoSection>
       </div>
 
-      {/* APPLY BUTTON */}
-      <ApplyButton>Apply Now →</ApplyButton>
+      <ApplyButton onClick={() => openApplyPopup("General Application")}>
+        Apply Now →
+      </ApplyButton>
 
       {/* PERKS */}
       <PerksOuter>
         <PerksContainer>
           {[
             {
-              icon: <FaUsers size={28} color="#000" />,
+              icon: <FaUsers size={28} />,
               title: "Equal Opportunity Employer",
               text:
-                "SoftMaxs is committed to providing equal opportunity for all employees and considers applicants without regard to race, gender or other protected characteristics.",
+                "SoftMaxs welcomes talented people from all backgrounds and celebrates diversity.",
             },
             {
-              icon: <FaClock size={28} color="#000" />,
+              icon: <FaClock size={28} />,
               title: "Flexible Timings",
               text:
-                "Employees have the freedom to choose their working hours, helping maintain a healthy work-life balance and boosting productivity.",
+                "Choose working hours that help you stay productive and balanced.",
             },
             {
-              icon: <FaGlobe size={28} color="#000" />,
+              icon: <FaGlobe size={28} />,
               title: "Global Clients Exposure",
               text:
-                "Work with clients from around the world through Microsoft Teams, Zoom and other collaboration tools.",
+                "Work with international teams via modern collaboration platforms.",
             },
             {
-              icon: <FaGlassCheers size={28} color="#000" />,
+              icon: <FaGlassCheers size={28} />,
               title: "Retreats & Celebrations",
               text:
-                "Annual retreats, quarterly town halls and celebrations provide plenty of opportunities for bonding and fun.",
+                "Annual retreats and fun events ensure a vibrant work culture.",
             },
             {
-              icon: <FaBuilding size={28} color="#000" />,
+              icon: <FaBuilding size={28} />,
               title: "Unique Culture",
               text:
-                "Our culture encourages learning, ownership, transparency and collaboration, creating a fulfilling work environment.",
+                "We foster ownership, growth and openness across every team.",
             },
             {
-              icon: <FaCalendarCheck size={28} color="#000" />,
+              icon: <FaCalendarCheck size={28} />,
               title: "Leave Policy",
-              text:
-                "32 days of leave per year, including maternity, paternity and sabbatical allowances.",
+              text: "32+ leaves including maternity, paternity & sabbaticals.",
             },
-          ].map((perk, i) => (
+          ].map((p, i) => (
             <PerkCard key={i}>
-              <IconCircle>{perk.icon}</IconCircle>
-              <PerkTitle>{perk.title}</PerkTitle>
-              <PerkText>{perk.text}</PerkText>
+              <IconCircle>{p.icon}</IconCircle>
+              <PerkTitle>{p.title}</PerkTitle>
+              <PerkText>{p.text}</PerkText>
             </PerkCard>
           ))}
         </PerksContainer>
       </PerksOuter>
 
-      {/* TESTIMONIAL SECTION */}
+      {/* TESTIMONIALS */}
       <TestimonialSection>
         <TestimonialWrapper>
-          <SectionHeadingRow style={{ paddingLeft: 0, marginBottom: 40 }}>
+          <SectionHeadingRow style={{ paddingLeft: 0, marginBottom: 30 }}>
             <YellowLine />
             <SectionHeadingText>
-              We’re Proud To Have 200+ Diverse Team Members Consisting Of The
-              Best And Talented Members From Around The World.
+              We’re Proud To Have 200+ Diverse Team Members Around The World.
             </SectionHeadingText>
           </SectionHeadingRow>
 
           <TestimonialGrid>
             <TestimonialCard>
-              <TestimonialImg src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=500&q=60" />
+              <TestimonialImg src="https://images.unsplash.com/photo-1607746882042-944635dfe10e" />
               <TestimonialText>
-                What does an employee want from an organization? It's the
-                possibility to showcase creativity, resonate success, and secure
-                acclamation. SoftMaxs allows me to grow, learn and contribute in
-                meaningful ways.
+                SoftMaxs gives me the creative freedom to innovate and the support to grow.
               </TestimonialText>
-              <p style={{ marginTop: "12px", fontWeight: 600 }}>
-                – Rahil Asif, (Team Lead – Marketing)
-              </p>
+              <strong>– Rahil Asif (Team Lead – Marketing)</strong>
             </TestimonialCard>
 
             <TestimonialCard>
-              <TestimonialImg src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=500&q=60" />
+              <TestimonialImg src="https://images.unsplash.com/photo-1544005313-94ddf0286df2" />
               <TestimonialText>
-                SoftMaxs is a great place to work because every day brings new
-                opportunities to learn, grow, and mentor. The work culture
-                motivates everyone to do their best and explore new skills.
+                A workspace where every project brings learning and growth.
               </TestimonialText>
-              <p style={{ marginTop: "12px", fontWeight: 600 }}>
-                – Diksha Ghai, (Analyst Programmer)
-              </p>
+              <strong>– Diksha Ghai (Analyst Programmer)</strong>
             </TestimonialCard>
 
             <TestimonialCard>
-              <TestimonialImg src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=500&q=60" />
+              <TestimonialImg src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39" />
               <TestimonialText>
-                SoftMaxs has provided me the platform to learn and explore new
-                technologies and work on global projects. I improved both my
-                technical and communication skills here while working with
-                talented people.
+                Working with global clients sharpened my technical and communication skills.
               </TestimonialText>
-              <p style={{ marginTop: "12px", fontWeight: 600 }}>
-                – Vikas Singh, (Analyst Programmer)
-              </p>
+              <strong>– Vikas Singh (Analyst Programmer)</strong>
             </TestimonialCard>
           </TestimonialGrid>
         </TestimonialWrapper>
       </TestimonialSection>
 
-      {/* JOBS */}
+      {/* JOBS LIST */}
       <JobsSection>
         <JobsWrapper>
-          <SectionHeadingRow style={{ paddingLeft: 0, marginBottom: 28 }}>
+          <SectionHeadingRow style={{ paddingLeft: 0, marginBottom: 24 }}>
             <YellowLine />
             <SectionHeadingText>Current Openings</SectionHeadingText>
           </SectionHeadingRow>
 
           <JobsGrid>
-            {/* DEFAULT 3 JOBS */}
-            <JobCard>
-              <div>
-                <JobTitle>Front End Developer – AngularJS</JobTitle>
-                <JobText>
-                  SoftMaxs is looking for passionate Frontend Developers with
-                  strong AngularJS skills to build modern web applications.
-                </JobText>
-              </div>
-              <ApplyBtn>APPLY NOW</ApplyBtn>
-            </JobCard>
+            {primaryJobs.map((job) => (
+              <JobCard key={job.id} onClick={() => openJobPopup(job)}>
+                <div>
+                  <JobTitle>{job.title}</JobTitle>
+                  <JobMeta>{job.shortMeta}</JobMeta>
+                  <JobText>{job.shortText}</JobText>
+                </div>
 
-            <JobCard>
-              <div>
-                <JobTitle>Drupal Developer</JobTitle>
-                <JobText>
-                  Work on large-scale Drupal projects for international clients,
-                  contributing to high-performance web platforms.
-                </JobText>
-              </div>
-              <ApplyBtn>APPLY NOW</ApplyBtn>
-            </JobCard>
+                <ApplyBtn
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openApplyPopup(job.title);
+                  }}
+                >
+                  APPLY NOW
+                </ApplyBtn>
+              </JobCard>
+            ))}
 
-            <JobCard>
-              <div>
-                <JobTitle>Technical Architect</JobTitle>
-                <JobText>
-                  Lead technical decisions, mentor teams and design scalable
-                  solutions for our enterprise customers.
-                </JobText>
-              </div>
-              <ApplyBtn>APPLY NOW</ApplyBtn>
-            </JobCard>
-
-            {/* EXTRA JOBS (TOGGLE) */}
-            {showMoreJobs && (
-              <>
-                <JobCard>
+            {showMoreJobs &&
+              extraJobs.map((job) => (
+                <JobCard key={job.id} onClick={() => openJobPopup(job)}>
                   <div>
-                    <JobTitle>React Developer</JobTitle>
-                    <JobText>
-                      Build modern UI systems with React, APIs and component
-                      based architecture.
-                    </JobText>
+                    <JobTitle>{job.title}</JobTitle>
+                    <JobMeta>{job.shortMeta}</JobMeta>
+                    <JobText>{job.shortText}</JobText>
                   </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
-                </JobCard>
 
-                <JobCard>
-                  <div>
-                    <JobTitle>Node.js Backend Developer</JobTitle>
-                    <JobText>
-                      Develop scalable backend systems using Node.js, Express
-                      and databases.
-                    </JobText>
-                  </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
+                  <ApplyBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openApplyPopup(job.title);
+                    }}
+                  >
+                    APPLY NOW
+                  </ApplyBtn>
                 </JobCard>
-
-                <JobCard>
-                  <div>
-                    <JobTitle>UI/UX Designer</JobTitle>
-                    <JobText>
-                      Create engaging user experiences and beautiful interface
-                      designs.
-                    </JobText>
-                  </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
-                </JobCard>
-
-                <JobCard>
-                  <div>
-                    <JobTitle>QA Automation Engineer</JobTitle>
-                    <JobText>
-                      Write automated test suites and ensure product quality.
-                    </JobText>
-                  </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
-                </JobCard>
-
-                <JobCard>
-                  <div>
-                    <JobTitle>Content Writer</JobTitle>
-                    <JobText>
-                      Write SEO optimized content for marketing and product
-                      pages.
-                    </JobText>
-                  </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
-                </JobCard>
-
-                <JobCard>
-                  <div>
-                    <JobTitle>Digital Marketing Specialist</JobTitle>
-                    <JobText>
-                      Manage campaigns, SEO, ads and brand visibility.
-                    </JobText>
-                  </div>
-                  <ApplyBtn>APPLY NOW</ApplyBtn>
-                </JobCard>
-              </>
-            )}
+              ))}
           </JobsGrid>
 
           <ViewMoreBtn onClick={() => setShowMoreJobs(!showMoreJobs)}>
@@ -669,192 +763,77 @@ const CareerPage = () => {
         </JobsWrapper>
       </JobsSection>
 
-      {/* VIDEO SECTION GRID */}
-      <VideoSection>
-        <VideoWrapper>
-          <VideoGrid>
-            <VideoCard>
-              <VideoFrame
-                src="https://www.youtube.com/embed/abWaTcTPgGQ"
-                title="Life at SoftMaxs 1"
-                allowFullScreen
-              />
-            </VideoCard>
-            <VideoCard>
-              <VideoFrame
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Life at SoftMaxs 2"
-                allowFullScreen
-              />
-            </VideoCard>
-            <VideoCard>
-              <VideoFrame
-                src="https://www.youtube.com/embed/oHg5SJYRHA0"
-                title="Life at SoftMaxs 3"
-                allowFullScreen
-              />
-            </VideoCard>
-          </VideoGrid>
-        </VideoWrapper>
-      </VideoSection>
+      {/* JOB DESCRIPTION POPUP */}
+      {showJobPopup && jobDetail && (
+        <PopupOverlay>
+          <PopupBox>
+            <CloseBtn onClick={closeJobPopup}>×</CloseBtn>
 
-      {/* QUOTE SECTION */}
-      <QuoteSection style={{ background: "#000", color: "white", paddingTop: "80px" }}>
-        <QuoteHeading style={{ color: "white", textAlign: "center" }}>
-          Start driving more growth for your business.
-        </QuoteHeading>
+            <h2 style={{ fontWeight: 800 }}>{jobDetail.title}</h2>
+            <JobDescMeta>{jobDetail.shortMeta}</JobDescMeta>
+            <JobDescBody>{jobDetail.longSummary}</JobDescBody>
 
-        <QuoteWrapper
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            alignItems: "center",
-            gap: "40px",
-          }}
-        >
-          {/* LEFT SIDE TEXT + IMAGE SIDE BY SIDE */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "20px",
-            }}
-          >
-            {/* TEXT LEFT */}
-            <div style={{ textAlign: "left" }}>
-              <button
-                style={{
-                  background: "#facc15",
-                  padding: "6px 16px",
-                  borderRadius: "20px",
-                  fontWeight: "700",
-                  border: "none",
-                  color: "#000",
-                  marginBottom: "20px",
-                }}
-              >
-                Ask Us
-              </button>
+            <h4 style={{ fontWeight: 700 }}>Key Responsibilities</h4>
+            <JobDescList>
+              {jobDetail.responsibilities.map((r, i) => (
+                <JobDescItem key={i}>{r}</JobDescItem>
+              ))}
+            </JobDescList>
 
-              <h1 style={{ fontSize: "50px", fontWeight: "900", lineHeight: "1" }}>
-                How
-              </h1>
-              <h2 style={{ fontSize: "32px", fontWeight: "800", color: "#facc15" }}>
-                We Create
-              </h2>
-              <h2 style={{ fontSize: "32px", fontWeight: "800" }}>
-                Your Vision
-              </h2>
-              <h2 style={{ fontSize: "32px", fontWeight: "800" }}>to Life</h2>
-            </div>
+            <h4 style={{ fontWeight: 700 }}>Must-Have Skills</h4>
+            <JobDescList>
+              {jobDetail.mustHave.map((r, i) => (
+                <JobDescItem key={i}>{r}</JobDescItem>
+              ))}
+            </JobDescList>
 
-            {/* IMAGE RIGHT INSIDE LEFT COLUMN */}
-            <img
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=500&q=60"
-              style={{
-                width: "200px",
-                height: "260px",
-                objectFit: "cover",
-                borderRadius: "10px",
+            <ApplyBtn
+              onClick={() => {
+                closeJobPopup();
+                openApplyPopup(jobDetail.title);
               }}
-            />
-          </div>
+            >
+              Apply Now
+            </ApplyBtn>
+          </PopupBox>
+        </PopupOverlay>
+      )}
 
-          {/* RIGHT FORM */}
-          <form
-            onSubmit={async (e) => {
-              e.preventDefault();
+      {/* APPLY POPUP */}
+      {showApplyPopup && (
+        <PopupOverlay>
+          <PopupBox>
+            <CloseBtn onClick={closeApplyPopup}>×</CloseBtn>
 
-              const btn = e.target.querySelector("button");
-              btn.disabled = true;
-              btn.innerText = "Sending...";
+            <h2 style={{ fontWeight: 800 }}>Apply for {selectedJob}</h2>
 
-              const formData = new FormData(e.target);
-              formData.append(
-                "access_key",
-                "9adfabce-a75b-4ab8-aea1-b79edaeeb7e0"
-              );
+            <form onSubmit={handleApplySubmit}>
+              <PInput name="fullname" placeholder="Full Name" required />
+              <PInput name="email" type="email" placeholder="Email Address" required />
+              <PInput name="phone" placeholder="Phone Number" required />
 
-              const res = await fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                body: formData,
-              });
+              <PInput
+                name="position"
+                value={selectedJob}
+                readOnly
+                style={{ background: "#eee", fontWeight: 600 }}
+              />
 
-              const data = await res.json();
+              <PTextArea
+                name="message"
+                placeholder="Tell us why you're a great fit"
+                required
+              />
 
-              if (data.success) {
-                Swal.fire({
-                  title: "✅ Message Sent!",
-                  text: "Thank you! We will contact you soon.",
-                  icon: "success",
-                  confirmButtonColor: "#facc15",
-                });
+              {/* This UI stays but file doesn't get uploaded (free plan) */}
+              <label style={{ fontWeight: 600 }}>Upload Resume (not sent in free plan)</label>
+              <PInput type="file" name="resume" accept=".pdf,.doc,.docx" />
 
-                e.target.reset();
-              } else {
-                Swal.fire({
-                  title: "❌ Error",
-                  text: "Failed to send message, please try again.",
-                  icon: "error",
-                  confirmButtonColor: "#facc15",
-                });
-              }
-
-              btn.disabled = false;
-              btn.innerText = "Request Free Quote";
-            }}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              color: "white",
-            }}
-          >
-            <label style={{ marginBottom: "6px" }}>Full Name</label>
-            <Input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              required
-              style={{ color: "black" }}
-            />
-
-            <label style={{ marginTop: "12px", marginBottom: "6px" }}>
-              Email Address
-            </label>
-            <Input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              required
-              style={{ color: "black" }}
-            />
-
-            <label style={{ marginTop: "12px", marginBottom: "6px" }}>
-              Company Name
-            </label>
-            <Input
-              type="text"
-              name="company"
-              placeholder="Company Name"
-              style={{ color: "black" }}
-            />
-
-            <label style={{ marginTop: "12px", marginBottom: "6px" }}>
-              Message
-            </label>
-            <TextArea
-              name="message"
-              placeholder="Message"
-              required
-              style={{ color: "black" }}
-            />
-
-            <Submit type="submit" style={{ marginTop: "14px" }}>
-              Request Free Quote
-            </Submit>
-          </form>
-        </QuoteWrapper>
-      </QuoteSection>
+              <PSubmit type="submit">Submit Application</PSubmit>
+            </form>
+          </PopupBox>
+        </PopupOverlay>
+      )}
 
       <OfficeLocations />
       <Footer />

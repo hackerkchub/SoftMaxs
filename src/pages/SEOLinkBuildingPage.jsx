@@ -1,9 +1,8 @@
-// src/pages/DigitalMarketingPage.jsx
+// src/pages/SEOLinkBuildingPage.jsx
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { FiPhoneCall } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -17,17 +16,12 @@ import Question from "../components/Question";
 import CounsulationForm from "../components/CounsulationForm";
 
 // THEME COLORS
-// ----------------------------------------------
-// THEME COLORS
-// ----------------------------------------------
 const PRIMARY = "#0077ff";
 const ACCENT = "#ffb400";
 const LIGHT_BG = "#f5f7ff";
 const SOFT_BG = "#fdf7e8";
 
-// ----------------------------------------------
 // ANIMATIONS
-// ----------------------------------------------
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -38,9 +32,7 @@ const slideFade = keyframes`
   to { opacity: 1; transform: translateX(0); }
 `;
 
-// ----------------------------------------------
 // PAGE WRAPPER
-// ----------------------------------------------
 const PageWrap = styled.div`
   width: 100%;
   min-height: 100vh;
@@ -50,9 +42,7 @@ const PageWrap = styled.div`
   overflow-x: hidden;
 `;
 
-// ----------------------------------------------
 // HERO SECTION
-// ----------------------------------------------
 const HeroSection = styled.section`
   width: 100%;
   padding: 80px 6% 60px;
@@ -76,11 +66,11 @@ const HeroSection = styled.section`
 const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(4px);
 `;
 
-// LEFT
+// LEFT HERO
 const HeroLeft = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,7 +121,7 @@ const Pill = styled.span`
   align-items: center;
 `;
 
-// BUTTONS
+// CTA BUTTONS
 const CTAGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -189,17 +179,16 @@ const Dot = styled.button`
   transition: 0.2s;
 `;
 
-// -------------------------------
 // HERO FORM
-// -------------------------------
 const HeroRight = styled.div`
-  background: #fff;
+  background: #ffffffee;
   border-radius: 24px;
   padding: 24px;
   max-width: 420px;
-  box-shadow: 0 20px 45px rgba(15,23,42,0.12);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
   animation: ${slideFade} 0.5s ease forwards;
   z-index: 3;
+  backdrop-filter: blur(10px);
 
   @media (max-width: 900px) {
     margin: 0 auto;
@@ -237,7 +226,8 @@ const Input = styled.input`
 
   &:focus {
     border-color: ${PRIMARY};
-    box-shadow: 0 0 0 1px rgba(0,119,255,0.15);
+    box-shadow: 0 0 0 1px rgba(0, 119, 255, 0.15);
+    outline: none;
   }
 `;
 
@@ -250,7 +240,8 @@ const TextArea = styled.textarea`
 
   &:focus {
     border-color: ${PRIMARY};
-    box-shadow: 0 0 0 1px rgba(0,119,255,0.15);
+    box-shadow: 0 0 0 1px rgba(0, 119, 255, 0.15);
+    outline: none;
   }
 `;
 
@@ -275,14 +266,12 @@ const FormNote = styled.p`
   color: #9ca3af;
 `;
 
-// ----------------------------------------------
 // GENERIC SECTIONS
-// ----------------------------------------------
 const Section = styled.section`
   padding: ${(p) => p.$py || "48px 6%"};
   background: ${(p) => p.$bg || "#ffffff"};
 
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     padding: 32px 4%;
   }
 `;
@@ -311,21 +300,19 @@ const SectionSub = styled.p`
   font-size: 0.9rem;
 `;
 
-// ----------------------------------------------
-// CARD GRID + SOFT CARDS
-// ----------------------------------------------
+// CARD GRID
 const CardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
 
-  @media(max-width: 1024px){
-    grid-template-columns: repeat(3,1fr);
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
-  @media(max-width: 768px){
-    grid-template-columns: repeat(2,1fr);
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
-  @media(max-width: 520px){
+  @media (max-width: 520px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -335,7 +322,7 @@ const SoftCard = styled.div`
   border-radius: 18px;
   padding: 18px 18px 16px;
   border: 1px solid ${(p) => p.$border || "#e5e7eb"};
-  box-shadow: ${(p) => p.$shadow || "0 10px 24px rgba(15,23,42,0.05)"};
+  box-shadow: ${(p) => p.$shadow || "0 10px 24px rgba(15, 23, 42, 0.05)"};
 `;
 
 const CardTitle = styled.h3`
@@ -349,16 +336,14 @@ const CardBody = styled.p`
   color: #6b7280;
 `;
 
-// ----------------------------------------------
-// SPLIT SECTION (IMAGE + CONTENT)
-// ----------------------------------------------
+// SPLIT (IMAGE + CONTENT)
 const Split = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
   align-items: center;
 
-  @media(max-width: 1024px){
+  @media (max-width: 1024px) {
     grid-template-columns: 1fr;
     gap: 24px;
   }
@@ -380,13 +365,11 @@ const WorkImage = styled.div`
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(15,23,42,0.25);
+    background: rgba(15, 23, 42, 0.25);
   }
 `;
 
-// ----------------------------------------------
-// CASE STUDY IMAGE + CARD
-// ----------------------------------------------
+// CASE STUDY IMAGE
 const CaseImage = styled.div`
   background-size: cover;
   background-position: center;
@@ -401,7 +384,7 @@ const CaseImage = styled.div`
   .overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.15);
+    background: rgba(0, 0, 0, 0.15);
   }
 `;
 
@@ -411,7 +394,7 @@ const Badge = styled.span`
   border-radius: 999px;
   font-size: 0.7rem;
   font-weight: 600;
-  background: rgba(255,180,0,0.12);
+  background: rgba(255, 180, 0, 0.12);
   color: #92400e;
   margin-bottom: 6px;
 `;
@@ -427,12 +410,10 @@ const List = styled.ul`
   }
 `;
 
-// ----------------------------------------------
-// STATS (CERTIFIED EXPERTS)
-// ----------------------------------------------
+// STATS
 const StatStrip = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 16px;
 `;
 
@@ -456,19 +437,17 @@ const StatLabel = styled.div`
   color: #4b5563;
 `;
 
-// ----------------------------------------------
-// RELATED SERVICES GRID
-// ----------------------------------------------
+// RELATED SERVICES
 const ServiceGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 22px;
 
-  @media(max-width: 992px){
-    grid-template-columns: repeat(2,1fr);
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  @media(max-width: 520px){
+  @media (max-width: 520px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -479,14 +458,14 @@ const ServiceCard = styled.div`
   border-radius: 18px;
   padding: 24px 18px;
   text-align: center;
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   transition: 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateY(-6px);
-    box-shadow: 0 18px 35px rgba(0,0,0,0.12);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.12);
     border-color: #0077ff55;
   }
 
@@ -507,52 +486,53 @@ const ServiceCard = styled.div`
     color: #555;
   }
 `;
+
 // ============================================================================================
-// DIGITAL MARKETING PAGE COMPONENT
+// SEO & LINK BUILDING PAGE COMPONENT
 // ============================================================================================
 
-const DigitalMarketingPage = () => {
+const SEOLinkBuildingPage = () => {
   const [slide, setSlide] = useState(0);
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
-
-  
   const navigate = useNavigate();
-  // ---------------- HERO SLIDES ----------------
+
+  // HERO SLIDES (SEO FOCUSED)
   const slides = [
     {
-      tag: "Digital Marketing Growth Studio",
-      title: "Scale Faster with Data-Driven Digital Marketing.",
-      sub: "Full-funnel SEO, Ads, Social Media and Automation engineered for conversions — not vanity metrics."
+      tag: "SEO & Link Building Studio",
+      title: "Get Found by the Right Customers on Search.",
+      sub: "Technical SEO, content strategy and authority link building engineered for long-term organic growth.",
     },
     {
-      tag: "Performance + Creative + Analytics",
-      title: "ROI-Focused Paid Ads That Actually Scale.",
-      sub: "Google Ads, Meta Ads, remarketing funnels and creative testing to maximise ROAS."
+      tag: "Organic Growth Engine",
+      title: "Rank Higher, Drive Qualified Inbound Leads.",
+      sub: "Advanced keyword research, topical clustering and on-page optimisation tuned for conversions.",
     },
     {
-      tag: "SEO + Authority Building",
-      title: "Rank Higher, Get Consistent Inbound Leads.",
-      sub: "Advanced SEO, technical optimisation, content clusters and high-authority link building."
+      tag: "Authority & Digital PR",
+      title: "Earn High-Quality Links That Search Engines Trust.",
+      sub: "Outreach, digital PR and partnerships to build a moat of authority around your brand.",
     },
     {
-      tag: "Social Media & Creative Studio",
-      title: "Build A Brand People Trust & Follow.",
-      sub: "Reels, content calendars, storytelling and influencer partnerships."
+      tag: "Technical SEO & Performance",
+      title: "Clean Technical Foundation for Every URL.",
+      sub: "Crawlability, indexation, page speed and Core Web Vitals optimised for better rankings.",
     },
     {
-      tag: "Automation & Analytics",
-      title: "Make Every Marketing Rupee Work Harder.",
-      sub: "GA4 dashboards, heatmaps, user journeys & automated sales funnels."
-    }
+      tag: "Analytics & SEO Ops",
+      title: "SEO As a System, Not a One-Time Project.",
+      sub: "Dashboards, monitoring and experiments to keep improving month after month.",
+    },
   ];
 
+  // SEO-THEMED HERO IMAGES
   const heroImages = [
-    "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1551033406-611cf9a28f67?auto=format&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&w=1600&q=60&fm=webp"
+    "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&w=1600&q=60&fm=webp",
   ];
 
   // SLIDER AUTOPLAY
@@ -565,7 +545,7 @@ const DigitalMarketingPage = () => {
 
   const current = slides[slide];
 
-  // ---------------- FORM SUBMIT (Web3Forms) ----------------
+  // FORM SUBMIT (Web3Forms)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
@@ -581,7 +561,7 @@ const DigitalMarketingPage = () => {
       const result = await response.json();
 
       if (result.success) {
-        setSuccessMsg("✅ Thanks! Our marketing strategist will contact you soon.");
+        setSuccessMsg("✅ Thanks! Our SEO strategist will contact you soon.");
         e.target.reset();
       } else {
         setSuccessMsg("❌ Something went wrong. Try again.");
@@ -593,38 +573,35 @@ const DigitalMarketingPage = () => {
     }
   };
 
-
   return (
     <PageWrap>
       <Navbar />
 
-      {/* ============================================================================================
-          HERO 
-      ============================================================================================ */}
+      {/* HERO */}
       <HeroSection $bg={heroImages[slide]}>
         <HeroOverlay />
 
         {/* LEFT SIDE */}
         <HeroLeft>
-          <HeroTag>⚡ Digital Marketing Services</HeroTag>
+          <HeroTag>🔍 SEO & Link Building Services</HeroTag>
 
           <HeroTitle>{current.title}</HeroTitle>
           <HeroSub>{current.sub}</HeroSub>
 
           <HeroHighlights>
-            <Pill>📈 SEO Strategy</Pill>
-            <Pill>🚀 Meta + Google Ads</Pill>
-            <Pill>🎬 Reels + Creative Studio</Pill>
-            <Pill>📊 Analytics & Funnels</Pill>
+            <Pill>📈 Technical SEO</Pill>
+            <Pill>🔗 Authority Link Building</Pill>
+            <Pill>🧭 Content Strategy</Pill>
+            <Pill>📊 SEO Analytics</Pill>
           </HeroHighlights>
 
           <CTAGroup>
-           <PrimaryBtn type="button" onClick={() => navigate("/book-call")}>
+            <PrimaryBtn type="button" onClick={() => navigate("/book-call")}>
               <FiPhoneCall style={{ fontSize: "1.1rem" }} />
-              Book a FREE Strategy Call
+              Book a FREE SEO Call
             </PrimaryBtn>
 
-            {/* <GhostBtn type="button">Download Marketing Deck</GhostBtn> */}
+            {/* <GhostBtn type="button">Download SEO Playbook</GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
@@ -636,15 +613,23 @@ const DigitalMarketingPage = () => {
 
         {/* RIGHT SIDE FORM */}
         <HeroRight>
-          <FormTitle>Get a Free Marketing Audit</FormTitle>
+          <FormTitle>Get a Free SEO Audit</FormTitle>
           <FormSub>
-            Share your details — we’ll analyse your brand, competitors and opportunities.
+            Share your details — we’ll review your site, competitors and growth opportunities.
           </FormSub>
 
           <form onSubmit={handleSubmit}>
-            <input type="hidden" name="access_key" value="9adfabce-a75b-4ab8-aea1-b79edaeeb7e0" />
-            <input type="hidden" name="subject" value="New Digital Marketing Lead - SoftMaxx" />
-            <input type="hidden" name="from_name" value="Digital Marketing Page" />
+            <input
+              type="hidden"
+              name="access_key"
+              value="9adfabce-a75b-4ab8-aea1-b79edaeeb7e0"
+            />
+            <input
+              type="hidden"
+              name="subject"
+              value="New SEO & Link Building Lead - SoftMaxx"
+            />
+            <input type="hidden" name="from_name" value="SEO & Link Building Page" />
 
             <FieldGroup>
               <Label>Name</Label>
@@ -653,38 +638,49 @@ const DigitalMarketingPage = () => {
 
             <FieldGroup>
               <Label>Email</Label>
-              <Input name="email" type="email" placeholder="you@company.com" required />
+              <Input
+                name="email"
+                type="email"
+                placeholder="you@company.com"
+                required
+              />
             </FieldGroup>
 
             <FieldGroup>
-              <Label>Brand / Company</Label>
-              <Input name="company" placeholder="Business name" />
+              <Label>Website URL</Label>
+              <Input name="website" placeholder="https://yourdomain.com" />
             </FieldGroup>
 
             <FieldGroup>
-              <Label>Monthly Budget</Label>
-              <Input name="budget" placeholder="₹50k – ₹5L / Flexible" />
+              <Label>Primary Market / Region</Label>
+              <Input name="market" placeholder="India, US, EU, Global..." />
             </FieldGroup>
 
             <FieldGroup>
-              <Label>Project Brief</Label>
-              <TextArea name="message" placeholder="Tell us your goals…" required />
+              <Label>SEO Goals</Label>
+              <TextArea
+                name="message"
+                placeholder="Tell us what you want SEO to achieve… (traffic, leads, authority, etc.)"
+                required
+              />
             </FieldGroup>
 
             <SubmitBtn type="submit">
-              {submitting ? "Sending..." : "Request Audit →"}
+              {submitting ? "Sending..." : "Request SEO Audit →"}
             </SubmitBtn>
 
             <FormNote>Confidential · NDA on request · No spam</FormNote>
 
             {successMsg && (
-              <p style={{
-                marginTop: "10px",
-                fontSize: "0.85rem",
-                fontWeight: "600",
-                color: "#0b8a36",
-                textAlign: "center"
-              }}>
+              <p
+                style={{
+                  marginTop: "10px",
+                  fontSize: "0.85rem",
+                  fontWeight: "600",
+                  color: "#0b8a36",
+                  textAlign: "center",
+                }}
+              >
                 {successMsg}
               </p>
             )}
@@ -692,113 +688,111 @@ const DigitalMarketingPage = () => {
         </HeroRight>
       </HeroSection>
 
-
-      {/* ============================================================================================
-          PARTNER STRIP 
-      ============================================================================================ */}
+      {/* PARTNER STRIP */}
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
-          <SectionTitle>Brands That Trust Our Digital Marketing</SectionTitle>
-          <SectionSub>D2C, SaaS, creators, enterprises & fast-growing startups.</SectionSub>
+          <SectionTitle>Brands That Trust Our SEO</SectionTitle>
+          <SectionSub>
+            SaaS, D2C, marketplaces, B2B and global enterprises relying on
+            long-term organic growth.
+          </SectionSub>
         </SectionHeader>
         <PartnerStrip />
       </Section>
 
-
-      {/* ============================================================================================
-          TESTIMONIALS 
-      ============================================================================================ */}
+      {/* TESTIMONIALS */}
       <Section>
         <Testimonials />
       </Section>
 
-
-      {/* ============================================================================================
-          DIGITAL MARKETING CHALLENGES — 6 CARDS
-      ============================================================================================ */}
+      {/* SEO CHALLENGES */}
       <Section $bg="#ffffff">
         <SectionHeader>
-          <SectionTitle>Struggling To Stand Out Online?</SectionTitle>
+          <SectionTitle>SEO Problems We Commonly Fix</SectionTitle>
           <SectionSub>
-            Most brands run ads or post content — but few have a system that actually generates
-            revenue. We help you fix that.
+            Many websites publish content – very few have a structured SEO system.
+            We help you build that.
           </SectionSub>
         </SectionHeader>
 
         <CardsGrid>
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>Low Organic Visibility</CardTitle>
+            <CardTitle>Low Organic Traffic</CardTitle>
             <CardBody>
-              Technical SEO, content clusters, keyword strategy and on-page optimisation.
+              Deep keyword research, content gaps analysis and topical clusters
+              to unlock scalable traffic.
             </CardBody>
           </SoftCard>
 
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>Poor Ad Performance</CardTitle>
+            <CardTitle>No Rankings for Money Keywords</CardTitle>
             <CardBody>
-              Full-funnel Meta + Google Ads with creative testing & ROAS-driven scaling.
+              Strategic landing pages, internal linking and link building around
+              your core commercial intent.
             </CardBody>
           </SoftCard>
 
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>Weak Social Media Presence</CardTitle>
+            <CardTitle>Slow or Unstable Rankings</CardTitle>
             <CardBody>
-              Reels, carousels, brand storytelling and consistent content calendars.
+              Technical SEO audits, performance fixes and crawl budget
+              optimisation.
             </CardBody>
           </SoftCard>
 
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>Brand Not Growing</CardTitle>
+            <CardTitle>Weak Domain Authority</CardTitle>
             <CardBody>
-              Funnel strategy, remarketing, influencers and community building.
+              White-hat outreach, digital PR and link earning campaigns for
+              sustainable authority.
             </CardBody>
           </SoftCard>
 
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>No Repeat Customers</CardTitle>
+            <CardTitle>Thin / Duplicate Content</CardTitle>
             <CardBody>
-              Email + WhatsApp automation, segmentation, retention flows.
+              Content rewrites, consolidation and structured templates for
+              high-intent pages.
             </CardBody>
           </SoftCard>
 
           <SoftCard $bg="#f3f6ff">
-            <CardTitle>Confusing Analytics</CardTitle>
+            <CardTitle>Confusing SEO Reporting</CardTitle>
             <CardBody>
-              GA4 dashboards, heatmaps, tracking fixes & CRO.
+              GA4 + Search Console dashboards and SEO KPIs that your leadership
+              actually understands.
             </CardBody>
           </SoftCard>
         </CardsGrid>
       </Section>
 
-
-      {/* ============================================================================================
-          OUR WORK — CAMPAIGN SHOWCASE
-      ============================================================================================ */}
+      {/* OUR SEO WORK */}
       <Section $bg="#f3f7ff">
         <SectionHeader>
-          <SectionTitle>Our Marketing Work</SectionTitle>
+          <SectionTitle>Our SEO & Link Building Work</SectionTitle>
           <SectionSub>
-            High-impact campaigns across D2C, SaaS, personal brands and eCommerce.
+            Real examples of ranking improvements, traffic growth and
+            authority-building campaigns.
           </SectionSub>
         </SectionHeader>
 
         {(() => {
           const workItems = [
             {
-              img: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=50&fm=webp",
-              title: "D2C Fashion Brand",
-              desc: "Scaled to 5× ROAS using Meta Ads + creative testing."
+              img: "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=50&fm=webp",
+              title: "B2B SaaS SEO Engine",
+              desc: "Built a content + link system that 3× organic demos in 9 months.",
             },
             {
-              img: "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1200&q=50&fm=webp",
-              title: "EdTech Lead Gen",
-              desc: "Reduced CPL by 41% via landing page optimisation & Google Ads."
+              img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=50&fm=webp",
+              title: "Ecommerce Category SEO",
+              desc: "Fixed indexation, structured internal links and grew non-brand traffic by 120%.",
             },
             {
-              img: "https://images.unsplash.com/photo-1508830524289-0adcbe822b40?auto=format&fit=crop&w=1200&q=50&fm=webp",
-              title: "SaaS Growth Engine",
-              desc: "SEO + paid search created a consistent inbound pipeline."
-            }
+              img: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=50&fm=webp",
+              title: "Global Blog & Resource Hub",
+              desc: "Editorial strategy + digital PR delivering compounding traffic every quarter.",
+            },
           ];
 
           const [active, setActive] = React.useState(0);
@@ -811,6 +805,7 @@ const DigitalMarketingPage = () => {
                   <img
                     key={active}
                     src={workItems[active].img}
+                    alt={workItems[active].title}
                     style={{
                       width: "100%",
                       height: "100%",
@@ -818,7 +813,7 @@ const DigitalMarketingPage = () => {
                       borderRadius: "20px",
                       position: "absolute",
                       inset: 0,
-                      opacity: 1
+                      opacity: 1,
                     }}
                   />
                 </WorkImage>
@@ -836,14 +831,15 @@ const DigitalMarketingPage = () => {
                     >
                       <img
                         src={item.img}
+                        alt={item.title}
                         style={{
                           width: "100%",
                           borderRadius: "12px",
-                          marginBottom: "10px"
+                          marginBottom: "10px",
                         }}
                       />
 
-                      <Badge>Campaign</Badge>
+                      <Badge>SEO Project</Badge>
                       <CardTitle>{item.title}</CardTitle>
                       <CardBody>{item.desc}</CardBody>
                     </SoftCard>
@@ -855,24 +851,22 @@ const DigitalMarketingPage = () => {
         })()}
       </Section>
 
-
-      {/* ============================================================================================
-          CERTIFIED DIGITAL MARKETING EXPERTS
-      ============================================================================================ */}
+      {/* CERTIFIED SEO EXPERTS */}
       <Section $bg="#ffffff">
         <SectionHeader>
-          <SectionTitle>Certified Marketing Experts</SectionTitle>
+          <SectionTitle>Certified SEO & Outreach Experts</SectionTitle>
           <SectionSub>
-            Specialists in SEO, Paid Ads, Content, Creative, Analytics & Automation.
+            Strategists, technical SEOs, content specialists and outreach
+            teams working as one pod.
           </SectionSub>
         </SectionHeader>
 
         <StatStrip>
           {[
-            { icon: "📈", end: 25, label: "Performance Marketers" },
-            { icon: "✍️", end: 18, label: "SEO & Content Experts" },
-            { icon: "🎨", end: 12, label: "Creative Designers" },
-            { icon: "📊", end: 8, label: "Analytics Specialists" }
+            { icon: "🧭", end: 20, label: "SEO Strategists" },
+            { icon: "🛠️", end: 15, label: "Technical SEO Specialists" },
+            { icon: "✍️", end: 18, label: "Content & On-Page Experts" },
+            { icon: "🔗", end: 12, label: "Outreach & PR Specialists" },
           ].map((item, i) => {
             const [count, setCount] = React.useState(0);
 
@@ -889,7 +883,10 @@ const DigitalMarketingPage = () => {
                 } else setCount(item.end);
               };
 
-              const timeout = setTimeout(() => requestAnimationFrame(animate), i * 200);
+              const timeout = setTimeout(
+                () => requestAnimationFrame(animate),
+                i * 200
+              );
 
               return () => clearTimeout(timeout);
             }, []);
@@ -898,13 +895,16 @@ const DigitalMarketingPage = () => {
               <StatCard
                 key={i}
                 style={{
-                  background: "linear-gradient(to bottom right, #ffffff, #f0f6ff)",
+                  background:
+                    "linear-gradient(to bottom right, #ffffff, #f0f6ff)",
                   boxShadow: "0 10px 26px rgba(0,0,0,0.06)",
                   padding: "24px",
-                  borderRadius: "18px"
+                  borderRadius: "18px",
                 }}
               >
-                <span style={{ fontSize: "32px", marginBottom: 6 }}>{item.icon}</span>
+                <span style={{ fontSize: "32px", marginBottom: 6 }}>
+                  {item.icon}
+                </span>
                 <StatNumber>{count}+</StatNumber>
                 <StatLabel>{item.label}</StatLabel>
               </StatCard>
@@ -912,195 +912,200 @@ const DigitalMarketingPage = () => {
           })}
         </StatStrip>
       </Section>
-      {/* ================================================================
-          7) MARKETING CAPABILITIES — BACK-END + STRATEGY
-      ================================================================ */}
+
+      {/* SEO CAPABILITIES */}
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
-          <SectionTitle>Full-Stack Marketing Capabilities</SectionTitle>
+          <SectionTitle>Full-Stack SEO & Link Building Capabilities</SectionTitle>
           <SectionSub>
-            Advanced tools, automations and strategies to grow consistently.
+            Everything you need for a long-term, compounding organic growth
+            engine.
           </SectionSub>
         </SectionHeader>
 
         <CardsGrid>
           <SoftCard>
-            <CardTitle>Advanced SEO Framework</CardTitle>
+            <CardTitle>Technical SEO Framework</CardTitle>
             <CardBody>
-              Technical cleanup, schema, content clusters and authority link-building.
+              Site architecture, Core Web Vitals, indexation, structured data
+              and error clean-up.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>High-Converting Paid Ads</CardTitle>
+            <CardTitle>Keyword & Topic Strategy</CardTitle>
             <CardBody>
-              Meta, Google, YouTube, remarketing — optimised for ROAS and LTV.
+              Keyword research, clusters and prioritised roadmaps aligned to
+              business goals.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>Content & Creative Engine</CardTitle>
+            <CardTitle>On-Page & Content SEO</CardTitle>
             <CardBody>
-              Reels, short-form, scripts, thumbnails, landing pages — produced to convert.
+              Search-optimised content templates, internal links and schema
+              that Google understands.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>Marketing Automation</CardTitle>
+            <CardTitle>Link Building & Digital PR</CardTitle>
             <CardBody>
-              WhatsApp, email, CRM journeys, drip campaigns, segmentation and retention flows.
+              White-hat outreach, guest posts and mentions on relevant,
+              authoritative domains.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>Analytics & CRO</CardTitle>
+            <CardTitle>Local & Map Rankings</CardTitle>
             <CardBody>
-              GA4 dashboards, heatmaps, funnel analysis and A/B testing for measurable lift.
+              Local SEO, GMB optimisation, citations and reputation management
+              for geo-focused brands.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>Brand & Story</CardTitle>
+            <CardTitle>SEO Analytics & CRO</CardTitle>
             <CardBody>
-              Positioning, messaging, identity systems and long-form content to build authority.
+              GA4 + Search Console dashboards, A/B tests and SEO impact tracking
+              on leads & revenue.
             </CardBody>
           </SoftCard>
         </CardsGrid>
       </Section>
 
-      {/* ================================================================
-          8) AWARDS & RECOGNITION
-      ================================================================ */}
+      {/* AWARDS & RECOGNITION */}
       <Section>
         <SectionHeader>
           <SectionTitle>Awards &amp; Recognition</SectionTitle>
           <SectionSub>
-            Recognised by industry peers and partners for delivering measurable marketing outcomes.
+            Recognised by industry partners and review platforms for delivering
+            sustainable organic growth.
           </SectionSub>
         </SectionHeader>
 
         <AwardsRecognition />
       </Section>
 
-      {/* ================================================================
-          9) PROCESS (6 steps)
-      ================================================================ */}
+      {/* SEO PROCESS */}
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
-          <SectionTitle>Our Digital Marketing Process</SectionTitle>
+          <SectionTitle>Our SEO & Link Building Process</SectionTitle>
           <SectionSub>
-            A repeatable, data-driven process that aligns strategy, creative and execution to your business goals.
+            A clear, step-by-step framework to align SEO with your product,
+            sales and content teams.
           </SectionSub>
         </SectionHeader>
 
         <CardsGrid>
           <SoftCard>
-            <CardTitle>1. Discovery & Audit</CardTitle>
+            <CardTitle>1. Technical & Content Audit</CardTitle>
             <CardBody>
-              Channel audits, competitor analysis and conversion research to identify quick wins.
+              Deep dive into site health, content footprint and competitor
+              landscape.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>2. Strategy & Roadmap</CardTitle>
             <CardBody>
-              Channel mix, creative plan and KPI roadmap tied to business outcomes.
+              Prioritised roadmap of technical fixes, content plans and link
+              initiatives.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>3. Creative Production</CardTitle>
+            <CardTitle>3. Fix Foundations</CardTitle>
             <CardBody>
-              Scripts, motion, design and landing pages — produced for scale and split-tests.
+              Implementation of architecture, speed and indexation
+              recommendations.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>4. Campaign Build & Launch</CardTitle>
+            <CardTitle>4. Create & Optimise Content</CardTitle>
             <CardBody>
-              Funnels, tags, tracking and experiments configured for clean signal and measurement.
+              New pages, refreshed content and on-page enhancements across key
+              clusters.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>5. Optimization & Growth</CardTitle>
+            <CardTitle>5. Authority & Links</CardTitle>
             <CardBody>
-              Iterative optimisation via testing, segmentation and budget reallocation.
+              Outreach and digital PR to earn quality links and mentions over
+              time.
             </CardBody>
           </SoftCard>
 
           <SoftCard>
-            <CardTitle>6. Reporting & Governance</CardTitle>
+            <CardTitle>6. Measure & Iterate</CardTitle>
             <CardBody>
-              Weekly dashboards, playbooks and a growth backlog so improvements compound.
+              Dashboards, experiments and quarterly strategy reviews to keep
+              growing.
             </CardBody>
           </SoftCard>
         </CardsGrid>
       </Section>
 
-      {/* ================================================================
-          10) HAPPY CUSTOMERS (full width)
-      ================================================================ */}
+      {/* HAPPY CUSTOMERS */}
       <FullWidthSection>
         <HappyCustomer />
       </FullWidthSection>
 
-      {/* ================================================================
-          11) FAQ / QUESTION COMPONENT
-      ================================================================ */}
+      {/* FAQ / QUESTION */}
       <Section $bg={SOFT_BG}>
         <Question />
       </Section>
 
-      {/* ================================================================
-          12) SUCCESS STORY SLIDER (CASE STUDIES) — with modal
-      ================================================================ */}
+      {/* SUCCESS STORY SLIDER (SEO CASES) */}
       <Section $bg="#ffffff">
         <SectionHeader>
-          <SectionTitle>Success Story Snapshot</SectionTitle>
+          <SectionTitle>SEO Success Story Snapshot</SectionTitle>
           <SectionSub>
-            A few hand-picked results that demonstrate our approach and impact.
+            A few live examples of how structured SEO & link building changed
+            the growth curve.
           </SectionSub>
         </SectionHeader>
 
         {(() => {
           const caseSlides = [
             {
-              title: "FashionX – Performance Marketing for D2C",
+              title: "SaaSFlow – B2B SEO for Pipeline Growth",
               body:
-                "A six-month performance program combining creative testing, funnel optimisation and lifecycle automation.",
+                "Targeted content clusters and link acquisition around high-intent SaaS keywords.",
               results: [
-                "5× ROAS on new customer campaigns",
-                "35% improvement in repeat purchase rate",
-                "Integrated SMS + Email lifecycle flows"
+                "Organic demo requests +210% in 8 months",
+                "30+ priority keywords in top 3",
+                "Consistent inbound pipeline without increasing ad spend",
               ],
               img:
-                "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?auto=format&fit=crop&w=1200&q=50&fm=webp"
+                "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=50&fm=webp",
             },
             {
-              title: "LearnGrow – Content + SEO for EdTech",
+              title: "StoreX – Ecommerce SEO & Category Lift",
               body:
-                "SEO-first content strategy, technical fixes and conversion-focused landing pages that increased organic signups.",
+                "Architecture fixes, internal linking and link building for core money pages.",
               results: [
-                "Organic traffic +72% in 4 months",
-                "Lead quality improved by 41%",
-                "Lowered CPL by 33%"
+                "Non-brand organic revenue +88%",
+                "Thousands of long-tail keywords gained",
+                "Improved UX & conversion along the way",
               ],
               img:
-                "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?auto=format&fit=crop&w=1200&q=50&fm=webp"
+                "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1200&q=50&fm=webp",
             },
             {
-              title: "BizSaaS – Inbound & Paid Search",
+              title: "GrowthHub – Content & Authority Play",
               body:
-                "Full-funnel paid search strategy combined with gated content and sales enablement to build a repeatable inbound engine.",
+                "Editorial calendar, pillar pages and digital PR to build a long-term content moat.",
               results: [
-                "Qualified pipeline growth +3×",
-                "CPL reduced by 28%",
-                "Improved demo-to-deal conversion"
+                "Organic traffic 3× over 12 months",
+                "Featured on multiple industry publications",
+                "Higher brand searches and inbound partnership requests",
               ],
               img:
-                "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=50&fm=webp"
-            }
+                "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=50&fm=webp",
+            },
           ];
 
           const [cs, setCs] = React.useState(0);
@@ -1108,7 +1113,10 @@ const DigitalMarketingPage = () => {
           const [modalData, setModalData] = React.useState(null);
 
           React.useEffect(() => {
-            const id = setInterval(() => setCs((p) => (p + 1) % caseSlides.length), 6000);
+            const id = setInterval(
+              () => setCs((p) => (p + 1) % caseSlides.length),
+              6000
+            );
             return () => clearInterval(id);
           }, []);
 
@@ -1122,27 +1130,44 @@ const DigitalMarketingPage = () => {
             setModalData(null);
           };
 
-          const slide = caseSlides[cs];
+          const slideObj = caseSlides[cs];
 
           return (
             <>
               <Split>
                 <div>
-                  <Badge>Case Study</Badge>
-                  <HeroTitle style={{ fontSize: "1.3rem", marginTop: 8 }}>{slide.title}</HeroTitle>
-                  <SectionSub style={{ marginTop: 6 }}>{slide.body}</SectionSub>
+                  <Badge>SEO Case Study</Badge>
+                  <HeroTitle style={{ fontSize: "1.3rem", marginTop: 8 }}>
+                    {slideObj.title}
+                  </HeroTitle>
+                  <SectionSub style={{ marginTop: 6 }}>
+                    {slideObj.body}
+                  </SectionSub>
 
-                  <h4 style={{ marginTop: 16, fontSize: "0.95rem", fontWeight: 700 }}>Results</h4>
+                  <h4
+                    style={{
+                      marginTop: 16,
+                      fontSize: "0.95rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    Results
+                  </h4>
                   <List>
-                    {slide.results.map((r, i) => <li key={i}>{r}</li>)}
+                    {slideObj.results.map((r, i) => (
+                      <li key={i}>{r}</li>
+                    ))}
                   </List>
 
-                  <PrimaryBtn style={{ marginTop: 16 }} onClick={() => openCaseModal(slide)}>
+                  <PrimaryBtn
+                    style={{ marginTop: 16 }}
+                    onClick={() => openCaseModal(slideObj)}
+                  >
                     View Full Case Study
                   </PrimaryBtn>
                 </div>
 
-                <CaseImage style={{ backgroundImage: `url(${slide.img})` }}>
+                <CaseImage style={{ backgroundImage: `url(${slideObj.img})` }}>
                   <div className="overlay" />
                 </CaseImage>
               </Split>
@@ -1160,25 +1185,45 @@ const DigitalMarketingPage = () => {
                     justifyContent: "center",
                     alignItems: "flex-start",
                     padding: "40px 12px",
-                    overflowY: "auto"
+                    overflowY: "auto",
                   }}
                 >
-                  <div onClick={(e) => e.stopPropagation()} style={{ width: "min(900px,95%)", background: "#fff", borderRadius: 12, overflow: "hidden" }}>
-                    <img src={modalData.img} alt={modalData.title} style={{ width: "100%", height: 320, objectFit: "cover" }} />
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    style={{
+                      width: "min(900px,95%)",
+                      background: "#fff",
+                      borderRadius: 12,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src={modalData.img}
+                      alt={modalData.title}
+                      style={{
+                        width: "100%",
+                        height: 320,
+                        objectFit: "cover",
+                      }}
+                    />
                     <div style={{ padding: 20 }}>
                       <h2 style={{ margin: 0 }}>{modalData.title}</h2>
-                      <p style={{ marginTop: 8, color: "#444" }}>{modalData.body}</p>
+                      <p style={{ marginTop: 8, color: "#444" }}>
+                        {modalData.body}
+                      </p>
 
                       <h3 style={{ marginTop: 12 }}>What We Did</h3>
                       <ul style={{ paddingLeft: 20 }}>
-                        <li>Strategic planning & channel mix</li>
-                        <li>Creative testing and scaling winners</li>
-                        <li>Lifecycle automation and CRO</li>
+                        <li>Technical & content audit</li>
+                        <li>Keyword + cluster strategy</li>
+                        <li>On-page optimisation & link building</li>
                       </ul>
 
                       <h3 style={{ marginTop: 12 }}>Results</h3>
                       <ul style={{ paddingLeft: 20 }}>
-                        {modalData.results.map((r, idx) => <li key={idx}>{r}</li>)}
+                        {modalData.results.map((r, idx) => (
+                          <li key={idx}>{r}</li>
+                        ))}
                       </ul>
 
                       <div style={{ marginTop: 18 }}>
@@ -1189,7 +1234,14 @@ const DigitalMarketingPage = () => {
                 </div>
               )}
 
-              <div style={{ display: "flex", justifyContent: "center", marginTop: 18, gap: 8 }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 18,
+                  gap: 8,
+                }}
+              >
                 {caseSlides.map((_, i) => (
                   <button
                     key={i}
@@ -1200,7 +1252,7 @@ const DigitalMarketingPage = () => {
                       borderRadius: 999,
                       border: "none",
                       background: cs === i ? PRIMARY : "#d1d5db",
-                      cursor: "pointer"
+                      cursor: "pointer",
                     }}
                   />
                 ))}
@@ -1210,71 +1262,92 @@ const DigitalMarketingPage = () => {
         })()}
       </Section>
 
-      {/* ================================================================
-          13) CONSULTATION (component)
-      ================================================================ */}
+      {/* CONSULTATION FORM SECTION */}
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
-          <SectionTitle>Ready To Grow?</SectionTitle>
+          <SectionTitle>Need Help Planning SEO Roadmap?</SectionTitle>
           <SectionSub>
-            Tell us about your goals — paid, organic or both — and we’ll suggest a growth plan.
+            Share where you are today and where you want to be — we’ll suggest
+            an SEO & link building plan.
           </SectionSub>
         </SectionHeader>
 
         <CounsulationForm />
       </Section>
 
-      {/* ================================================================
-          14) RELATED SERVICES
-      ================================================================ */}
+      {/* RELATED SERVICES */}
       <Section $bg="#f3f7ff">
         <SectionHeader>
           <SectionTitle>Related Services</SectionTitle>
           <SectionSub>
-            We operate as a full-stack partner — strategy, creative and execution all in-house.
+            We operate as a full-stack growth partner — organic, paid and
+            product teams working together.
           </SectionSub>
         </SectionHeader>
 
         <ServiceGrid>
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/google.svg" alt="Search" />
-            <h4>Search & SEO</h4>
-            <p>Technical SEO, content strategy and authority building to grow sustainable organic traffic.</p>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/google.svg"
+              alt="Search"
+            />
+            <h4>Search Strategy</h4>
+            <p>
+              Market research, keyword mapping and forecasting to align SEO with
+              business goals.
+            </p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Paid" />
-            <h4>Paid Advertising</h4>
-            <p>Meta, Google, YouTube & programmatic — optimised for ROAS and lifetime value.</p>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/semrush.svg"
+              alt="SEO Tools"
+            />
+            <h4>SEO Operations</h4>
+            <p>
+              Tooling, workflows and reporting for ongoing SEO execution and
+              governance.
+            </p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Social" />
-            <h4>Social Media</h4>
-            <p>Creative-first content, community building and influencer collaborations.</p>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg"
+              alt="Content"
+            />
+            <h4>Content & Thought Leadership</h4>
+            <p>
+              SEO-friendly articles, guides and resources that build authority
+              and trust.
+            </p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/figma.svg" alt="Brand" />
-            <h4>Brand & Creative</h4>
-            <p>Brand identity, story frameworks and campaign creative that converts.</p>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/googleanalytics.svg"
+              alt="Analytics"
+            />
+            <h4>Analytics & CRO</h4>
+            <p>
+              Measurement, testing and UX improvements so SEO traffic turns into
+              revenue.
+            </p>
           </ServiceCard>
         </ServiceGrid>
 
         <div style={{ textAlign: "center", marginTop: 32 }}>
-           <PrimaryBtn
+          <PrimaryBtn
             type="button"
             style={{ fontSize: "1rem", padding: "12px 26px" }}
             onClick={() => navigate("/book-call")}
           >
-            <FiPhoneCall style={{ fontSize: "1.1rem" }} /> Book a Strategy Call
+            <FiPhoneCall style={{ fontSize: "1.1rem" }} /> Book an SEO Strategy
+            Call
           </PrimaryBtn>
         </div>
       </Section>
 
-      {/* ================================================================
-          15) OFFICE LOCATIONS + FOOTER
-      ================================================================ */}
+      {/* OFFICE LOCATIONS + FOOTER */}
       <Section $py="40px 0">
         <OfficeLocations />
       </Section>
@@ -1282,6 +1355,6 @@ const DigitalMarketingPage = () => {
       <Footer />
     </PageWrap>
   );
-}
+};
 
-export default DigitalMarketingPage;
+export default SEOLinkBuildingPage;

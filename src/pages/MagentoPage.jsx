@@ -703,7 +703,7 @@ const MagentoPage = () => {
       desc: "Reimagined product pages, navigation and checkout for a lifestyle brand – boosting conversion and AOV.",
     },
     {
-      img: "https://images.unsplash.com/photo-1522202195461-41a5cba9c604?auto=format&fit=crop&w=1200&q=50&fm=webp",
+      img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=50&fm=webp",
       title: "B2B Ordering Portal On Magento",
       desc: "Self-serve ordering, negotiated pricing and account-level permissions for a global distributor.",
     },
@@ -848,9 +848,9 @@ const MagentoPage = () => {
               <span>Book a Magento Strategy Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>View Magento Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

@@ -848,9 +848,9 @@ const WordpressPage = () => {
               <span>Book a WordPress Strategy Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>Explore WordPress Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

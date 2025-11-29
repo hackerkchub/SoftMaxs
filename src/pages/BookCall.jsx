@@ -418,10 +418,11 @@ export default function BookCall() {
 
           <ImageRow>
             <AvatarStack>
-              <AvatarImg src="https://i.postimg.cc/0Q4sZC5J/avatar1.webp" $offset={0} />
-              <AvatarImg src="https://i.postimg.cc/tC0s0k0T/avatar2.webp" $offset={-10} />
-              <AvatarImg src="https://i.postimg.cc/zG5xwM7P/avatar3.webp" $offset={-20} />
-            </AvatarStack>
+  <AvatarImg src="https://i.pravatar.cc/150?img=68" $offset={0} />
+  <AvatarImg src="https://i.pravatar.cc/150?img=12" $offset={-10} />
+  <AvatarImg src="https://i.pravatar.cc/150?img=33" $offset={-20} />
+</AvatarStack>
+
 
             <LabelSmall>
               Actual SoftMaxs experts will join your call.

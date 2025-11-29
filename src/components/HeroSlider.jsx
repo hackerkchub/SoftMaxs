@@ -50,7 +50,11 @@ const Slide = styled.div`
   align-items: center;
   padding-left: clamp(20px, 10vw, 120px);
 
-  /* ⭐ Soft transparent overlay */
+  /* ⭐ Layer + Click Fix */
+  z-index: ${(p) => (p.show ? 5 : 0)};
+  pointer-events: ${(p) => (p.show ? "auto" : "none")};
+
+  /* Overlay */
   &::after {
     content: "";
     position: absolute;
@@ -154,7 +158,6 @@ const ArrowBtn = styled.button`
   font-size: clamp(20px, 5vw, 28px);
   cursor: pointer;
   backdrop-filter: blur(5px);
-  z-index: 30;
 
   &:hover {
     background: white;

@@ -775,9 +775,9 @@ const UiUxPage = () => {
               <span>Book a 30-Minute Design Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>View Design Portfolio</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

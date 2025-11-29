@@ -15,7 +15,7 @@ const office1Img =
   "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1000&q=80";
 
 const office2Img =
-  "https://images.unsplash.com/photo-1551298990-4897a0524840?auto=format&fit=crop&w=1000&q=80";
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=50&fm=webp";
 
 const office3Img =
   "https://images.unsplash.com/photo-1507209696998-3c532be9b2b5?auto=format&fit=crop&w=1000&q=80";

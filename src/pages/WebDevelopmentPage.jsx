@@ -2,6 +2,7 @@
 import React, { useState, useEffect }  from "react";
 import styled, { keyframes } from "styled-components";
 import { FiPhoneCall } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -540,6 +541,8 @@ const WebDevelopmentPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
 
+  const navigate = useNavigate();
+
   const slides = [
     {
       tag: "SoftMaxx Web Studio",
@@ -574,10 +577,10 @@ const WebDevelopmentPage = () => {
   ];
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1527534243816-07f0e1882635?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1487017159836-1e6a7b7ae2f7?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1600&q=60&fm=webp"
   ];
 
@@ -627,7 +630,7 @@ const WebDevelopmentPage = () => {
     },
     {
       img:
-        "https://images.unsplash.com/photo-1546539780-6f21b1c7b3e8?auto=format&fit=crop&w=1200&q=50&fm=webp",
+        "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=60&fm=webp",
       title: "EduTech Platform",
       desc: "Scalable course delivery with payments & LMS integrations."
     },
@@ -770,12 +773,12 @@ const WebDevelopmentPage = () => {
           </HeroHighlights>
 
           <CTAGroup>
-            <PrimaryBtn type="button">
+            <PrimaryBtn type="button" onClick={() => navigate("/book-call")}>
               <FiPhoneCall style={{ fontSize: "1.1rem" }} />
               Book a 30-Minute Call
             </PrimaryBtn>
 
-            <GhostBtn type="button">Download Web Capabilities PDF</GhostBtn>
+            {/* <GhostBtn type="button">Download Web Capabilities PDF</GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
@@ -929,14 +932,14 @@ const WebDevelopmentPage = () => {
               <h3 style={{ margin: 0 }}>{workItems[activeWork].title}</h3>
               <p style={{ marginTop: 8, color: "#475569" }}>{workItems[activeWork].desc}</p>
               <div style={{ marginTop: 12 }}>
-                <PrimaryBtn onClick={() => openCaseModal({
+                {/* <PrimaryBtn onClick={() => openCaseModal({
                   title: workItems[activeWork].title,
                   body: workItems[activeWork].desc,
                   results: ["Performance uplift", "Reliable infra", "Better UX"],
                   img: workItems[activeWork].img
                 })}>
                   View Case Study
-                </PrimaryBtn>
+                </PrimaryBtn> */}
               </div>
             </MockInner>
           </WorkImage>
@@ -1116,7 +1119,7 @@ const WebDevelopmentPage = () => {
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/node-dot-js.svg" alt="Node" />
+            <img src="https://cdn.worldvectorlogo.com/logos/nodejs-1.svg" alt="Node" />
             <h4>Node.js & APIs</h4>
             <p>Fast, scalable backends and API design.</p>
           </ServiceCard>
@@ -1135,7 +1138,7 @@ const WebDevelopmentPage = () => {
         </ServiceGrid>
 
         <div style={{ textAlign: "center", marginTop: 32 }}>
-          <PrimaryBtn type="button" style={{ fontSize: "1rem", padding: "12px 26px" }} onClick={scrollToTop}>
+          <PrimaryBtn onClick={() => (window.location.href = "/book-call")}>
             <FiPhoneCall style={{ fontSize: "1.1rem" }} /> Book a Call To Discuss Architecture
           </PrimaryBtn>
         </div>

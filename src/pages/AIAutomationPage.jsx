@@ -15,17 +15,15 @@ import Question from "../components/Question";
 import CounsulationForm from "../components/CounsulationForm";
 
 /* THEME */
-const PRIMARY = "#4f46e5"; // AI Indigo
-const ACCENT = "#f59e0b"; // Amber
+const PRIMARY = "#4f46e5";
+const ACCENT = "#f59e0b";
 const LIGHT_BG = "#f5f6ff";
-const SOFT_BG = "#fdf7e8";
 
 /* ANIMATIONS */
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 `;
-
 const slideFade = keyframes`
   from { opacity: 0; transform: translateX(20px); }
   to { opacity: 1; transform: translateX(0); }
@@ -42,7 +40,7 @@ const PageWrap = styled.div`
 `;
 
 /* ===================================================================
-   SECTION 1: HERO + SLIDER + CONSULTATION FORM
+   HERO + SLIDER + FORM
 =================================================================== */
 
 const HeroSection = styled.section`
@@ -130,6 +128,7 @@ const PrimaryBtn = styled.button`
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
 
   &:hover {
     background: #4338ca;
@@ -166,49 +165,46 @@ const Dot = styled.button`
 
 const HeroRight = styled.div`
   background: #fff;
-  padding: 26px;
+  padding: 32px;
   border-radius: 24px;
-  box-shadow: 0 20px 45px rgba(15,23,42,0.12);
+  box-shadow: 0 25px 55px rgba(15,23,42,0.14);
   position: relative;
   z-index: 2;
   animation: ${slideFade} 0.5s ease forwards;
+  border: 1px solid #eef2ff;
 `;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
-const FormNote = styled.p`
-  margin-top: 6px;
-  font-size: 0.7rem;
-  color: #9ca3af;
-  text-align: center;
-`;
-
+/* Improved hero form only */
 const Input = styled.input`
-  border: 1px solid #e5e7eb;
-  padding: 9px 11px;
-  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  background: #f9fafb;
+  transition: 0.2s;
 
   &:focus {
     border-color: ${PRIMARY};
+    background: #fff;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(79,70,229,0.06);
+    box-shadow: 0 0 0 4px rgba(79,70,229,0.08);
   }
 `;
 
 const TextArea = styled.textarea`
-  border: 1px solid #e5e7eb;
-  padding: 9px 11px;
-  border-radius: 12px;
-  min-height: 80px;
-  resize: vertical;
+  border: 1px solid #d1d5db;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  min-height: 90px;
+  background: #f9fafb;
+  transition: 0.2s;
 
   &:focus {
     border-color: ${PRIMARY};
+    background: #fff;
     outline: none;
-    box-shadow: 0 0 0 4px rgba(79,70,229,0.06);
+    box-shadow: 0 0 0 4px rgba(79,70,229,0.08);
   }
 `;
 
@@ -218,16 +214,22 @@ const SubmitBtn = styled.button`
   border-radius: 999px;
   border: none;
   font-weight: 700;
-  cursor: pointer;
+  margin-top: 8px;
+  color: #fff;
 
   &:hover {
     background: #d48806;
   }
 `;
 
-/* ================================================================
-   GENERIC SECTION WRAPPERS
-================================================================ */
+const FormNote = styled.p`
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: #9ca3af;
+  text-align: center;
+`;
+
+/* ===================== SECTION SYSTEM ===================== */
 
 const Section = styled.section`
   padding: ${(p) => p.$py || "48px 6%"};
@@ -271,7 +273,7 @@ const SoftCard = styled.div`
   box-shadow: 0 8px 22px rgba(15,23,42,0.06);
 `;
 
-/* ----- Split / Work image + MockInner ----- */
+/* --- Work image --- */
 const Split = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -280,7 +282,6 @@ const Split = styled.div`
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
-    gap: 24px;
   }
 `;
 
@@ -303,30 +304,20 @@ const WorkImage = styled.div`
     background: rgba(15, 23, 42, 0.12);
   }
 
-  @media (max-width: 768px) {
-    min-height: 200px;
-  }
-
   .inner {
     position: relative;
     z-index: 2;
-    width: 100%;
-    max-width: 620px;
   }
 `;
 
 const MockInner = styled.div`
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 620px;
-  background: rgba(255,255,255,0.92);
+  background: rgba(255,255,255,0.96);
   border-radius: 18px;
   padding: 18px;
   box-shadow: 0 12px 32px rgba(15,23,42,0.08);
 `;
 
-/* ----- Case image block ----- */
+/* --- Case study image --- */
 const CaseImage = styled.div`
   background-size: cover;
   background-position: center;
@@ -345,7 +336,6 @@ const CaseImage = styled.div`
   }
 `;
 
-/* ----- Small shared items ----- */
 const Badge = styled.span`
   display: inline-flex;
   padding: 3px 10px;
@@ -378,7 +368,7 @@ const List = styled.ul`
   }
 `;
 
-/* ======= Stats / Counter styles ======= */
+/* --- Counter --- */
 const StatStrip = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
@@ -386,18 +376,17 @@ const StatStrip = styled.div`
 `;
 
 const StatCard = styled.div`
-  background: ${(p) => p.$bg || "#fff"};
+  background: linear-gradient(to bottom right, #ffffff, #f0f6ff);
   border-radius: 18px;
-  padding: 16px 14px;
-  border: 1px solid ${(p) => p.$border || "transparent"};
+  padding: 22px;
   text-align: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 `;
 
 const StatNumber = styled.div`
   font-size: 1.4rem;
   font-weight: 800;
   color: ${PRIMARY};
-  margin-bottom: 4px;
 `;
 
 const StatLabel = styled.div`
@@ -405,7 +394,7 @@ const StatLabel = styled.div`
   color: #4b5563;
 `;
 
-/* ======= Related services grid ======= */
+/* --- Related services --- */
 const ServiceGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -428,164 +417,126 @@ const ServiceCard = styled.div`
   border: 1px solid #eef2ff;
   transition: 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(2,6,23,0.04);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
 
   &:hover {
     transform: translateY(-6px);
     box-shadow: 0 18px 35px rgba(2,6,23,0.08);
-    border-color: ${PRIMARY}22;
   }
 
   img {
     width: 38px;
     height: 38px;
-    object-fit: contain;
-    opacity: 0.95;
-  }
-
-  h4 {
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 4px 0;
-    color: #111;
-  }
-
-  p {
-    font-size: 0.82rem;
-    color: #555;
   }
 `;
 
-/* ================================================================
-   BEGIN PAGE COMPONENT
-================================================================ */
+/* ===================================================================
+   PAGE COMPONENT
+=================================================================== */
 
 const AIAutomationPage = () => {
+  /* SLIDER */
   const [slide, setSlide] = useState(0);
-  const [submitting, setSubmitting] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-
-  /* HERO SLIDES */
   const slides = [
     {
-      tag: "AI Engineering & Automation",
       title: "Automate your business with AI-driven workflows.",
       sub: "From LLM automation to data pipelines, we build intelligent systems that reduce cost and boost efficiency.",
     },
     {
-      tag: "LLM + GPT Solutions",
       title: "Custom AI Agents for Operations, Support & Sales.",
-      sub: "We develop private, secure enterprise GPT agents tailored to your internal business processes.",
+      sub: "Private, secure enterprise GPT agents for your processes.",
     },
     {
-      tag: "Data Automation",
       title: "Predictive, Realtime & Data Science Automation.",
-      sub: "ML pipelines, forecasting, anomaly detection and analytics — built for enterprise scale.",
+      sub: "ML pipelines, forecasting, anomaly detection, enterprise scale.",
     },
     {
-      tag: "RPA + AI Fusion",
       title: "Combine RPA with AI for high-impact automation.",
-      sub: "Automate repetitive tasks with smart decision-making using AI-enhanced bots.",
+      sub: "Automate repetitive tasks with smart decision-making.",
     },
     {
-      tag: "AI for Growth",
       title: "AI-powered personalisation & conversions.",
-      sub: "AI recommendation engines, scoring models & behaviour analytics that improve customer experience.",
+      sub: "Recommendation engines, scoring models, analytics.",
     },
   ];
 
-  /* HERO BACKGROUND IMAGES */
   const heroImages = [
     "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1581091012184-5c41de28434e?auto=format&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&w=1600&q=60&fm=webp",
   ];
 
   useEffect(() => {
-    const id = setInterval(() => {
-      setSlide((s) => (s + 1) % slides.length);
-    }, 7000);
+    const id = setInterval(() => setSlide((s) => (s + 1) % slides.length), 7000);
     return () => clearInterval(id);
-  }, [slides.length]);
+  }, []);
 
-  // <-- important: define current so render can use it
   const current = slides[slide];
 
-  /* ===================== form submit (Web3Forms) ===================== */
+  /* FORM */
+  const [submitting, setSubmitting] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
       const formData = new FormData(e.target);
-      // include access key & subject if not present in the form markup
-      if (!formData.get("access_key")) {
-        formData.append("access_key", "9adfabce-a75b-4ab8-aea1-b79edaeeb7e0");
-      }
-      if (!formData.get("subject")) {
-        formData.append("subject", "New AI & Automation Lead - SoftMaxx");
-      }
-
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
       });
-
       const result = await res.json();
+
       if (result.success) {
         setSuccessMsg("✅ Thanks — our AI team will contact you within 24 hours.");
         e.target.reset();
       } else {
         setSuccessMsg("❌ Something went wrong. Please try again.");
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       setSuccessMsg("❌ Network error. Please try again.");
     } finally {
       setSubmitting(false);
     }
   };
 
-  /* ===================== Selected Projects (AI examples) ===================== */
+  /* WORK PROJECTS */
   const workItems = [
     {
       img:
         "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1200&q=60&fm=webp",
       title: "Intelligent Support Agent",
-      desc: "Deployed an LLM-powered support assistant reducing time-to-first-response by 60%.",
+      desc: "LLM support assistant reducing response time by 60%.",
     },
     {
       img:
         "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=60&fm=webp",
       title: "Predictive Maintenance Pipeline",
-      desc: "End-to-end ML pipeline for early failure detection in industrial equipment.",
+      desc: "ML pipeline for early failure detection.",
     },
     {
       img:
         "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=60&fm=webp",
       title: "Personalisation Engine",
-      desc: "Real-time recommendations & ranking that increased conversions by 22%.",
+      desc: "Real-time recommendations with +22% conversions.",
     },
   ];
+
   const [activeWork, setActiveWork] = useState(0);
 
-  /* ===================== Case studies ===================== */
+  /* CASE STUDIES */
   const caseSlides = [
     {
       title: "AutoOps – RPA + LLM for Claims Processing",
       body:
-        "We combined RPA with LLMs to auto-process claims, classify documents and route exceptions — reducing manual hours by 78%.",
+        "LLM + RPA to auto-process claims, classify documents & route exceptions — reducing manual hours by 78%.",
       results: [
-        "78% reduction in manual processing",
-        "Faster SLA adherence",
-        "Lower operational cost",
-        "Improved accuracy via human-in-loop",
+        "78% reduced manual process",
+        "Faster SLA",
+        "Lower cost",
+        "Improved accuracy",
       ],
       img:
         "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=1200&q=60&fm=webp",
@@ -593,11 +544,11 @@ const AIAutomationPage = () => {
     {
       title: "Insightify – Forecasting & Anomaly Detection",
       body:
-        "Built forecasting models and anomaly detection for a retail chain to predict stock-outs and demand surges.",
+        "Forecasting & anomaly detection for retail chain to predict stock-outs & surges.",
       results: [
-        "Reduced stock-outs by 34%",
-        "Improved forecast accuracy (+18%)",
-        "Automated alerts to merchandising teams",
+        "34% fewer stock-outs",
+        "+18% forecast accuracy",
+        "Automated alerts",
       ],
       img:
         "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=60&fm=webp",
@@ -605,19 +556,21 @@ const AIAutomationPage = () => {
     {
       title: "AgentX – Internal Knowledge GPT",
       body:
-        "A secure, private GPT trained on company docs that helps employees find SOPs, code snippets and KB articles instantly.",
-      results: ["Faster onboarding", "Reduced context-switching", "Higher internal ticket deflection"],
+        "Secure private GPT trained on company docs for instant SOP/code search.",
+      results: ["Faster onboarding", "Reduced switching", "Higher ticket deflection"],
       img:
         "https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1200&q=60&fm=webp",
     },
   ];
 
   const [cs, setCs] = useState(0);
+
   useEffect(() => {
     const id = setInterval(() => setCs((p) => (p + 1) % caseSlides.length), 6000);
     return () => clearInterval(id);
   }, []);
 
+  /* MODAL */
   const [showCaseModal, setShowCaseModal] = useState(false);
   const [modalData, setModalData] = useState(null);
 
@@ -631,16 +584,16 @@ const AIAutomationPage = () => {
     setModalData(null);
   };
 
-  /* ===================== Counters (Certified Teams) ===================== */
+  /* COUNTER COMPONENT */
   const Counter = ({ end, icon, label, delay = 0 }) => {
     const [count, setCount] = useState(0);
     useEffect(() => {
       let start = 0;
       const duration = 1200;
-      const increment = end / (duration / 16);
+      const inc = end / (duration / 16);
 
       const animate = () => {
-        start += increment;
+        start += inc;
         if (start < end) {
           setCount(Math.floor(start));
           requestAnimationFrame(animate);
@@ -649,34 +602,26 @@ const AIAutomationPage = () => {
         }
       };
 
-      const timeout = setTimeout(() => requestAnimationFrame(animate), delay);
-      return () => clearTimeout(timeout);
+      const t = setTimeout(() => requestAnimationFrame(animate), delay);
+      return () => clearTimeout(t);
     }, [end, delay]);
 
     return (
-      <StatCard
-        style={{
-          background: "linear-gradient(to bottom right, #ffffff, #f0f6ff)",
-          boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
-          borderRadius: "18px",
-          padding: "22px",
-          transition: "0.3s",
-          textAlign: "center",
-          width: "100%",
-          maxWidth: "220px",
-        }}
-      >
-        <span style={{ fontSize: "28px", marginBottom: 8 }}>{icon}</span>
+      <StatCard>
+        <div style={{ fontSize: 28 }}>{icon}</div>
         <StatNumber>{count}+</StatNumber>
         <StatLabel>{label}</StatLabel>
       </StatCard>
     );
   };
 
-  /* ===================== helper ===================== */
+  /* SCROLL HELP */
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  /* ===================== RENDER — remainder of page ===================== */
+  /* ===================================================================
+     RENDER PAGE
+  ==================================================================== */
+
   return (
     <PageWrap>
       <Navbar />
@@ -697,10 +642,11 @@ const AIAutomationPage = () => {
           </HeroHighlights>
 
           <CTAGroup>
-            <PrimaryBtn type="button">
+            <PrimaryBtn onClick={() => (window.location.href = "/book-call")}>
               <FiPhoneCall /> Book 30-Min Call
             </PrimaryBtn>
-            <GhostBtn type="button">Download AI Capabilities</GhostBtn>
+
+            {/* <GhostBtn>Download AI Capabilities</GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
@@ -710,20 +656,36 @@ const AIAutomationPage = () => {
           </SliderDots>
         </HeroLeft>
 
+        {/* HERO FORM */}
         <HeroRight>
           <form onSubmit={handleSubmit}>
             <input type="hidden" name="access_key" value="9adfabce-a75b-4ab8-aea1-b79edaeeb7e0" />
             <input type="hidden" name="subject" value="AI & Automation Lead - SoftMaxx" />
+
             <Input name="name" placeholder="Full name" required />
             <Input name="email" type="email" placeholder="you@company.com" required />
             <Input name="company" placeholder="Company" />
             <Input name="budget" placeholder="Monthly budget / ARR" />
             <TextArea name="message" placeholder="Tell us about the problem you want to solve" required />
+
             <SubmitBtn type="submit" disabled={submitting}>
               {submitting ? "Sending..." : "Request Consultation →"}
             </SubmitBtn>
+
             <FormNote>We sign NDA on request • 100% confidential.</FormNote>
-            {successMsg && <p style={{ marginTop: 12, color: "#0b8a36", fontWeight: 700, textAlign: "center" }}>{successMsg}</p>}
+
+            {successMsg && (
+              <p
+                style={{
+                  marginTop: 12,
+                  color: "#0b8a36",
+                  fontWeight: 700,
+                  textAlign: "center",
+                }}
+              >
+                {successMsg}
+              </p>
+            )}
           </form>
         </HeroRight>
       </HeroSection>
@@ -732,7 +694,9 @@ const AIAutomationPage = () => {
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
           <SectionTitle>Trusted By Product & Operations Teams</SectionTitle>
-          <SectionSub>Partners and clients who rely on our AI engineering and automation work.</SectionSub>
+          <SectionSub>
+            Partners and clients who rely on our AI engineering and automation work.
+          </SectionSub>
         </SectionHeader>
 
         <PartnerStrip />
@@ -743,59 +707,70 @@ const AIAutomationPage = () => {
         <Testimonials />
       </Section>
 
-      {/* CHALLENGES (AI use-cases) */}
-      <Section $bg="#ffffff">
+      {/* IMPACT CARDS */}
+      <Section>
         <SectionHeader>
           <SectionTitle>Where AI & Automation Deliver Biggest Impact</SectionTitle>
-          <SectionSub>We help teams deploy practical AI that moves the needle — not just models for experiments.</SectionSub>
+          <SectionSub>
+            Practical, enterprise-ready automation that moves the needle.
+          </SectionSub>
         </SectionHeader>
 
         <CardsGrid>
           <SoftCard>
             <CardTitle>Automated Support & Triage</CardTitle>
-            <CardBody>LLM agents that ingest tickets, summarise issues and auto-suggest resolutions or escalate when needed.</CardBody>
+            <CardBody>LLM agents that ingest tickets and auto-suggest resolutions.</CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>Intelligent Document Processing</CardTitle>
-            <CardBody>Parse invoices, contracts and forms with extraction models + RPA to update downstream systems.</CardBody>
+            <CardBody>Extract structured data from invoices, contracts & forms.</CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>Predictive Operations</CardTitle>
-            <CardBody>Forecasting, anomaly detection & proactive alerts to prevent incidents and reduce downtime.</CardBody>
+            <CardBody>Forecasting, anomaly detection & incident prevention.</CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>Personalisation & Recommendations</CardTitle>
-            <CardBody>Real-time model-driven product and content recommendations tuned for conversion lift.</CardBody>
+            <CardBody>Real-time recommendations tuned for conversion lift.</CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>Process Orchestration</CardTitle>
-            <CardBody>Combine LLM decisions with RPA to automate end-to-end business workflows with governance.</CardBody>
+            <CardBody>LLM decisions + RPA for end-to-end workflows.</CardBody>
           </SoftCard>
 
           <SoftCard>
             <CardTitle>Data Ops & Pipelines</CardTitle>
-            <CardBody>Production ML pipelines, feature stores and reliable data infra for repeatable model delivery.</CardBody>
+            <CardBody>ML pipelines, feature stores & model lifecycle infrastructure.</CardBody>
           </SoftCard>
         </CardsGrid>
       </Section>
 
-      {/* SELECTED PROJECTS */}
+      {/* SELECTED AI PROJECTS */}
       <Section $bg="#f3f7ff">
         <SectionHeader>
           <SectionTitle>Selected AI Projects</SectionTitle>
-          <SectionSub>Examples of AI & automation solutions we've built for enterprise customers.</SectionSub>
+          <SectionSub>Enterprise-grade deployments built by our team.</SectionSub>
         </SectionHeader>
 
         <Split>
           <div>
             <CardsGrid>
               {workItems.map((item, i) => (
-                <SoftCard key={i} onMouseEnter={() => setActiveWork(i)} onClick={() => setActiveWork(i)} style={{ cursor: "pointer" }}>
-                  <img src={item.img} alt={item.title} style={{ width: "100%", borderRadius: 12, marginBottom: 10 }} loading="lazy" />
+                <SoftCard
+                  key={i}
+                  onMouseEnter={() => setActiveWork(i)}
+                  onClick={() => setActiveWork(i)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    style={{ width: "100%", borderRadius: 12, marginBottom: 10 }}
+                  />
                   <Badge>Project</Badge>
                   <CardTitle>{item.title}</CardTitle>
                   <CardBody>{item.desc}</CardBody>
@@ -809,7 +784,7 @@ const AIAutomationPage = () => {
               <h3 style={{ margin: 0 }}>{workItems[activeWork].title}</h3>
               <p style={{ marginTop: 8, color: "#475569" }}>{workItems[activeWork].desc}</p>
               <div style={{ marginTop: 12 }}>
-                <PrimaryBtn
+                {/* <PrimaryBtn
                   onClick={() =>
                     openCaseModal({
                       title: workItems[activeWork].title,
@@ -819,46 +794,51 @@ const AIAutomationPage = () => {
                     })
                   }
                 >
-                  View Case Study
-                </PrimaryBtn>
+                </PrimaryBtn> */}
               </div>
             </MockInner>
           </WorkImage>
         </Split>
       </Section>
 
-      {/* CERTIFIED EXPERTS */}
+      {/* CERTIFIED TEAMS */}
       <Section>
         <SectionHeader>
           <SectionTitle>Certified AI & Automation Teams</SectionTitle>
-          <SectionSub>Data scientists, ML engineers, DevOps and RPA specialists — all in one team.</SectionSub>
+          <SectionSub>Data science, ML, RPA & MLOps experts.</SectionSub>
         </SectionHeader>
 
-        <StatStrip style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr))", gap: 20 }}>
+        <StatStrip>
           <Counter end={30} icon="👩‍💻" label="ML & Data Engineers" delay={100} />
-          <Counter end={25} icon="🤖" label="RPA & Automation Engineers" delay={200} />
+          <Counter end={25} icon="🤖" label="RPA Engineers" delay={200} />
           <Counter end={40} icon="🧪" label="Model Experiments Run" delay={300} />
           <Counter end={12} icon="☁️" label="Cloud & MLOps Leads" delay={400} />
         </StatStrip>
       </Section>
 
       {/* CASE STUDY SNAPSHOT */}
-      <Section $bg="#ffffff">
+      <Section>
         <SectionHeader>
           <SectionTitle>Case Study Snapshot</SectionTitle>
-          <SectionSub>Real outcomes — measurable improvements delivered by our AI teams.</SectionSub>
+          <SectionSub>Real results from our automation work.</SectionSub>
         </SectionHeader>
 
         <Split>
           <div>
             <Badge>Case Study</Badge>
-            <HeroTitle style={{ fontSize: "1.3rem", marginTop: 8 }}>{caseSlides[cs].title}</HeroTitle>
+            <HeroTitle style={{ fontSize: "1.3rem", marginTop: 8 }}>
+              {caseSlides[cs].title}
+            </HeroTitle>
             <SectionSub style={{ marginTop: 6 }}>{caseSlides[cs].body}</SectionSub>
 
-            <h4 style={{ marginTop: 16, fontSize: "0.95rem", fontWeight: 700 }}>Results</h4>
-            <List>{caseSlides[cs].results.map((r, i) => <li key={i}>{r}</li>)}</List>
+            <h4 style={{ marginTop: 16 }}>Results</h4>
+            <List>
+              {caseSlides[cs].results.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </List>
 
-            <PrimaryBtn style={{ marginTop: 16 }} onClick={() => openCaseModal(caseSlides[cs])}>
+            <PrimaryBtn onClick={() => openCaseModal(caseSlides[cs])} style={{ marginTop: 16 }}>
               View Full Case Study
             </PrimaryBtn>
           </div>
@@ -868,7 +848,23 @@ const AIAutomationPage = () => {
           </CaseImage>
         </Split>
 
-        {/* Case modal */}
+        <div style={{ textAlign: "center", marginTop: 18, display: "flex", justifyContent: "center", gap: 8 }}>
+          {caseSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCs(i)}
+              style={{
+                width: cs === i ? 20 : 8,
+                height: 8,
+                borderRadius: 999,
+                background: cs === i ? PRIMARY : "#d1d5db",
+                border: "none",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* MODAL */}
         {showCaseModal && modalData && (
           <div
             onClick={closeCaseModal}
@@ -884,21 +880,37 @@ const AIAutomationPage = () => {
               overflowY: "auto",
             }}
           >
-            <div onClick={(e) => e.stopPropagation()} style={{ width: "min(900px,95%)", background: "#fff", borderRadius: 12, overflow: "hidden" }}>
-              <img src={modalData.img} alt={modalData.title} style={{ width: "100%", height: 320, objectFit: "cover" }} />
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: "min(900px,95%)",
+                background: "#fff",
+                borderRadius: 12,
+                overflow: "hidden",
+              }}
+            >
+              <img
+                src={modalData.img}
+                alt={modalData.title}
+                style={{ width: "100%", height: 320, objectFit: "cover" }}
+              />
               <div style={{ padding: 20 }}>
-                <h2 style={{ margin: 0 }}>{modalData.title}</h2>
+                <h2>{modalData.title}</h2>
                 <p style={{ marginTop: 8, color: "#444" }}>{modalData.body}</p>
 
                 <h3 style={{ marginTop: 16 }}>What We Did</h3>
                 <ul>
-                  <li>Designed the solution & data contracts</li>
-                  <li>Built and deployed models to production</li>
-                  <li>Instrumented monitoring & human-in-loop</li>
+                  <li>Designed AI + automation system</li>
+                  <li>Developed & deployed models</li>
+                  <li>Monitoring + human-in-loop</li>
                 </ul>
 
                 <h3 style={{ marginTop: 12 }}>Results</h3>
-                <ul>{modalData.results.map((r, idx) => <li key={idx}>{r}</li>)}</ul>
+                <ul>
+                  {modalData.results.map((r, idx) => (
+                    <li key={idx}>{r}</li>
+                  ))}
+                </ul>
 
                 <div style={{ marginTop: 18 }}>
                   <PrimaryBtn onClick={closeCaseModal}>Close</PrimaryBtn>
@@ -907,31 +919,13 @@ const AIAutomationPage = () => {
             </div>
           </div>
         )}
-
-        {/* pager dots */}
-        <div style={{ display: "flex", justifyContent: "center", marginTop: 18, gap: 8 }}>
-          {caseSlides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCs(i)}
-              style={{
-                width: cs === i ? 20 : 8,
-                height: 8,
-                borderRadius: 999,
-                background: cs === i ? PRIMARY : "#d1d5db",
-                border: "none",
-                cursor: "pointer",
-              }}
-            />
-          ))}
-        </div>
       </Section>
 
       {/* CONSULTATION FORM */}
       <Section $bg={LIGHT_BG}>
         <SectionHeader>
           <SectionTitle>Need help scoping an AI project?</SectionTitle>
-          <SectionSub>Share a few details and our team will suggest the best technical approach.</SectionSub>
+          <SectionSub>Share details — our AI architects will respond.</SectionSub>
         </SectionHeader>
 
         <CounsulationForm />
@@ -941,44 +935,43 @@ const AIAutomationPage = () => {
       <Section $bg="#f3f7ff">
         <SectionHeader>
           <SectionTitle>Related AI & Automation Services</SectionTitle>
-          <SectionSub>Choose the capabilities that match your roadmap.</SectionSub>
+          <SectionSub>Choose what matches your roadmap.</SectionSub>
         </SectionHeader>
 
         <ServiceGrid>
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tensorflow.svg" alt="TensorFlow" />
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tensorflow.svg" />
             <h4>Model Development</h4>
-            <p>From prototyping to production-grade models and versioned deployments.</p>
+            <p>Prototyping to production-grade model delivery.</p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pytorch.svg" alt="PyTorch" />
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/pytorch.svg" />
             <h4>ML Engineering & MLOps</h4>
-            <p>Feature stores, pipelines, CI for models & monitoring.</p>
+            <p>Feature stores, pipelines, model CI/CD.</p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/robotframework.svg" alt="RPA" />
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/robotframework.svg" />
             <h4>RPA & Orchestration</h4>
-            <p>Automate repetitive workflows with robust orchestration & audits.</p>
+            <p>End-to-end automation with audit trails.</p>
           </ServiceCard>
 
           <ServiceCard>
-            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" alt="LLM" />
-            <h4>LLM Agents & Tools</h4>
-            <p>Private LLMs, prompt engineering and secure agent frameworks.</p>
+            <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/openai.svg" />
+            <h4>LLM Agents</h4>
+            <p>Private LLMs & secure agent automation.</p>
           </ServiceCard>
         </ServiceGrid>
 
         <div style={{ textAlign: "center", marginTop: 28 }}>
-          <PrimaryBtn onClick={scrollToTop}>
+          <PrimaryBtn onClick={() => (window.location.href = "/book-call")}>
             <FiPhoneCall /> Book Architecture Call
           </PrimaryBtn>
         </div>
       </Section>
 
-      {/* OFFICE LOCATIONS + FOOTER */}
-      <Section $py="40px 0">
+      <Section>
         <OfficeLocations />
       </Section>
 

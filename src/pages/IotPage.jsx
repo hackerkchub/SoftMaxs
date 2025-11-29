@@ -848,9 +848,9 @@ const IotPage = () => {
               <span>Book an IoT Strategy Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>View IoT Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

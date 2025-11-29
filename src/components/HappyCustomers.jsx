@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { FiBook, FiSmile, FiCpu } from "react-icons/fi";
 
 /* -------------------------------------------
    WRAPPER
@@ -132,7 +133,7 @@ const Quote = styled.p`
 `;
 
 /* -------------------------------------------
-   FOOTER ROW
+   FOOTER
 ------------------------------------------- */
 const FooterRow = styled.div`
   margin-top: 20px;
@@ -174,17 +175,30 @@ const Role = styled.p`
   margin-top: -2px;
 `;
 
-const Logo = styled.img`
-  height: clamp(30px, 6vw, 40px);
-  opacity: 0.9;
-  
+/* -------------------------------------------
+   ICON LOGO
+------------------------------------------- */
+const IconLogo = styled.div`
+  font-size: clamp(32px, 6vw, 42px);
+  color: #222;
+  opacity: 0.95;
+
   @media (max-width: 500px) {
     align-self: flex-start;
   }
 `;
 
 /* -------------------------------------------
-   TESTIMONIAL DATA
+   LOGOS FROM REACT ICONS
+------------------------------------------- */
+const Logos = {
+  micebook: <FiBook />,
+  joyviva: <FiSmile />,
+  techworks: <FiCpu />,
+};
+
+/* -------------------------------------------
+   TESTIMONIALS
 ------------------------------------------- */
 const testimonials = [
   {
@@ -193,7 +207,7 @@ const testimonials = [
     name: "Chetan Shah",
     role: "Project Stakeholder, Micebook",
     pic: "https://randomuser.me/api/portraits/men/32.jpg",
-    logo: "https://i.ibb.co/Q6mj8CT/micebook.png",
+    logoId: "micebook",
   },
   {
     text:
@@ -201,7 +215,7 @@ const testimonials = [
     name: "Deigh-Anna",
     role: "JoyVIVA Team",
     pic: "https://randomuser.me/api/portraits/women/21.jpg",
-    logo: "https://i.ibb.co/VCZyx2z/joyviva.png",
+    logoId: "joyviva",
   },
   {
     text:
@@ -209,7 +223,7 @@ const testimonials = [
     name: "Michael John",
     role: "CTO, TechWorks",
     pic: "https://randomuser.me/api/portraits/men/45.jpg",
-    logo: "https://i.ibb.co/nM1R3gQ/techworks.png",
+    logoId: "techworks",
   },
 ];
 
@@ -245,7 +259,6 @@ export default function HappyCustomers() {
       </Arrows>
 
       <Grid>
-        {/* LEFT — BIG CARD */}
         <CardBig>
           <Quote>“{current.text}”</Quote>
 
@@ -258,11 +271,10 @@ export default function HappyCustomers() {
               </div>
             </Profile>
 
-            <Logo src={current.logo} />
+            <IconLogo>{Logos[current.logoId]}</IconLogo>
           </FooterRow>
         </CardBig>
 
-        {/* RIGHT — SMALL NEXT CARD */}
         <CardSmall>
           <Quote>“{nextOne.text.substring(0, 140)}...”</Quote>
 
@@ -275,7 +287,7 @@ export default function HappyCustomers() {
               </div>
             </Profile>
 
-            <Logo src={nextOne.logo} />
+            <IconLogo>{Logos[nextOne.logoId]}</IconLogo>
           </FooterRow>
         </CardSmall>
       </Grid>

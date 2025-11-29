@@ -680,14 +680,13 @@ const CloudDevOpsPage = () => {
           </HeroHighlights>
 
           <CTAGroup>
-            <PrimaryBtn type="button">
-              <FiPhoneCall style={{ fontSize: "1.1rem" }} />
-              <span>Book a Cloud Strategy Call</span>
-            </PrimaryBtn>
+             <PrimaryBtn onClick={() => (window.location.href = "/book-call")}>
+                          <FiPhoneCall /> Book 30-Min Call
+                        </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>Download Cloud Capabilities Deck</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
@@ -1342,7 +1341,7 @@ const CloudDevOpsPage = () => {
                 "Cloud costs monitored and optimised with monthly reviews."
               ],
               img:
-                "https://images.unsplash.com/photo-1517244864778-5ee2fda3db5e?auto=format&fit=crop&w=1200&q=50&fm=webp"
+                "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1200&q=50&fm=webp"
             },
             {
               title: "Fintech – Secure, Compliant Cloud Migration",
@@ -1632,10 +1631,7 @@ const CloudDevOpsPage = () => {
         </ServiceGrid>
 
         <div style={{ textAlign: "center", marginTop: "32px" }}>
-          <PrimaryBtn
-            type="button"
-            style={{ fontSize: "1rem", padding: "12px 26px" }}
-          >
+         <PrimaryBtn onClick={() => (window.location.href = "/book-call")}>
             <FiPhoneCall style={{ fontSize: "1.1rem" }} />
             Book a Call To Discuss Your Cloud Roadmap
           </PrimaryBtn>

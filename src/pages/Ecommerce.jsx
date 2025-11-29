@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { FiPhoneCall } from "react-icons/fi";
-
+import { useNavigate } from "react-router-dom";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -585,6 +585,8 @@ const EcommercePage = () => {
   const [slide, setSlide] = useState(0);
   const [submitting, setSubmitting] = useState(false);
 
+  const navigate = useNavigate();
+
   const slides = [
     {
       tag: "SoftMaxx eCommerce Studio",
@@ -616,7 +618,7 @@ const EcommercePage = () => {
   const heroImages = [
   "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=1600&q=60&fm=webp",
   "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=1600&q=60&fm=webp",
-  "https://images.unsplash.com/photo-1556742400-b5b7c5121f05?auto=format&fit=crop&w=1600&q=60&fm=webp",
+  "https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1600&q=60&fm=webp",
   "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=60&fm=webp",
   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=60&fm=webp"
 ];
@@ -688,14 +690,14 @@ const handleSubmit = async (e) => {
           </HeroHighlights>
 
           <CTAGroup>
-           <PrimaryBtn type="button">
+           <PrimaryBtn type="button" onClick={() => navigate("/book-call")}>
   <FiPhoneCall style={{ fontSize: "1.1rem" }} />
   <span>Book a 30-Minute Call</span>
 </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>Download eCommerce Deck</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
@@ -1613,8 +1615,11 @@ const handleSubmit = async (e) => {
   </ServiceGrid>
 
   <div style={{ textAlign: "center", marginTop: "32px" }}>
-   <PrimaryBtn type="button" style={{ fontSize: "1rem", padding: "12px 26px" }}>
-  <FiPhoneCall style={{ fontSize: "1.1rem" }} />
+    <PrimaryBtn
+            type="button"
+            style={{ fontSize: "1rem", padding: "12px 26px" }}
+            onClick={() => navigate("/book-call")}
+          >
   Book a Call To Discuss Platform Fit
 </PrimaryBtn>
 

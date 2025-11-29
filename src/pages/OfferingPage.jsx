@@ -1,784 +1,1300 @@
-// src/pages/OfferingsFullPage.jsx
+// src/pages/Offerings.jsx
 import React, { useState, useEffect } from "react";
 import styled, { keyframes } from "styled-components";
+import { FiPhoneCall } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+
 import Navbar from "../components/Navbar";
-import Testimonials from "../components/Testimonials";
-import OfficeLocation from "../components/OfficeLocations";
 import Footer from "../components/Footer";
-import Swal from "sweetalert2";
 
-/* ----------------------------
-   ASSET PATHS (local uploads + web fallbacks)
-   Developer note: local uploaded images available at /mnt/data/...
-   The build/tooling may convert these to URLs during preview/deploy.
------------------------------*/
-const IMG_AWARDS_LOCAL = "/mnt/data/Screenshot 2025-11-19 215040.png";
-const IMG_SKILLS_LOCAL = "/mnt/data/Screenshot 2025-11-19 215449.png";
-const IMG_WORK_LOCAL = "/mnt/data/Screenshot 2025-11-19 215631.png";
-const IMG_GALLERY_LOCAL = "/mnt/data/Screenshot 2025-11-19 220158.png";
+import PartnerStrip from "../components/PartnerStrip";
+import Testimonials from "../components/Testimonials";
+import OfficeLocations from "../components/OfficeLocations";
+import AwardsRecognition from "../components/Awards&Recognition";
+import HappyCustomer from "../components/HappyCustomers";
+import Question from "../components/Question";
+import CounsulationForm from "../components/CounsulationForm";
 
-/* web-friendly fallbacks (fast-loading Unsplash / placeholder) */
-const IMG_AWARDS_WEB = "https://images.unsplash.com/photo-1509475826633-fed577a2c71b?auto=format&fit=crop&w=1400&q=60";
-const IMG_SKILLS_WEB = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=1200&q=60";
-const IMG_WORK_WEB = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=60";
-const IMG_GALLERY_WEB = "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1400&q=60";
+// ----------------- THEME COLORS -----------------
+const PRIMARY = "#0066ff";
+const ACCENT = "#ffb400";
+const LIGHT_BG = "#f5f8ff";
 
-/* blurred background for consultation section (lightweight blur param) */
-const CONSULT_BG = "https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=30&blur=60";
-
-/* ===========================
-   THEME / COLORS
-   =========================== */
-const HIGHLIGHT = "#0b6cff";
-const ACCENT = "#e67e22";
-const BG = "#f6f8fb";
-const CARD = "#ffffff";
-const TEXT = "#0b1220";
-const MUTED = "#6b7a90";
-
-/* ===========================
-   STYLED COMPONENTS
-   =========================== */
-const Page = styled.div`
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-  background: ${BG};
-  color: ${TEXT};
-  min-height: 100vh;
+// ----------------- ANIMATIONS -----------------
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
 
-const Container = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+const slideFade = keyframes`
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
 `;
 
-/* HERO */
-const Hero = styled.section`
-  padding: 56px 0 36px;
-  background: linear-gradient(180deg, rgba(11,18,32,0.02), rgba(255,255,255,0.0));
-`;
-
-const HeroInner = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 28px;
-  align-items: center;
-  @media (max-width: 980px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const HeroTitle = styled.h1`
-  font-size: clamp(28px, 4vw, 42px);
-  margin: 0 0 12px 0;
-  font-weight: 900;
-  line-height: 1.02;
-`;
-
-const HeroLead = styled.p`
-  color: ${MUTED};
-  max-width: 70ch;
-  line-height: 1.6;
-  margin-bottom: 16px;
-`;
-
-const HeroCTArow = styled.div`
-  display: flex;
-  gap: 12px;
-  margin-top: 10px;
-  flex-wrap: wrap;
-`;
-
-const PrimaryBtn = styled.button`
-  background: linear-gradient(90deg, ${HIGHLIGHT}, ${ACCENT});
-  color: #fff;
-  border: none;
-  padding: 12px 18px;
-  border-radius: 999px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 12px 36px rgba(11,18,32,0.08);
-  transition: transform .14s ease;
-  &:hover { transform: translateY(-3px); }
-`;
-
-const SecondaryBtn = styled.button`
-  background: ${CARD};
-  color: ${TEXT};
-  border: 1px solid #e8ecf6;
-  padding: 11px 16px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 700;
-`;
-
-/* Slider */
-const SliderCard = styled.div`
-  border-radius: 12px;
-  overflow: hidden;
-  background: ${CARD};
-  box-shadow: 0 18px 40px rgba(7,12,34,0.06);
-  position: relative;
-  min-height: 320px;
-`;
-
-const SlideImage = styled.img`
+// ----------------- PAGE WRAPPER -----------------
+const PageWrap = styled.div`
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-  display: block;
+  min-height: 100vh;
+  background: #ffffff;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111827;
+  overflow-x: hidden;
 `;
 
-/* Sections */
-const Section = styled.section`
-  padding: 48px 0;
-  background: ${(p) => p.bg || "transparent"};
-`;
+/* ================================================================
+  SECTION 1: HERO + SLIDER + CONSULTANCY FORM
+================================================================ */
+const HeroSection = styled.section`
+  width: 100%;
+  padding: 80px 6% 60px;
+  background-image: ${(p) => `url(${p.$bg})`};
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
 
-const SectionTitle = styled.h2`
-  font-size: 28px;
-  text-align: center;
-  margin: 0 0 16px 0;
-  font-weight: 800;
-`;
-
-const Row = styled.div`
   display: grid;
-  grid-template-columns: ${(p) => p.cols || "1fr 1fr"};
-  gap: 18px;
-  @media (max-width: 980px) {
-    grid-template-columns: 1fr;
-  }
-`;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: stretch;
 
-const Card = styled.div`
-  background: ${CARD};
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 12px 36px rgba(7,12,34,0.06);
-`;
-
-/* Services grid */
-const ServicesGrid = styled.div`
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(2, 1fr);
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    padding: 70px 4% 40px;
+  }
+
+  @media (max-width: 500px) {
+    padding: 60px 4% 32px;
   }
 `;
 
-const ServiceCard = styled(Card)`
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-`;
-
-const ServiceImg = styled.img`
-  width: 140px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 10px;
-  flex-shrink: 0;
-`;
-
-/* Logos grid */
-const LogosGrid = styled.div`
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-`;
-
-const LogoBox = styled.div`
-  width: 140px;
-  height: 70px;
-  background: #fff;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 8px 20px rgba(7,12,34,0.04);
-`;
-
-/* Gallery */
-const GalleryGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  @media (max-width: 980px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-/* Steps */
-const Steps = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  @media (max-width: 980px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: 640px) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const StepCard = styled.div`
-  background: linear-gradient(180deg, #ffffff, #fbfbff);
-  border-radius: 10px;
-  padding: 14px;
-  text-align: left;
-  min-height: 120px;
-  box-shadow: 0 10px 28px rgba(7,12,34,0.04);
-`;
-
-/* Consultation section background + overlay */
-const ConsultSectionWrap = styled.section`
-  position: relative;
-  padding: 56px 0;
-  background: url(${CONSULT_BG}) center/cover no-repeat;
-  /* fallback gradient if image fails */
-  background-color: #f8fbff;
-  overflow: hidden;
-`;
-
-const ConsultOverlay = styled.div`
+const HeroOverlay = styled.div`
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.72);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(4px);
 `;
 
-/* Consultation container to ensure full-width bg but centered content */
-const ConsultContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+const HeroLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  animation: ${fadeInUp} 0.6s ease forwards;
   position: relative;
-  z-index: 2;
+  z-index: 1;
 `;
 
-/* simple form card (kept same UI) */
-const FormCard = styled.form`
+const HeroTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 102, 255, 0.08);
+  color: ${PRIMARY};
+  font-size: 0.8rem;
+  font-weight: 600;
+  width: fit-content;
+`;
+
+const HeroTitle = styled.h1`
+  font-size: clamp(2.1rem, 3.1vw, 3rem);
+  line-height: 1.1;
+  font-weight: 800;
+  color: #111827;
+`;
+
+const HeroSub = styled.p`
+  max-width: 560px;
+  color: #4b5563;
+  font-size: 0.98rem;
+`;
+
+const HeroHighlights = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+`;
+
+const Pill = styled.span`
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+`;
+
+const CTAGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 18px;
+`;
+
+const PrimaryBtn = styled.button`
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: ${PRIMARY};
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background: #0055cc;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 25px rgba(0, 119, 255, 0.25);
+  }
+`;
+
+const GhostBtn = styled.button`
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  color: #111827;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    background: #f9fafb;
+  }
+`;
+
+const SliderDots = styled.div`
+  display: flex;
+  gap: 6px;
+  margin-top: 18px;
+`;
+
+const Dot = styled.button`
+  width: ${(p) => (p.$active ? "18px" : "8px")};
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: ${(p) => (p.$active ? PRIMARY : "#d1d5db")};
+  cursor: pointer;
+  transition: all 0.2s ease;
+`;
+
+const HeroRight = styled.div`
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+  max-width: 420px;
+  margin-left: auto;
+  animation: ${slideFade} 0.5s ease forwards;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 900px) {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+`;
+
+const FormTitle = styled.h3`
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+`;
+
+const FormSub = styled.p`
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 14px;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const FieldGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+
+const Label = styled.label`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+`;
+
+const Input = styled.input`
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.85rem;
+  outline: none;
+  transition: 0.15s ease;
+
+  &:focus {
+    border-color: ${PRIMARY};
+    box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.1);
+  }
+`;
+
+const TextArea = styled.textarea`
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+
+  &:focus {
+    border-color: ${PRIMARY};
+    box-shadow: 0 0 0 1px rgba(0, 102, 255, 0.1);
+  }
+`;
+
+const SubmitBtn = styled.button`
+  margin-top: 6px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: none;
+  background: ${ACCENT};
+  color: #111827;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  width: 100%;
+
+  &:hover {
+    background: #e19a00;
+    transform: translateY(-1px);
+  }
+`;
+
+const FormNote = styled.p`
+  margin-top: 6px;
+  font-size: 0.7rem;
+  color: #9ca3af;
+`;
+
+/* ================================================================
+  SECTION 2: GENERIC WRAPPERS
+================================================================ */
+const Section = styled.section`
+  padding: ${(p) => p.$py || "48px 6%"};
+  background: ${(p) => p.$bg || "#ffffff"};
+
+  @media (max-width: 768px) {
+    padding: 32px 4%;
+  }
+`;
+
+const SectionHeader = styled.div`
+  text-align: center;
+  margin-bottom: 32px;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+`;
+
+const SectionSub = styled.p`
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 0.9rem;
+  color: #6b7280;
+`;
+
+/* ================================================================
+  SECTION 3: OUR SERVICES
+================================================================ */
+const CardsGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: repeat(3, 1fr);
   gap: 18px;
-  background: ${CARD};
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 12px 36px rgba(7,12,34,0.06);
-  @media (max-width: 980px) {
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
     grid-template-columns: 1fr;
   }
 `;
 
-const Field = styled.div`
-  display: flex;
-  flex-direction: column;
+const SoftCard = styled.div`
+  background: #fff;
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
 `;
 
-const Label = styled.label`
+const CardTitle = styled.h3`
+  font-size: 0.95rem;
   font-weight: 700;
+  margin-bottom: 4px;
+`;
+
+const CardBody = styled.p`
+  font-size: 0.8rem;
+  color: #6b7280;
+`;
+
+const StatStrip = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+`;
+
+const StatCard = styled.div`
+  background: ${(p) => p.$bg || "#ffffff"};
+  border-radius: 18px;
+  padding: 16px 14px;
+  border: 1px solid ${(p) => p.$border || "transparent"};
+  text-align: center;
+`;
+
+const StatNumber = styled.div`
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: ${PRIMARY};
+  margin-bottom: 4px;
+`;
+
+const StatLabel = styled.div`
+  font-size: 0.8rem;
+  color: #4b5563;
+`;
+
+// Image split blocks
+const Split = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: center;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+`;
+
+const WorkImage = styled.div`
+  background-size: cover;
+  background-position: center;
+  border-radius: 26px;
+  padding: 18px;
+  min-height: 230px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.08);
+  }
+
+  @media (max-width: 768px) {
+    min-height: 200px;
+  }
+
+  @media (max-width: 500px) {
+    min-height: 170px;
+  }
+`;
+
+const CaseImage = styled.div`
+  background-size: cover;
+  background-position: center;
+  border-radius: 26px;
+  min-height: 260px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.12);
+  }
+`;
+
+const MockInner = styled.div`
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 620px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+`;
+
+const Badge = styled.span`
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: rgba(0, 119, 255, 0.08);
+  color: ${PRIMARY};
   margin-bottom: 6px;
 `;
 
-const Input = styled.input`
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e8ecf6;
-  background: #fbfdff;
-  outline: none;
-  font-size: 14px;
-  &:focus { border-color: ${HIGHLIGHT}; box-shadow: 0 6px 18px rgba(11,108,255,0.06); }
+const List = styled.ul`
+  margin: 10px 0 0;
+  padding-left: 18px;
+  font-size: 0.82rem;
+  color: #4b5563;
+
+  li + li {
+    margin-top: 4px;
+  }
 `;
 
-const Textarea = styled.textarea`
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #e8ecf6;
-  background: #fbfdff;
-  outline: none;
-  font-size: 14px;
-  min-height: 110px;
-  resize: vertical;
-  &:focus { border-color: ${HIGHLIGHT}; box-shadow: 0 6px 18px rgba(11,108,255,0.06); }
+const ServiceGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
-const Small = styled.div`
-  font-size: 13px;
-  color: ${MUTED};
+const ServiceCard = styled.div`
+  background: #fff;
+  border-radius: 18px;
+  padding: 24px 18px;
+  text-align: center;
+  border: 1px solid #eef2ff;
+  transition: 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(2, 6, 23, 0.04);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(2, 6, 23, 0.08);
+    border-color: ${PRIMARY}22;
+  }
+
+  img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    opacity: 0.95;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 4px 0;
+    color: #111;
+  }
+
+  p {
+    font-size: 0.82rem;
+    color: #555;
+  }
 `;
 
-/* loading spinner keyframes */
-const spin = keyframes`
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
-`;
+/* ========================= MAIN COMPONENT ========================= */
 
-/* inline small spinner */
-const Spinner = styled.div`
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid rgba(11,18,32,0.12);
-  border-top-color: ${HIGHLIGHT};
-  animation: ${spin} 0.9s linear infinite;
-  display: inline-block;
-`;
+const Offerings = () => {
+  const navigate = useNavigate();
 
-/* ===========================
-   PAGE DATA
-   =========================== */
-
-const servicesData = [
-  {
-    id: "mobile",
-    title: "Mobile App Development",
-    short: "Native & cross-platform mobile apps (iOS & Android).",
-    long:
-      "We build performant mobile apps using Flutter and React Native — feature-rich, secure and easy to maintain.",
-    img: "https://images.unsplash.com/photo-1523475496153-3d6cc2f0a706?auto=format&fit=crop&w=900&q=60",
-  },
-  {
-    id: "web",
-    title: "Web & Portal Development",
-    short: "Scalable web platforms, admin portals & SaaS products.",
-    long:
-      "Modern web architectures with React/Next, TypeScript, and backend APIs designed for scale and observability.",
-    img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=60",
-  },
-  {
-    id: "api",
-    title: "Backend & API Engineering",
-    short: "Robust APIs, microservices & cloud systems.",
-    long:
-      "Secure APIs, serverless or containerized microservices, and production-grade deployment pipelines.",
-    img: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=900&q=60",
-  },
-  {
-    id: "ux",
-    title: "UX & Product Design",
-    short: "Research-led UX, prototypes & design systems.",
-    long:
-      "End-to-end design from discovery to pixel-perfect UI components and accessible design systems.",
-    img: "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=900&q=60",
-  },
-];
-
-const logos = [
-  { id: "l1", name: "ISO 9001", img: "https://via.placeholder.com/120x60?text=ISO+9001" },
-  { id: "l2", name: "AWS", img: "https://via.placeholder.com/120x60?text=AWS" },
-  { id: "l3", name: "GCP", img: "https://via.placeholder.com/120x60?text=GCP" },
-  { id: "l4", name: "ITIL", img: "https://via.placeholder.com/120x60?text=ITIL" },
-  { id: "l5", name: "Clutch", img: "https://via.placeholder.com/120x60?text=Clutch" },
-];
-
-/* Development process steps */
-const processSteps = [
-  { title: "Discover", desc: "Research, stakeholder interviews, goals & scope." },
-  { title: "Design", desc: "Wireframes, prototypes, usability testing." },
-  { title: "Develop", desc: "Engineering sprints, CI/CD, automated tests." },
-  { title: "Scale", desc: "Monitoring, optimisation & growth operations." },
-];
-
-/* ===========================
-   Helper: choose local path if exists else fallback web url
-   (Tooling will typically map /mnt/data/... to a public URL)
-   =========================== */
-const chooseAsset = (localPath, webPath) => localPath || webPath;
-
-/* ===========================
-   MAIN COMPONENT
-   =========================== */
-export default function OfferingsFullPage() {
+  // hero slider state
   const [slide, setSlide] = useState(0);
-  const sliderImgs = [
-    { src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1400&q=80", caption: "We build modern digital products — fast and reliable." },
-    { src: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1400&q=80", caption: "Data & AI powering better business decisions." },
-    { src: "https://images.unsplash.com/photo-1505765053502-1d9b7c9e9f2a?auto=format&fit=crop&w=1400&q=80", caption: "Design-forward customer experiences that convert." },
+  const [submitting, setSubmitting] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const slides = [
+    {
+      tag: "SoftMaxs App Studio",
+      title: "High-performance mobile apps. Built for growth.",
+      sub:
+        "We design and develop mobile applications for iOS & Android that are fast, secure and built to scale."
+    },
+    {
+      tag: "Native & Cross-platform Experts",
+      title: "Flutter, React Native & Native stacks",
+      sub:
+        "One codebase or truly native — we choose the right stack to deliver performance and speed to market."
+    },
+    {
+      tag: "End-to-end Product Delivery",
+      title: "From idea to app store launch",
+      sub:
+        "Discovery, UX, development, QA and ongoing support — complete lifecycle under one product team."
+    },
+    {
+      tag: "Secure & Compliant",
+      title: "Secure-by-design mobile architectures",
+      sub:
+        "Best practices for auth, data protection, offline storage and compliance for regulated industries."
+    },
+    {
+      tag: "Scalable Backend APIs",
+      title: "APIs, integrations & analytics for your app",
+      sub:
+        "Cloud-native backends, analytics and integrations to power rich mobile experiences."
+    }
+  ];
+
+  const heroImages = [
+    "https://images.unsplash.com/photo-1587620962725-abab7fe55159?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=60&fm=webp"
   ];
 
   useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % sliderImgs.length), 5000);
-    return () => clearInterval(t);
-  }, []);
+    const id = setInterval(() => {
+      setSlide((p) => (p + 1) % slides.length);
+    }, 7000);
+    return () => clearInterval(id);
+  }, [slides.length]);
 
-  /* consultation form state - keep fields as requested */
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    company_name: "",
-    service: servicesData[0].title,
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const current = slides[slide];
 
-  /* validation */
-  const validate = () => {
-    const err = {};
-    if (!form.name) err.name = "Please enter your name";
-    if (!form.email) err.email = "Please enter your email";
-    else if (!/^\S+@\S+\.\S+$/.test(form.email)) err.email = "Enter a valid email";
-    if (!form.phone) err.phone = "Please enter your phone";
-    if (!form.message) err.message = "Please enter a short message";
-    // company_name optional but we will send if present
-    return err;
-  };
-
-  /* send via Web3Forms */
-  const sendForm = async (e) => {
+  // Hero / Form submit (Web3Forms)
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const err = validate();
-    setErrors(err);
-    if (Object.keys(err).length > 0) return;
-
-    setLoading(true);
-
-    // prepare payload required by web3forms (plus phone as custom)
-    const payload = {
-      access_key: "9adfabce-a75b-4ab8-aea1-b79edaeeb7e0",
-      subject: "New Consultation Request - SoftMaxs",
-      from_name: form.name,
-      reply_to: form.email,
-      company_name: form.company_name || "",
-      phone: form.phone || "",
-      message: `Service: ${form.service}\n\nMessage:\n${form.message}`,
-      // optional: you can pass full form raw as well
-      form_data: form,
-    };
-
+    setSubmitting(true);
     try {
+      const formData = new FormData(e.target);
+
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: formData
       });
 
-      if (res.ok) {
-        setSubmitted(true);
-        Swal.fire({
-          icon: "success",
-          title: "Message Sent!",
-          text: "Thank you — we will contact you shortly.",
-          confirmButtonColor: "#0b6cff",
-        });
-        setForm({
-          name: "",
-          email: "",
-          phone: "",
-          company_name: "",
-          service: servicesData[0].title,
-          message: "",
-        });
+      const result = await res.json();
+      if (result.success) {
+        setSuccessMsg("✅ Thank you — our mobile experts will contact you within 24 hours.");
+        e.target.reset();
       } else {
-        const text = await res.text();
-        console.error("Web3Forms error:", text);
-        Swal.fire({
-          icon: "error",
-          title: "Error Sending Message",
-          text: "Something went wrong — please try again later.",
-        });
+        setSuccessMsg("❌ Something went wrong. Please try again.");
       }
     } catch (err) {
       console.error(err);
-      Swal.fire({
-        icon: "error",
-        title: "Network Error",
-        text: "Unable to send message. Please check your connection.",
-      });
+      setSuccessMsg("❌ Network error. Please try again.");
     } finally {
-      setLoading(false);
-      setTimeout(() => setSubmitted(false), 3000);
+      setSubmitting(false);
     }
   };
 
+  // work items for portfolio grid (mobile / app focused)
+  const workItems = [
+    {
+      img: "https://images.unsplash.com/photo-1587614382346-4ec70e388b28?auto=format&fit=crop&w=1600&q=60&fm=webp",
+      title: "On-demand Delivery App",
+      desc: "Consumer-facing app with live tracking, courier routing and real-time notifications."
+    },
+    {
+      img: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=60&fm=webp",
+      title: "FinTech Wallet & Payments",
+      desc: "Secure wallet, KYC flows and instant payments with robust fraud monitoring."
+    },
+    {
+      img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=50&fm=webp",
+      title: "Enterprise Field App",
+      desc: "Offline-first app for field teams with sync, reporting and approvals."
+    }
+  ];
+
+  const [activeWork, setActiveWork] = useState(0);
+
+  // Case studies (mobile)
+  const caseSlides = [
+    {
+      title: "QuickCart – Hyperlocal Delivery App",
+      body:
+        "We partnered with a retail brand to launch a hyperlocal delivery app with real-time order tracking and route optimisation.",
+      results: [
+        "4.8⭐ rating on app stores",
+        "35% faster deliveries",
+        "40% repeat order uplift",
+        "Integrated loyalty & referrals"
+      ],
+      img:
+        "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=1200&q=50&fm=webp"
+    },
+    {
+      title: "FinGo – Digital Wallet & UPI Layer",
+      body:
+        "From concept to launch of a secure wallet app with KYC, multi-factor auth and real-time fraud checks.",
+      results: [
+        "PCI-aware architecture",
+        "Sub-2s transaction times",
+        "Automated reconciliation",
+        "In-app analytics dashboards"
+      ],
+      img:
+        "https://images.unsplash.com/photo-1553484771-898ed465e931?auto=format&fit=crop&w=1600&q=60&fm=webp"
+    },
+    {
+      title: "OpsMate – Enterprise Field Service App",
+      body:
+        "A robust app for field engineers with offline mode, job scheduling and supervisor approvals.",
+      results: [
+        "60% less paper work",
+        "Real-time job status",
+        "Better SLA compliance",
+        "Improved team productivity"
+      ],
+      img:
+        "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=1200&q=50&fm=webp"
+    }
+  ];
+
+  const [cs, setCs] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setCs((p) => (p + 1) % caseSlides.length), 6000);
+    return () => clearInterval(id);
+  }, []);
+
+  const [showCaseModal, setShowCaseModal] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  const openCaseModal = (data) => {
+    setModalData(data);
+    setShowCaseModal(true);
+  };
+
+  const closeCaseModal = () => {
+    setShowCaseModal(false);
+    setModalData(null);
+  };
+
+  // Counters used in certified experts
+  const Counter = ({ end, icon, label, delay = 0 }) => {
+    const [count, setCount] = useState(0);
+    useEffect(() => {
+      let start = 0;
+      const duration = 1200;
+      const increment = end / (duration / 16);
+
+      const animate = () => {
+        start += increment;
+        if (start < end) {
+          setCount(Math.floor(start));
+          requestAnimationFrame(animate);
+        } else {
+          setCount(end);
+        }
+      };
+
+      const timeout = setTimeout(() => requestAnimationFrame(animate), delay);
+      return () => clearTimeout(timeout);
+    }, [end, delay]);
+
+    return (
+      <StatCard
+        style={{
+          background: "linear-gradient(to bottom right, #ffffff, #f0f6ff)",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.06)",
+          borderRadius: "18px",
+          padding: "22px",
+          transition: "0.3s",
+          textAlign: "center",
+          width: "100%",
+          maxWidth: "220px"
+        }}
+      >
+        <span style={{ fontSize: "28px", marginBottom: 8 }}>{icon}</span>
+        <StatNumber>{count}+</StatNumber>
+        <StatLabel>{label}</StatLabel>
+      </StatCard>
+    );
+  };
+
+  // scroll helper
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <Page>
+    <PageWrap>
       <Navbar />
 
       {/* HERO */}
-      <Hero>
-        <Container>
-          <HeroInner>
-            <div>
-              <HeroTitle>Application Development Services</HeroTitle>
-              <HeroLead>
-                We deliver end-to-end application development — mobile, web and cloud systems — built for scale,
-                security and measurable outcomes.
-              </HeroLead>
+      <HeroSection id="offerings-hero" $bg={heroImages[slide]}>
+        <HeroOverlay />
+        <HeroLeft>
+          <HeroTag>📱 Mobile & Application Development</HeroTag>
+          <HeroTitle>{current.title}</HeroTitle>
+          <HeroSub>{current.sub}</HeroSub>
 
-              <HeroCTArow>
-                <PrimaryBtn onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>
-                  Book a Free Call
+          <HeroHighlights>
+            <Pill>📱 iOS & Android Apps</Pill>
+            <Pill>⚡ Flutter & React Native</Pill>
+            <Pill>☁️ Cloud APIs & Integrations</Pill>
+            <Pill>🧪 QA · CI/CD · Analytics</Pill>
+          </HeroHighlights>
+
+          <CTAGroup>
+            <PrimaryBtn type="button" onClick={() => navigate("/book-call")}>
+              <FiPhoneCall style={{ fontSize: "1.1rem" }} />
+              Book a 30-Minute Call
+            </PrimaryBtn>
+
+            {/* <GhostBtn type="button">
+              View Mobile Capabilities PDF
+            </GhostBtn> */}
+          </CTAGroup>
+
+          <SliderDots>
+            {slides.map((_, idx) => (
+              <Dot
+                key={idx}
+                $active={idx === slide}
+                onClick={() => setSlide(idx)}
+                aria-label={`Show slide ${idx + 1}`}
+              />
+            ))}
+          </SliderDots>
+        </HeroLeft>
+
+        <HeroRight>
+          <FormTitle>Request a Free App Consultation</FormTitle>
+          <FormSub>Our mobile engineers will review and propose a clear roadmap.</FormSub>
+
+          <Form onSubmit={handleSubmit}>
+            <input
+              type="hidden"
+              name="access_key"
+              value="9adfabce-a75b-4ab8-aea1-b79edaeeb7e0"
+            />
+            <input
+              type="hidden"
+              name="subject"
+              value="New Mobile App Lead - SoftMaxs"
+            />
+            <input
+              type="hidden"
+              name="from_name"
+              value="SoftMaxs Website - Offerings Page"
+            />
+
+            <FieldGroup>
+              <Label htmlFor="full-name">Full Name</Label>
+              <Input
+                id="full-name"
+                name="name"
+                type="text"
+                required
+                placeholder="Enter your full name"
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label htmlFor="email">Email Address</Label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                required
+                placeholder="you@company.com"
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label htmlFor="company">Company Name</Label>
+              <Input
+                id="company"
+                name="company"
+                type="text"
+                placeholder="Your company"
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label htmlFor="platform">
+                Target Platforms (iOS, Android, Web…)
+              </Label>
+              <Input
+                id="platform"
+                name="platform"
+                type="text"
+                placeholder="e.g. iOS & Android, or Flutter"
+              />
+            </FieldGroup>
+
+            <FieldGroup>
+              <Label htmlFor="message">App Idea / Brief</Label>
+              <TextArea
+                id="message"
+                name="message"
+                placeholder="Describe your app, users, timeline and key goals…"
+                required
+              />
+            </FieldGroup>
+
+            <SubmitBtn type="submit" disabled={submitting}>
+              {submitting ? "Sending..." : "Request Free App Quote →"}
+            </SubmitBtn>
+
+            <FormNote>100% confidential · NDA available · No spam.</FormNote>
+
+            {successMsg && (
+              <p
+                style={{
+                  marginTop: 12,
+                  fontWeight: 600,
+                  color: "#0b8a36",
+                  textAlign: "center"
+                }}
+              >
+                {successMsg}
+              </p>
+            )}
+          </Form>
+        </HeroRight>
+      </HeroSection>
+
+      {/* PARTNER STRIP */}
+      <Section $bg={LIGHT_BG}>
+        <SectionHeader>
+          <SectionTitle>Our Mobile & Application Services</SectionTitle>
+          <SectionSub>
+            End-to-end app development — from concept and UX to launch and ongoing growth.
+          </SectionSub>
+        </SectionHeader>
+
+        <PartnerStrip />
+      </Section>
+
+      {/* TESTIMONIALS */}
+      <Section>
+        <Testimonials />
+      </Section>
+
+      {/* HAPPY CUSTOMERS (if your component shows counters/logos etc.) */}
+      <Section $bg="#ffffff">
+        <HappyCustomer />
+      </Section>
+
+      {/* STRUGGLE CARDS */}
+      <Section $bg="#ffffff">
+        <SectionHeader>
+          <SectionTitle>Common App Challenges We Solve</SectionTitle>
+          <SectionSub>
+            Whether you’re launching a new product or re-building an existing one,
+            we help you ship reliable mobile experiences faster.
+          </SectionSub>
+        </SectionHeader>
+
+        <CardsGrid>
+          <SoftCard>
+            <CardTitle>Choosing the Right Stack</CardTitle>
+            <CardBody>
+              Native vs cross-platform, backend integrations and architectural decisions made simple.
+            </CardBody>
+          </SoftCard>
+
+          <SoftCard>
+            <CardTitle>App Store Readiness</CardTitle>
+            <CardBody>
+              App Store & Play Store guidelines, review readiness and release pipelines.
+            </CardBody>
+          </SoftCard>
+
+          <SoftCard>
+            <CardTitle>Performance & Battery</CardTitle>
+            <CardBody>
+              Smooth UI, optimised network calls and efficient background processing.
+            </CardBody>
+          </SoftCard>
+
+          <SoftCard>
+            <CardTitle>Security & Compliance</CardTitle>
+            <CardBody>
+              Secure auth, encrypted storage and compliance for finance, health and enterprise.
+            </CardBody>
+          </SoftCard>
+
+          <SoftCard>
+            <CardTitle>Scalable Backends</CardTitle>
+            <CardBody>
+              APIs, messaging, real-time events and analytics built for growth.
+            </CardBody>
+          </SoftCard>
+
+          <SoftCard>
+            <CardTitle>Legacy App Modernisation</CardTitle>
+            <CardBody>
+              Rebuild, refactor or re-platform existing apps without stopping the business.
+            </CardBody>
+          </SoftCard>
+        </CardsGrid>
+      </Section>
+
+      {/* OUR WORK */}
+      <Section $bg="#f3f7ff">
+        <SectionHeader>
+          <SectionTitle>Selected Mobile Projects</SectionTitle>
+          <SectionSub>Some of the apps and mobile platforms we've worked on.</SectionSub>
+        </SectionHeader>
+
+        <Split>
+          <div>
+            <CardsGrid>
+              {workItems.map((item, i) => (
+                <SoftCard
+                  key={i}
+                  onMouseEnter={() => setActiveWork(i)}
+                  onClick={() => setActiveWork(i)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    style={{ width: "100%", borderRadius: 12, marginBottom: 10 }}
+                  />
+                  <Badge>Mobile Project</Badge>
+                  <CardTitle>{item.title}</CardTitle>
+                  <CardBody>{item.desc}</CardBody>
+                </SoftCard>
+              ))}
+            </CardsGrid>
+          </div>
+
+          <WorkImage style={{ backgroundImage: `url(${workItems[activeWork].img})` }}>
+            <MockInner>
+              <h3 style={{ margin: 0 }}>{workItems[activeWork].title}</h3>
+              <p style={{ marginTop: 8, color: "#475569" }}>
+                {workItems[activeWork].desc}
+              </p>
+              <div style={{ marginTop: 12 }}>
+                <PrimaryBtn
+                  onClick={() =>
+                    openCaseModal({
+                      title: workItems[activeWork].title,
+                      body: workItems[activeWork].desc,
+                      results: ["Better retention", "Stable performance", "Improved ratings"],
+                      img: workItems[activeWork].img
+                    })
+                  }
+                >
+                  View Case Study
                 </PrimaryBtn>
-                <SecondaryBtn onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}>
-                  Learn More
-                </SecondaryBtn>
-              </HeroCTArow>
-
-              <div style={{ marginTop: 16 }}>
-                <LogosGrid>
-                  {logos.map((l) => (
-                    <LogoBox key={l.id}><img src={l.img} alt={l.name} style={{ maxWidth: "90%", maxHeight: "60%" }} /></LogoBox>
-                  ))}
-                </LogosGrid>
               </div>
-            </div>
+            </MockInner>
+          </WorkImage>
+        </Split>
+      </Section>
 
-            <div>
-              <SliderCard>
-                <SlideImage src={sliderImgs[slide].src} alt={`slide-${slide}`} />
-                <div style={{ position: "absolute", right: 12, top: 12 }}>
-                  <PrimaryBtn style={{ padding: "8px 12px", fontSize: 13 }} onClick={() => Swal.fire("Connect", "Call placeholder - integrate your call flow here.", "info")}>
-                    Connect with Expert
-                  </PrimaryBtn>
-                </div>
-                <div style={{ position: "absolute", left: 12, bottom: 12, background: "rgba(255,255,255,0.9)", padding: "8px 12px", borderRadius: 8 }}>
-                  <strong style={{ fontSize: 14 }}>{sliderImgs[slide].caption}</strong>
-                </div>
-              </SliderCard>
-            </div>
-          </HeroInner>
-        </Container>
-      </Hero>
-
-      {/* Info + work image */}
+      {/* CERTIFIED EXPERTS */}
       <Section>
-        <Container>
-          <Row cols="1fr 1fr">
-            <Card>
-              <h3 style={{ marginTop: 0 }}>Designed for performance & scale</h3>
-              <p style={{ color: MUTED }}>Our engineering teams follow strong design, testing and deployment practices that keep your product reliable as you grow.</p>
-              <ul>
-                <li>Production-grade observability</li>
-                <li>Secure-by-design architecture</li>
-                <li>Automated testing & releases</li>
-              </ul>
-              <PrimaryBtn style={{ marginTop: 12 }} onClick={() => document.getElementById("consult")?.scrollIntoView({ behavior: "smooth" })}>Connect an Expert</PrimaryBtn>
-            </Card>
+        <SectionHeader>
+          <SectionTitle>Specialised App Teams</SectionTitle>
+          <SectionSub>
+            Cross-functional teams with strong experience in mobile, backend and product thinking.
+          </SectionSub>
+        </SectionHeader>
 
-            <Card>
-              <img src={chooseAsset(IMG_WORK_LOCAL, IMG_WORK_WEB)} alt="Our work" style={{ width: "100%", borderRadius: 10, objectFit: "cover" }} />
-            </Card>
-          </Row>
-        </Container>
+        <StatStrip
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: 20
+          }}
+        >
+          <Counter end={25} icon="👩‍💻" label="Senior Mobile Engineers" delay={100} />
+          <Counter end={80} icon="📱" label="Apps Delivered" delay={200} />
+          <Counter end={50} icon="🧩" label="3rd Party Integrations" delay={300} />
+          <Counter end={10} icon="☁️" label="Cloud & DevOps Leads" delay={400} />
+        </StatStrip>
+
+        <style>{`
+          @keyframes fadeScale {
+            0% { opacity: 0; transform: scale(0.6); }
+            100% { opacity: 1; transform: scale(1); }
+          }
+        `}</style>
       </Section>
 
-      {/* Gallery / Case studies */}
-      <Section bg="#fff">
-        <Container>
-          <Row cols="1fr 1fr">
-            <Card>
-              <img src={chooseAsset(IMG_GALLERY_LOCAL, IMG_GALLERY_WEB)} alt="Gallery" style={{ width: "100%", borderRadius: 10 }} />
-            </Card>
-            <Card>
-              <h3 style={{ marginTop: 0 }}>Product Case Studies</h3>
-              <p style={{ color: MUTED }}>We ship products across retail, health, logistics and media. Our portfolio shows a mix of consumer and B2B apps with measurable outcomes.</p>
-              <ul>
-                <li>Multi-region launches</li>
-                <li>High availability platforms</li>
-                <li>Secure payment & compliance</li>
-              </ul>
-              <SecondaryBtn style={{ marginTop: 12 }} onClick={() => Swal.fire("Case Studies", "Placeholder — link to case studies.", "info")}>View Case Studies</SecondaryBtn>
-            </Card>
-          </Row>
-        </Container>
-      </Section>
-
-      {/* Services */}
-      <Section id="services">
-        <Container>
-          <SectionTitle>Our Application Development Services Include</SectionTitle>
-          <p style={{ textAlign: "center", color: MUTED }}>From discovery & design to launch and support — we provide full product delivery capabilities.</p>
-
-          <ServicesGrid style={{ marginTop: 18 }}>
-            {servicesData.map((s) => (
-              <ServiceCard key={s.id}>
-                <ServiceImg src={s.img} alt={s.title} />
-                <div>
-                  <h4 style={{ margin: 0 }}>{s.title}</h4>
-                  <p style={{ color: MUTED }}>{s.short}</p>
-                  <div style={{ marginTop: 8 }}>
-                    <SecondaryBtn onClick={() => { setTimeout(() => document.getElementById("consult")?.scrollIntoView({ behavior: "smooth" }), 80); }}>Book a Call</SecondaryBtn>
-                    <PrimaryBtn style={{ marginLeft: 8 }} onClick={() => Swal.fire(s.title, s.long, "info")}>More Info</PrimaryBtn>
-                  </div>
-                </div>
-              </ServiceCard>
-            ))}
-          </ServicesGrid>
-        </Container>
-      </Section>
-
-      {/* Our Work */}
-      <Section>
-        <Container>
-          <SectionTitle>Our Work</SectionTitle>
-          <p style={{ textAlign: "center", color: MUTED }}>Selected projects and product snapshots.</p>
-
-          <GalleryGrid style={{ marginTop: 18 }}>
-            <div><Card><img src={chooseAsset(IMG_WORK_LOCAL, IMG_WORK_WEB)} alt="Work 1" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-            <div><Card><img src={sliderImgs[0].src} alt="Work 2" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-            <div><Card><img src={sliderImgs[1].src} alt="Work 3" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-            <div><Card><img src={sliderImgs[2].src} alt="Work 4" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-            <div><Card><img src={chooseAsset(IMG_GALLERY_LOCAL, IMG_GALLERY_WEB)} alt="Work 5" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-            <div><Card><img src={chooseAsset(IMG_GALLERY_LOCAL, IMG_GALLERY_WEB)} alt="Work 6" style={{ width: "100%", borderRadius: 8 }} /></Card></div>
-          </GalleryGrid>
-        </Container>
-      </Section>
-
-      {/* Development Process */}
-      <Section bg="#f8fbff">
-        <Container>
-          <SectionTitle>Development Process</SectionTitle>
-          <p style={{ textAlign: "center", color: MUTED }}>Our standard product delivery flow — tailored per client.</p>
-
-          <Steps style={{ marginTop: 18 }}>
-            {processSteps.map((p, i) => (
-              <StepCard key={i}>
-                <div style={{ fontWeight: 900, fontSize: 18 }}>{i + 1}. {p.title}</div>
-                <div style={{ color: MUTED, marginTop: 8 }}>{p.desc}</div>
-              </StepCard>
-            ))}
-          </Steps>
-        </Container>
-      </Section>
-
-      {/* Awards */}
-      <Section>
-        <Container>
+      {/* AWARDS & RECOGNITION COMPONENT */}
+      <Section $bg="#ffffff">
+        <SectionHeader>
           <SectionTitle>Awards & Recognition</SectionTitle>
-          <p style={{ textAlign: "center", color: MUTED }}>Industry awards and recognitions we've earned.</p>
+          <SectionSub>
+            Recognition for our work in mobile, product engineering and digital transformation.
+          </SectionSub>
+        </SectionHeader>
 
-          <div style={{ display: "grid", placeItems: "center", marginTop: 18 }}>
-            <img src={chooseAsset(IMG_AWARDS_LOCAL, IMG_AWARDS_WEB)} alt="awards" style={{ maxWidth: 980, width: "100%", borderRadius: 10 }} />
+        <AwardsRecognition />
+      </Section>
+
+      {/* CASE STUDY SNAPSHOT */}
+      <Section $bg="#ffffff">
+        <SectionHeader>
+          <SectionTitle>Case Study Snapshot</SectionTitle>
+          <SectionSub>
+            A quick look at how we solve complex app problems and deliver measurable results.
+          </SectionSub>
+        </SectionHeader>
+
+        <Split>
+          <div>
+            <Badge>Mobile Case Study</Badge>
+            <HeroTitle style={{ fontSize: "1.4rem", marginTop: 6 }}>
+              {caseSlides[cs].title}
+            </HeroTitle>
+            <SectionSub>{caseSlides[cs].body}</SectionSub>
+
+            <h4 style={{ marginTop: 16, fontSize: "0.9rem", fontWeight: 700 }}>
+              Results
+            </h4>
+            <List>
+              {caseSlides[cs].results.map((r, i) => (
+                <li key={i}>{r}</li>
+              ))}
+            </List>
+
+            <PrimaryBtn
+              style={{ marginTop: 18 }}
+              onClick={() => openCaseModal(caseSlides[cs])}
+            >
+              View Full Case Study
+            </PrimaryBtn>
           </div>
-        </Container>
-      </Section>
 
-      {/* Testimonials */}
-      <Section>
-        <Container>
-          <Testimonials />
-        </Container>
-      </Section>
+          <CaseImage style={{ backgroundImage: `url(${caseSlides[cs].img})` }}>
+            <div className="overlay" />
+          </CaseImage>
+        </Split>
 
-      {/* Skills Possessed */}
-      <Section bg="#fff">
-        <Container>
-          <SectionTitle>Skills Possessed By Our App Developers</SectionTitle>
-          <div style={{ display: "flex", gap: 18, alignItems: "center", marginTop: 12, flexWrap: "wrap" }}>
-            <div style={{ flex: 1, minWidth: 260 }}>
-              <img src={IMG_SKILLS_LOCAL || IMG_SKILLS_WEB} alt="skills" style={{ width: "100%", borderRadius: 10 }} />
-            </div>
-            <div style={{ width: 360 }}>
-              <p style={{ color: MUTED }}>Our agile and cross-functional team has strong technical expertise building mobile and web applications. We focus on continuous skill development and modern toolchains.</p>
-              <ul style={{ color: MUTED }}>
-                <li>Flutter, React Native</li>
-                <li>React / Next.js</li>
-                <li>Node.js / Go backends</li>
-                <li>Cloud deployments (AWS / GCP)</li>
-              </ul>
-            </div>
-          </div>
-        </Container>
-      </Section>
+        {/* case modal */}
+        {showCaseModal && modalData && (
+          <div
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.55)",
+              backdropFilter: "blur(8px)",
+              zIndex: 9999,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              padding: "40px 12px",
+              overflowY: "auto"
+            }}
+            onClick={closeCaseModal}
+          >
+            <div
+              style={{
+                width: "min(900px, 95%)",
+                background: "#fff",
+                borderRadius: "18px",
+                overflow: "hidden",
+                boxShadow: "0 20px 60px rgba(0,0,0,0.3)"
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={modalData.img}
+                style={{ width: "100%", height: "320px", objectFit: "cover" }}
+                alt={modalData.title}
+              />
 
-      {/* Consultation Form (full-width blurred bg behind this section) */}
-      <ConsultSectionWrap id="consult">
-        <ConsultOverlay />
-        <ConsultContainer>
-          <SectionTitle style={{ textAlign: "left" }}>Book a Free Consultation</SectionTitle>
-          <Small style={{ textAlign: "left", color: MUTED }}>Fill details and we will get back in 1 business day.</Small>
+              <div style={{ padding: 24 }}>
+                <h2 style={{ fontSize: "1.6rem", fontWeight: 800 }}>
+                  {modalData.title}
+                </h2>
+                <p style={{ fontSize: "0.95rem", color: "#555" }}>
+                  {modalData.body}
+                </p>
 
-          <div style={{ marginTop: 18 }}>
-            <FormCard onSubmit={sendForm}>
-              {/* left column: inputs */}
-              <div style={{ display: "grid", gap: 12 }}>
-                <Field>
-                  <Label>Full name</Label>
-                  <Input name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
-                  {errors.name && <Small style={{ color: "crimson" }}>{errors.name}</Small>}
-                </Field>
+                <h3 style={{ marginTop: 18, fontWeight: 700 }}>What We Did</h3>
+                <ul style={{ paddingLeft: 20, color: "#444" }}>
+                  <li>Product & UX strategy</li>
+                  <li>Mobile architecture & APIs</li>
+                  <li>Release pipelines & monitoring</li>
+                </ul>
 
-                <Field>
-                  <Label>Email</Label>
-                  <Input name="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-                  {errors.email && <Small style={{ color: "crimson" }}>{errors.email}</Small>}
-                </Field>
+                <h3 style={{ marginTop: 18, fontWeight: 700 }}>Results Achieved</h3>
+                <ul style={{ paddingLeft: 20, color: "#444" }}>
+                  <li>Improved app stability & performance</li>
+                  <li>Higher user engagement and retention</li>
+                  <li>Better visibility through analytics & dashboards</li>
+                </ul>
 
-                <Field>
-                  <Label>Phone</Label>
-                  <Input name="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
-                  {errors.phone && <Small style={{ color: "crimson" }}>{errors.phone}</Small>}
-                </Field>
+                <img
+                  src="https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=1200&q=50&fm=webp"
+                  style={{
+                    width: "100%",
+                    borderRadius: 12,
+                    marginTop: 20,
+                    objectFit: "cover"
+                  }}
+                  alt="App design and collaboration"
+                />
 
-                <Field>
-                  <Label>Company Name</Label>
-                  <Input name="company_name" value={form.company_name} onChange={(e) => setForm({ ...form, company_name: e.target.value })} />
-                </Field>
-
-                <Field>
-                  <Label>Which service?</Label>
-                  <select value={form.service} onChange={(e) => setForm({ ...form, service: e.target.value })} style={{ padding: 10, borderRadius: 8, border: "1px solid #e8ecf6", background: "#fbfdff" }}>
-                    {servicesData.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
-                  </select>
-                </Field>
-
-                <Field>
-                  <Label>Short message</Label>
-                  <Textarea name="message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} />
-                  {errors.message && <Small style={{ color: "crimson" }}>{errors.message}</Small>}
-                </Field>
-
-                <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6 }}>
-                  <PrimaryBtn type="submit" disabled={loading}>
-                    {loading ? <span style={{ display: "inline-flex", gap: 8, alignItems: "center" }}><Spinner /> Sending...</span> : (submitted ? "Request sent" : "Book a Call")}
-                  </PrimaryBtn>
-
-                  <SecondaryBtn type="button" onClick={() => Swal.fire("Request call", "We will call you shortly (placeholder).", "info")}>Request Call</SecondaryBtn>
-                </div>
+                <button
+                  onClick={closeCaseModal}
+                  style={{
+                    marginTop: 22,
+                    width: "100%",
+                    padding: 12,
+                    borderRadius: 999,
+                    background: PRIMARY,
+                    color: "#fff",
+                    fontWeight: 700,
+                    border: "none",
+                    cursor: "pointer"
+                  }}
+                >
+                  Close
+                </button>
               </div>
-
-              {/* right column: quick contact */}
-              <div>
-                <Card style={{ boxShadow: "none" }}>
-                  <h4 style={{ marginTop: 0 }}>Quick Contact</h4>
-                  <p style={{ color: MUTED }}>Prefer direct call? Use the number below or request a callback.</p>
-
-                  <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 12 }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 12, background: HIGHLIGHT, color: "#fff", display: "grid", placeItems: "center", fontWeight: 800 }}>☎</div>
-                    <div>
-                      <div style={{ fontWeight: 800 }}>+91 98765 43210</div>
-                      <div style={{ color: MUTED }}>Mon–Fri, 9am–6pm IST</div>
-                    </div>
-                  </div>
-
-                  <div style={{ marginTop: 16 }}>
-                    <h5 style={{ margin: 0 }}>Download brochure</h5>
-                    <SecondaryBtn style={{ marginTop: 8 }} onClick={() => Swal.fire("Download", "Brochure download placeholder", "info")}>Download</SecondaryBtn>
-                  </div>
-                </Card>
-              </div>
-            </FormCard>
+            </div>
           </div>
-        </ConsultContainer>
-      </ConsultSectionWrap>
+        )}
 
-      {/* Office */}
-      <Section>
-        <Container>
-          <SectionTitle>Our Office</SectionTitle>
-          <OfficeLocation />
-        </Container>
+        {/* pager dots */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: 18,
+            gap: 6
+          }}
+        >
+          {caseSlides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCs(i)}
+              style={{
+                width: cs === i ? "18px" : "8px",
+                height: "8px",
+                borderRadius: "999px",
+                border: "none",
+                background: cs === i ? PRIMARY : "#d1d5db",
+                cursor: "pointer",
+                transition: "0.2s"
+              }}
+            />
+          ))}
+        </div>
+      </Section>
+
+      {/* COUNSULTATION FORM */}
+      <Section $bg={LIGHT_BG}>
+        <SectionHeader>
+          <SectionTitle>Not Sure Where To Start With Your App?</SectionTitle>
+          <SectionSub>
+            Share a few details and our app team will recommend the best approach for your product.
+          </SectionSub>
+        </SectionHeader>
+
+        <CounsulationForm />
+      </Section>
+
+      {/* RELATED SERVICES */}
+      <Section $bg="#f3f7ff">
+        <SectionHeader>
+          <SectionTitle>Related App Development Services</SectionTitle>
+          <SectionSub>
+            Mix and match services — we support everything from design sprints to full product builds.
+          </SectionSub>
+        </SectionHeader>
+
+        <ServiceGrid>
+          <ServiceCard>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/flutter.svg"
+              alt="Flutter"
+            />
+            <h4>Flutter Apps</h4>
+            <p>High quality cross-platform apps with a single codebase.</p>
+          </ServiceCard>
+
+          <ServiceCard>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/react.svg"
+              alt="React Native"
+            />
+            <h4>React Native</h4>
+            <p>Shared code with web ecosystems and native performance.</p>
+          </ServiceCard>
+
+          <ServiceCard>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/android.svg"
+              alt="Android"
+            />
+            <h4>Native Android</h4>
+            <p>Deep platform integrations and performance-critical features.</p>
+          </ServiceCard>
+
+          <ServiceCard>
+            <img
+              src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/apple.svg"
+              alt="iOS"
+            />
+            <h4>Native iOS</h4>
+            <p>Premium iOS experiences that feel truly at home on Apple devices.</p>
+          </ServiceCard>
+        </ServiceGrid>
+
+        <div style={{ textAlign: "center", marginTop: 32 }}>
+          <PrimaryBtn
+            type="button"
+            style={{ fontSize: "1rem", padding: "12px 26px" }}
+            onClick={() => navigate("/book-call")}
+          >
+            <FiPhoneCall style={{ fontSize: "1.1rem" }} /> Book a Call To Discuss Your App
+          </PrimaryBtn>
+        </div>
+      </Section>
+
+      {/* FAQ / QUESTIONS */}
+      <Section $bg="#ffffff">
+        <Question />
+      </Section>
+
+      {/* OFFICE LOCATIONS + FOOTER */}
+      <Section $py="40px 0">
+        <OfficeLocations />
       </Section>
 
       <Footer />
-    </Page>
+    </PageWrap>
   );
-}
+};
+
+export default Offerings;

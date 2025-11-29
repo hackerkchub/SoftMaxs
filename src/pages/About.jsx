@@ -29,7 +29,7 @@ const culture3 =
   "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=800&q=80";
 
 const valueImgs = [
-  "https://images.unsplash.com/photo-1581091870631-7a5c76e88b9a?auto=format&fit=crop&w=800&q=80",
+  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=700&q=60",
   "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80",
   "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
 ];

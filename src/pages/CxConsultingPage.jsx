@@ -619,7 +619,7 @@ const CxConsultingPage = () => {
 
   const heroImages = [
     "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?auto=format&fit=crop&w=1600&q=60&fm=webp",
-    "https://images.unsplash.com/photo-1525186402429-b4ff38bedbec?auto=format&fit=crop&w=1600&q=60&fm=webp",
+    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1521790945508-bf2a36314e85?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=60&fm=webp",
     "https://images.unsplash.com/photo-1587613864521-9ef8dfe617cc?auto=format&fit=crop&w=1600&q=60&fm=webp"
@@ -627,7 +627,7 @@ const CxConsultingPage = () => {
 
   const workItems = [
     {
-      img: "https://images.unsplash.com/photo-1525186402429-b4ff38bedbec?auto=format&fit=crop&w=1200&q=50&fm=webp",
+      img: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1600&q=60&fm=webp",
       title: "Retail CX Transformation",
       desc: "Unified online and store journeys with one profile, one loyalty view and consistent service standards."
     },
@@ -775,9 +775,9 @@ const CxConsultingPage = () => {
               <span>Book a 30-Minute CX Strategy Call</span>
             </PrimaryBtn>
 
-            <GhostBtn type="button">
+            {/* <GhostBtn type="button">
               <span>View CX Case Studies</span>
-            </GhostBtn>
+            </GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>

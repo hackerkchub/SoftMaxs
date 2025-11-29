@@ -357,7 +357,7 @@ const ShopifyPage = () => {
               <FiPhoneCall /> Book Shopify Call
             </PrimaryBtn>
 
-            <GhostBtn>View Shopify Case Studies</GhostBtn>
+            {/* <GhostBtn>View Shopify Case Studies</GhostBtn> */}
           </CTAGroup>
 
           <SliderDots>
